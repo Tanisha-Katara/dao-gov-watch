@@ -1,0 +1,20 @@
+{
+  "gov_surface": [
+    "governance",
+    "tokenomics",
+    "token model",
+    "economic design",
+    "delegat",
+    "constitution"
+  ],
+  "ask_surface": [
+    "\\bRFP\\b",
+    "request for proposals?",
+    "grants? program",
+    "bounty",
+    "open application",
+    "call for proposals?",
+    "(looking|seeking|hiring).{0,40}(help|contributor|researcher|consultant|firm|partner)",
+    "we (need|are looking)"
+  ]
+}

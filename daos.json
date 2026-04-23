@@ -1,0 +1,16 @@
+[
+  { "name": "Uniswap",   "forum_url": "https://gov.uniswap.org" },
+  { "name": "MakerDAO",  "forum_url": "https://forum.makerdao.com" },
+  { "name": "Aave",      "forum_url": "https://governance.aave.com" },
+  { "name": "Compound",  "forum_url": "https://www.comp.xyz" },
+  { "name": "Arbitrum",  "forum_url": "https://forum.arbitrum.foundation" },
+  { "name": "Optimism",  "forum_url": "https://gov.optimism.io" },
+  { "name": "ENS",       "forum_url": "https://discuss.ens.domains" },
+  { "name": "Lido",      "forum_url": "https://research.lido.fi" },
+  { "name": "Gitcoin",   "forum_url": "https://gov.gitcoin.co" },
+  { "name": "Safe",      "forum_url": "https://forum.safe.global" },
+  { "name": "Balancer",  "forum_url": "https://forum.balancer.fi" },
+  { "name": "dYdX",      "forum_url": "https://dydx.forum" },
+  { "name": "1inch",     "forum_url": "https://gov.1inch.io" },
+  { "name": "Yearn",     "forum_url": "https://gov.yearn.fi" }
+]
