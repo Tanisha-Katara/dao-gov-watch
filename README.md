@@ -47,9 +47,26 @@ pip install -r requirements.txt
 python monitor_governance_posts.py
 python render_dashboard.py
 
+# One-time historical import for the last 30 days
+python monitor_governance_posts.py --mode backfill --days 30
+python render_dashboard.py
+
 # Open the dashboard
 open dashboard.html
 ```
+
+## Historical backfill
+
+To seed the dashboard with recent consulting opportunities, run a one-time backfill:
+
+```bash
+python monitor_governance_posts.py --mode backfill --days 30
+python render_dashboard.py
+```
+
+This paginates each tracked Discourse forum, imports qualifying posts from the last 30 days, deduplicates by post URL, and preserves the live monitor cursor so future scheduled runs only pick up newer posts.
+
+In GitHub Actions, use **Backfill DAO Forums** and keep the default `30` day window unless you want a narrower manual import.
 
 Try the classifier directly:
 

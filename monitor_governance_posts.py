@@ -17,7 +17,7 @@ import urllib.request
 from datetime import datetime, timedelta, timezone
 from html import unescape
 from pathlib import Path
-from typing import Any
+from typing import Any, Optional, Tuple
 
 from classifier import classify_post, get_client
 
@@ -66,7 +66,7 @@ def now_utc() -> datetime:
     return datetime.now(timezone.utc)
 
 
-def now_iso(dt: datetime | None = None) -> str:
+def now_iso(dt: Optional[datetime] = None) -> str:
     dt = dt or now_utc()
     return dt.astimezone(timezone.utc).isoformat(timespec="seconds").replace("+00:00", "Z")
 
@@ -77,7 +77,7 @@ def gemini_gap(last_call_ts: float) -> float:
     return max(0.0, remaining)
 
 
-def discourse_post_ts(post: dict) -> str | None:
+def discourse_post_ts(post: dict) -> Optional[str]:
     for key in ("created_at", "updated_at"):
         raw = post.get(key)
         if raw:
@@ -85,7 +85,7 @@ def discourse_post_ts(post: dict) -> str | None:
     return None
 
 
-def discourse_post_dt(post: dict) -> datetime | None:
+def discourse_post_dt(post: dict) -> Optional[datetime]:
     raw = discourse_post_ts(post)
     if not raw:
         return None
@@ -102,7 +102,7 @@ def post_id(post: dict) -> int:
         return 0
 
 
-def fetch_posts_page(forum_url: str, before: int | None = None) -> list[dict]:
+def fetch_posts_page(forum_url: str, before: Optional[int] = None) -> list[dict]:
     """Hit {forum_url}/posts.json, optionally paginated by the `before` cursor."""
     params: dict[str, str] = {}
     if before is not None:
@@ -118,12 +118,12 @@ def fetch_posts_page(forum_url: str, before: int | None = None) -> list[dict]:
     return data.get("latest_posts", [])
 
 
-def fetch_recent_posts(forum_url: str, cutoff: datetime) -> tuple[list[dict], int | None]:
+def fetch_recent_posts(forum_url: str, cutoff: datetime) -> Tuple[list[dict], Optional[int]]:
     """Paginate public Discourse posts until the scan falls past the cutoff."""
     collected: list[dict] = []
     seen_post_ids: set[int] = set()
-    before: int | None = None
-    latest_visible_id: int | None = None
+    before: Optional[int] = None
+    latest_visible_id: Optional[int] = None
     empty_pages = 0
 
     while True:
@@ -148,7 +148,7 @@ def fetch_recent_posts(forum_url: str, cutoff: datetime) -> tuple[list[dict], in
         page_latest_id = max(visible_ids)
         latest_visible_id = page_latest_id if latest_visible_id is None else max(latest_visible_id, page_latest_id)
 
-        oldest_visible_dt: datetime | None = None
+        oldest_visible_dt: Optional[datetime] = None
         for post in posts:
             pid = post_id(post)
             if pid <= 0 or pid in seen_post_ids:
@@ -196,12 +196,12 @@ def post_url(forum_url: str, post: dict) -> str:
     return f"{forum_url.rstrip('/')}/t/{slug}/{topic_id}{suffix}"
 
 
-def canonical_post_ts(item: dict[str, Any]) -> str | None:
+def canonical_post_ts(item: dict[str, Any]) -> Optional[str]:
     value = item.get("post_ts") or item.get("ts") or item.get("detected_ts")
     return value if isinstance(value, str) and value else None
 
 
-def canonical_detected_ts(item: dict[str, Any]) -> str | None:
+def canonical_detected_ts(item: dict[str, Any]) -> Optional[str]:
     value = item.get("detected_ts") or item.get("ts") or item.get("post_ts")
     return value if isinstance(value, str) and value else None
 
@@ -362,7 +362,7 @@ def process_posts(
         print(f"  REFRESH: [{classification.opportunity_type}] {title!r} (conf={classification.confidence:.2f})")
 
 
-def update_state_cursor(state: dict[str, int], forum_url: str, latest_visible_id: int | None) -> None:
+def update_state_cursor(state: dict[str, int], forum_url: str, latest_visible_id: Optional[int]) -> None:
     if latest_visible_id is None:
         return
 
@@ -506,7 +506,7 @@ def main() -> int:
         "forum_errors": 0,
     }
 
-    cutoff: datetime | None = None
+    cutoff: Optional[datetime] = None
     if args.mode == BACKFILL_MODE:
         cutoff = now_utc() - timedelta(days=args.days)
         print(f"Running {BACKFILL_MODE} mode for posts since {now_iso(cutoff)}")

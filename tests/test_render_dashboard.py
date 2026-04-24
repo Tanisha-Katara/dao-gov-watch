@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import unittest
 from datetime import datetime, timedelta, timezone
+from typing import Optional
 
 import render_dashboard
 
@@ -10,7 +11,7 @@ def iso(dt: datetime) -> str:
     return dt.astimezone(timezone.utc).isoformat().replace("+00:00", "Z")
 
 
-def make_item(title: str, *, post_ts: str | None = None, detected_ts: str | None = None, ingest_mode: str = "live") -> dict:
+def make_item(title: str, *, post_ts: Optional[str] = None, detected_ts: Optional[str] = None, ingest_mode: str = "live") -> dict:
     item = {
         "dao": "Aave",
         "forum_url": "https://governance.aave.com",

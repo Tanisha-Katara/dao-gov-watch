@@ -3,85 +3,506 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Bookmarkable live board for DAO governance, tokenomics, and research opportunities.">
 <title>DAO Gov Watch</title>
 <style>
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap');
+
+:root{
+  color-scheme:light;
+  --bg:#f4ede3;
+  --surface:rgba(255,251,244,0.82);
+  --surface-strong:#fffaf2;
+  --ink:#1f2430;
+  --muted:#5b6472;
+  --line:rgba(31,36,48,0.12);
+  --accent:#b5542f;
+  --accent-strong:#8a3f24;
+  --accent-soft:#f5ddd0;
+  --teal:#0f766e;
+  --gold:#9a6b12;
+  --shadow:0 18px 50px rgba(102,72,45,0.15);
+  --radius-xl:28px;
+  --radius-lg:22px;
+  --radius-md:16px;
+}
 *{box-sizing:border-box}
-body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;margin:0;background:#f6f8fa;color:#24292f;line-height:1.5}
-.wrap{max-width:1280px;margin:0 auto;padding:24px}
-h1{font-size:22px;margin:0 0 4px 0}
-.sub{color:#57606a;font-size:13px;margin-bottom:20px}
-.stats{display:flex;gap:12px;margin-bottom:16px;flex-wrap:wrap}
-.stat{background:#fff;border:1px solid #d0d7de;border-radius:6px;padding:10px 14px;min-width:110px}
-.stat .n{font-size:22px;font-weight:600}
-.stat .l{font-size:11px;color:#57606a;text-transform:uppercase;letter-spacing:0.04em}
-.filters{background:#fff;border:1px solid #d0d7de;border-radius:6px;padding:12px;margin-bottom:12px;display:flex;gap:14px;align-items:center;flex-wrap:wrap}
-.filters label{font-size:12px;color:#57606a;display:flex;flex-direction:column;gap:4px}
-.filters select,.filters input[type=range]{font-size:13px}
-.filters .conf-val{font-weight:600;color:#24292f;margin-left:6px}
-table{width:100%;border-collapse:separate;border-spacing:0;background:#fff;border:1px solid #d0d7de;border-radius:6px;overflow:hidden;font-size:13px}
-thead th{background:#f6f8fa;text-align:left;padding:8px 10px;border-bottom:1px solid #d0d7de;font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:0.04em;color:#57606a}
-tbody td{padding:10px;border-bottom:1px solid #eaeef2;vertical-align:top}
-tbody tr:last-child td{border-bottom:none}
-tr.new td{background:#fff8e1}
-.badge{display:inline-block;padding:2px 7px;border-radius:10px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.04em}
-.badge-new{background:#ff7b00;color:#fff;margin-left:6px}
-.type{padding:2px 7px;border-radius:10px;font-size:11px;font-weight:500}
-.type-rfp{background:#dbeafe;color:#1e40af}
-.type-grant{background:#dcfce7;color:#166534}
-.type-hire{background:#fef3c7;color:#92400e}
-.type-advisory_request{background:#f3e8ff;color:#6b21a8}
-.type-other{background:#f1f5f9;color:#475569}
-.dao{font-weight:600;color:#0969da}
-.title{color:#24292f;text-decoration:none}
-.title:hover{text-decoration:underline}
-.cta{color:#24292f;font-size:13px;max-width:320px}
-.reason{color:#57606a;font-size:12px;max-width:280px;font-style:italic}
-.conf{font-variant-numeric:tabular-nums;color:#57606a;font-size:12px}
-.empty{background:#fff;border:1px solid #d0d7de;border-radius:6px;padding:40px;text-align:center;color:#57606a}
-.footer{margin-top:16px;font-size:12px;color:#57606a;text-align:center}
+html{
+  background:
+    radial-gradient(circle at top left, rgba(255,232,212,0.95), transparent 30%),
+    radial-gradient(circle at top right, rgba(208,237,232,0.8), transparent 34%),
+    linear-gradient(180deg, var(--bg) 0%, #f7f1e8 45%, #fdfaf5 100%);
+}
+body{
+  margin:0;
+  min-height:100vh;
+  color:var(--ink);
+  font-family:"IBM Plex Sans","Avenir Next","Helvetica Neue",sans-serif;
+  line-height:1.6;
+}
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  opacity:0.4;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.18) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.18) 1px, transparent 1px);
+  background-size:24px 24px;
+  mask-image:linear-gradient(180deg, rgba(0,0,0,0.08), transparent 82%);
+}
+a{color:inherit}
+.wrap{max-width:1240px;margin:0 auto;padding:32px 22px 56px;position:relative}
+.panel{
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:var(--radius-xl);
+  box-shadow:var(--shadow);
+  backdrop-filter:blur(12px);
+}
+.hero,.info-grid,.empty-layout,.board-grid{
+  display:grid;
+  gap:18px;
+  margin-bottom:18px;
+}
+.hero{grid-template-columns:minmax(0,1.5fr) minmax(280px,0.95fr)}
+.info-grid{grid-template-columns:minmax(0,1.1fr) minmax(0,0.9fr)}
+.empty-layout,.board-grid{grid-template-columns:minmax(0,1.35fr) minmax(280px,0.95fr)}
+.hero-copy{padding:30px}
+.hero-side,.section-card,.empty-state,.notes-card,.feature-card,.feed-panel{padding:24px}
+.hero-side{display:grid;gap:12px;align-content:start}
+.eyebrow,.section-kicker,.timestamp,.confidence,.badge-new,.badge-historical,.mini-label{
+  font-family:"IBM Plex Mono","SFMono-Regular",Consolas,monospace;
+}
+.eyebrow,.section-kicker,.mini-label{
+  font-size:11px;
+  text-transform:uppercase;
+  letter-spacing:0.14em;
+}
+.eyebrow{color:var(--accent-strong)}
+h1,h2,.feature-title,.op-title{
+  font-family:"Space Grotesk","Avenir Next","Helvetica Neue",sans-serif;
+  letter-spacing:-0.04em;
+}
+h1{
+  font-size:clamp(2.6rem,6vw,4.8rem);
+  line-height:0.95;
+  margin:12px 0 16px;
+}
+h2{
+  font-size:clamp(1.5rem,3vw,2rem);
+  line-height:1.02;
+  margin:6px 0 0;
+}
+.sub,.feed-sub,.empty-lead,.feature-reason,.op-reason,.rules,.side-note,.footer{color:var(--muted)}
+.sub{font-size:17px;max-width:58ch;margin:0}
+.meta-row,.chip-row,.feature-meta,.op-meta,.feature-footer,.footer{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+}
+.meta-row{margin-top:22px}
+.pill,.chip,.type,.score,.confidence,.badge-new,.badge-historical,.visible-counter{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  border-radius:999px;
+}
+.pill,.chip{
+  padding:9px 12px;
+  border:1px solid var(--line);
+  background:rgba(255,255,255,0.68);
+  font-size:12px;
+}
+.status-pill.is-fresh{
+  background:rgba(15,118,110,0.1);
+  color:var(--teal);
+  border-color:rgba(15,118,110,0.22);
+}
+.status-pill.is-warning{
+  background:rgba(154,107,18,0.12);
+  color:var(--gold);
+  border-color:rgba(154,107,18,0.2);
+}
+.status-pill.is-danger{
+  background:rgba(181,84,47,0.12);
+  color:var(--accent-strong);
+  border-color:rgba(181,84,47,0.2);
+}
+.stat-grid,.mini-grid,.feed-grid{
+  display:grid;
+  gap:12px;
+}
+.stat-grid,.mini-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+.stat,.mini-card,.op-card{
+  border:1px solid var(--line);
+  background:rgba(255,255,255,0.74);
+}
+.stat,.mini-card{
+  border-radius:var(--radius-md);
+  padding:14px 16px;
+}
+.stat .n{
+  font-family:"Space Grotesk","Avenir Next","Helvetica Neue",sans-serif;
+  font-size:30px;
+  line-height:1;
+  margin-bottom:6px;
+}
+.stat .l{
+  font-size:11px;
+  letter-spacing:0.12em;
+  text-transform:uppercase;
+  color:var(--muted);
+}
+.side-note{
+  padding:14px 16px;
+  border-radius:var(--radius-md);
+  border:1px solid var(--line);
+  background:linear-gradient(135deg, rgba(255,255,255,0.68), rgba(255,240,227,0.9));
+  font-size:14px;
+}
+.section-head,.feed-head,.op-top{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  align-items:flex-start;
+}
+.section-head,.feed-head{margin-bottom:18px}
+.rules{margin:0;padding-left:18px}
+.rules li + li{margin-top:8px}
+.empty-lead,.feature-cta,.op-cta{font-size:16px}
+.chip-dao{
+  background:rgba(181,84,47,0.12);
+  color:var(--accent-strong);
+}
+.type{
+  padding:6px 10px;
+  font-size:12px;
+  font-weight:600;
+  border:1px solid transparent;
+}
+.type-rfp{background:#d9ecff;color:#174690;border-color:rgba(23,70,144,0.12)}
+.type-grant{background:#ddf8e5;color:#14643f;border-color:rgba(20,100,63,0.12)}
+.type-hire{background:#fdf0d0;color:#925b00;border-color:rgba(146,91,0,0.12)}
+.type-advisory_request{background:#eee5ff;color:#5b2ca0;border-color:rgba(91,44,160,0.12)}
+.type-other{background:#edf2f7;color:#45556c;border-color:rgba(69,85,108,0.12)}
+.badge-new{
+  padding:6px 10px;
+  background:var(--accent);
+  color:#fff;
+  font-size:11px;
+  letter-spacing:0.08em;
+  text-transform:uppercase;
+}
+.badge-historical{
+  padding:6px 10px;
+  background:rgba(69,85,108,0.12);
+  color:#45556c;
+  border:1px solid rgba(69,85,108,0.12);
+  font-size:11px;
+  letter-spacing:0.08em;
+  text-transform:uppercase;
+}
+.feature-title,.op-title{
+  text-decoration:none;
+  font-weight:700;
+}
+.feature-title{
+  display:block;
+  font-size:clamp(1.7rem,3vw,2.35rem);
+  line-height:1.04;
+  margin:0 0 14px;
+}
+.op-title{
+  font-size:1.35rem;
+  line-height:1.12;
+}
+.feature-title:hover,.op-title:hover,.op-link:hover{text-decoration:underline}
+.feature-cta,.feature-reason,.op-cta,.op-reason{margin:0}
+.feature-footer{
+  justify-content:space-between;
+  margin-top:20px;
+  align-items:center;
+}
+.score,.confidence{
+  padding:7px 11px;
+  background:var(--accent-soft);
+  color:var(--accent-strong);
+  font-size:12px;
+}
+.feed-sub{margin:8px 0 0}
+.filters{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:12px;
+  align-items:end;
+  margin-bottom:18px;
+}
+.filters label{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  font-size:12px;
+  color:var(--muted);
+}
+.filters select,.filters input[type=range]{
+  width:100%;
+  font:inherit;
+}
+.filters select{
+  appearance:none;
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:12px 14px;
+  background:rgba(255,255,255,0.9);
+  color:var(--ink);
+}
+.filters input[type=range]{accent-color:var(--accent)}
+.conf-readout{
+  color:var(--accent-strong);
+  font-family:"IBM Plex Mono","SFMono-Regular",Consolas,monospace;
+}
+.visible-counter{
+  justify-content:center;
+  min-height:48px;
+  padding:12px 14px;
+  border:1px solid var(--line);
+  background:rgba(255,255,255,0.7);
+  font-size:13px;
+  color:var(--muted);
+}
+.feed-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.op-card{
+  border-radius:var(--radius-lg);
+  padding:18px;
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+}
+.op-card.is-new{
+  background:linear-gradient(180deg, rgba(255,248,239,0.98), rgba(255,255,255,0.78));
+  border-color:rgba(181,84,47,0.22);
+}
+.timestamp{
+  font-size:12px;
+  color:var(--muted);
+}
+.op-link{
+  margin-top:auto;
+  color:var(--accent-strong);
+  font-weight:600;
+  text-decoration:none;
+}
+.empty-filter{
+  margin-top:16px;
+  padding:18px;
+  text-align:center;
+  color:var(--muted);
+  border:1px dashed rgba(31,36,48,0.18);
+  border-radius:var(--radius-md);
+  background:rgba(255,255,255,0.5);
+}
+.footer{
+  justify-content:space-between;
+  margin-top:12px;
+  padding:0 6px;
+  font-size:12px;
+}
+@media (max-width:980px){
+  .hero,.info-grid,.empty-layout,.board-grid,.feed-grid{grid-template-columns:1fr}
+  .filters{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (max-width:640px){
+  .wrap{padding:20px 14px 42px}
+  .hero-copy,.hero-side,.section-card,.empty-state,.notes-card,.feature-card,.feed-panel{padding:20px}
+  h1{font-size:clamp(2.4rem,14vw,3.8rem)}
+  .stat-grid,.mini-grid,.filters,.feed-grid{grid-template-columns:1fr}
+  .section-head,.feed-head,.feature-footer,.footer{flex-direction:column;align-items:flex-start}
+}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <h1>DAO Gov Watch</h1>
-  <div class="sub">Real calls-for-help from top DAO governance forums. Updated 2026-04-24 05:20 UTC.</div>
-  <div class="stats">
-    <div class="stat"><div class="n">0</div><div class="l">This week</div></div>
-    <div class="stat"><div class="n">0</div><div class="l">Last 30 days</div></div>
-    <div class="stat"><div class="n">0</div><div class="l">All-time</div></div>
-  </div>
-  <div class="empty">No opportunities yet. The tool just started watching — new ones will appear here as they post.</div>
+  <section class="hero">
+    <div class="panel hero-copy">
+      <div class="eyebrow">Live DAO Governance Opportunity Monitor</div>
+      <h1>DAO Gov Watch</h1>
+      <p class="sub">Signals for external governance, tokenomics, and research work pulled from top DAO forums. Built to be checked in under a minute.</p>
+      <div class="meta-row">
+        <span class="pill status-pill" id="status-pill">Checking freshness...</span>
+        <span class="pill">Updated 2026-04-24 06:09 UTC</span>
+        <span class="pill">Next scheduled scan 2026-04-24 06:30 UTC</span>
+        <span class="pill">Refreshes every 30 min</span>
+        <span class="pill">Confidence 0.70+</span>
+      </div>
+    </div>
+    <aside class="panel hero-side">
+      <div class="stat-grid">
+        <div class="stat"><div class="n">0</div><div class="l">This week</div></div>
+        <div class="stat"><div class="n">0</div><div class="l">Last 30 days</div></div>
+        <div class="stat"><div class="n">0</div><div class="l">All-time</div></div>
+        <div class="stat"><div class="n">23</div><div class="l">DAOs watched</div></div>
+      </div>
+      <div class="side-note">Only clear external asks make it through: RFPs, grant rounds, contractor hires, and explicit requests for governance research help.</div>
+    </aside>
+  </section>
+
+  <section class="info-grid">
+    <section class="panel section-card">
+      <div class="section-head">
+        <div>
+          <div class="section-kicker">Coverage</div>
+          <h2>Watching 23 DAO forums</h2>
+        </div>
+        <span class="pill">Public Discourse only</span>
+      </div>
+      <div class="chip-row"><span class="chip">Uniswap</span><span class="chip">MakerDAO</span><span class="chip">Aave</span><span class="chip">Compound</span><span class="chip">Arbitrum</span><span class="chip">Optimism</span><span class="chip">ENS</span><span class="chip">Lido</span><span class="chip">Gitcoin</span><span class="chip">Safe</span><span class="chip">Balancer</span><span class="chip">dYdX</span><span class="chip">1inch</span><span class="chip">Yearn</span><span class="chip">Morpho</span><span class="chip">Frax</span><span class="chip">Euler</span><span class="chip">GMX</span><span class="chip">ApeCoin</span><span class="chip">Celo</span><span class="chip">Moonwell</span><span class="chip">ZK Nation</span><span class="chip">Berachain</span></div>
+    </section>
+    <section class="panel section-card">
+      <div class="section-head">
+        <div>
+          <div class="section-kicker">Filter Logic</div>
+          <h2>High-signal by design</h2>
+        </div>
+      </div>
+      <ul class="rules">
+        <li>RFPs, open grant rounds, contractor hires, and explicit research or tokenomics asks can qualify.</li>
+        <li>Routine governance proposals, delegate intros, and general discussion posts are filtered out.</li>
+        <li>Posts must show a real path to engage and clear the 0.70 confidence threshold.</li>
+      </ul>
+    </section>
+  </section>
+
+  
+<section class="empty-layout">
+  <section class="panel empty-state">
+    <div class="section-kicker">Queue Status</div>
+    <h2>No live opportunities right now</h2>
+    <p class="empty-lead">Nothing is currently published because no recent forum posts passed both the keyword screen and classifier threshold. That keeps this page quiet until there is a real signal.</p>
+    <div class="mini-grid">
+      <div class="mini-card">
+        <span class="mini-label">Latest Refresh</span>
+        <div>2026-04-24 06:09 UTC</div>
+      </div>
+      <div class="mini-card">
+        <span class="mini-label">Next Scheduled Scan</span>
+        <div>2026-04-24 06:30 UTC</div>
+      </div>
+      <div class="mini-card">
+        <span class="mini-label">Publishing Threshold</span>
+        <div>0.70+ classifier confidence</div>
+      </div>
+      <div class="mini-card">
+        <span class="mini-label">Publishing Rule</span>
+        <div>Clear external ask required</div>
+      </div>
+    </div>
+  </section>
+  <section class="panel notes-card">
+    <div class="section-kicker">Page Health</div>
+    <h2>Quiet market or stale workflow?</h2>
+    <p class="empty-lead">The freshness pill above helps you tell the difference between a calm inbox and an automation issue.</p>
+    <ul class="rules">
+      <li><strong>Fresh</strong> means the scheduler is landing roughly on time.</li>
+      <li><strong>Delayed</strong> usually means a run is late, queued, or Pages has not published yet.</li>
+      <li><strong>Stale</strong> is your cue to inspect the latest GitHub Actions run.</li>
+    </ul>
+  </section>
+</section>
+
+
   <div class="footer">
-    Source: public Discourse forums of — DAOs. Generated by dao-gov-watch.
+    <span>Generated from public DAO governance forums. Times are shown in UTC; freshness uses your local clock.</span>
+    <span>0 published opportunities in the archive.</span>
   </div>
 </div>
 <script>
-const rows = Array.from(document.querySelectorAll('tbody tr'));
+const UPDATED_AT = "2026-04-24T06:09:20.075278+00:00";
+
+const cards = Array.from(document.querySelectorAll('.op-card'));
 const daoSel = document.getElementById('f-dao');
 const typeSel = document.getElementById('f-type');
 const confRange = document.getElementById('f-conf');
 const confVal = document.getElementById('f-conf-val');
+const visibleCount = document.getElementById('visible-count');
+const emptyFilter = document.getElementById('empty-filter');
+const statusPill = document.getElementById('status-pill');
 
-function apply() {
+function formatAge(totalMinutes) {
+  if (totalMinutes < 1) return 'just now';
+  if (totalMinutes < 60) return `${totalMinutes}m`;
+  const hours = Math.floor(totalMinutes / 60);
+  const minutes = totalMinutes % 60;
+  if (totalMinutes < 1440) return minutes ? `${hours}h ${minutes}m` : `${hours}h`;
+  const days = Math.floor(hours / 24);
+  const remHours = hours % 24;
+  return remHours ? `${days}d ${remHours}h` : `${days}d`;
+}
+
+function updateFreshness() {
+  if (!statusPill) return;
+  const updated = new Date(UPDATED_AT);
+  if (Number.isNaN(updated.getTime())) return;
+
+  const ageMinutes = Math.max(0, Math.round((Date.now() - updated.getTime()) / 60000));
+  statusPill.classList.remove('is-fresh', 'is-warning', 'is-danger');
+  statusPill.title = `Last refresh: ${updated.toLocaleString()}`;
+
+  if (ageMinutes <= 75) {
+    statusPill.textContent = `Fresh · updated ${formatAge(ageMinutes)} ago`;
+    statusPill.classList.add('is-fresh');
+    return;
+  }
+
+  if (ageMinutes <= 180) {
+    statusPill.textContent = `Delayed · updated ${formatAge(ageMinutes)} ago`;
+    statusPill.classList.add('is-warning');
+    return;
+  }
+
+  statusPill.textContent = `Stale · updated ${formatAge(ageMinutes)} ago`;
+  statusPill.classList.add('is-danger');
+}
+
+function applyFilters() {
+  if (!daoSel || !typeSel || !confRange) return;
+
   const dao = daoSel.value;
   const type = typeSel.value;
   const minConf = parseFloat(confRange.value);
-  confVal.textContent = minConf.toFixed(2);
-  let visible = 0;
-  for (const r of rows) {
-    const matchDao = dao === '' || r.dataset.dao === dao;
-    const matchType = type === '' || r.dataset.type === type;
-    const matchConf = parseFloat(r.dataset.conf) >= minConf;
-    const show = matchDao && matchType && matchConf;
-    r.style.display = show ? '' : 'none';
-    if (show) visible++;
+
+  if (confVal) {
+    confVal.textContent = minConf.toFixed(2);
   }
-  document.getElementById('visible-count').textContent = visible;
+
+  let visible = 0;
+  for (const card of cards) {
+    const matchDao = dao === '' || card.dataset.dao === dao;
+    const matchType = type === '' || card.dataset.type === type;
+    const matchConf = parseFloat(card.dataset.conf || '0') >= minConf;
+    const show = matchDao && matchType && matchConf;
+    card.hidden = !show;
+    if (show) visible += 1;
+  }
+
+  if (visibleCount) {
+    visibleCount.textContent = String(visible);
+  }
+  if (emptyFilter) {
+    emptyFilter.hidden = visible !== 0;
+  }
 }
-daoSel.addEventListener('change', apply);
-typeSel.addEventListener('change', apply);
-confRange.addEventListener('input', apply);
-apply();
+
+updateFreshness();
+window.setInterval(updateFreshness, 60000);
+
+if (daoSel && typeSel && confRange) {
+  daoSel.addEventListener('change', applyFilters);
+  typeSel.addEventListener('change', applyFilters);
+  confRange.addEventListener('input', applyFilters);
+  applyFilters();
+}
 </script>
 </body>
 </html>

@@ -10,6 +10,7 @@ import html
 import json
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
+from typing import Optional
 
 
 BASE = Path(__file__).parent
@@ -49,12 +50,12 @@ def fmt_timestamp(dt: datetime) -> str:
     return dt.astimezone(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
 
 
-def item_post_ts(item: dict) -> str | None:
+def item_post_ts(item: dict) -> Optional[str]:
     value = item.get("post_ts") or item.get("ts") or item.get("detected_ts")
     return value if isinstance(value, str) and value else None
 
 
-def item_detected_ts(item: dict) -> str | None:
+def item_detected_ts(item: dict) -> Optional[str]:
     value = item.get("detected_ts") or item.get("ts") or item.get("post_ts")
     return value if isinstance(value, str) and value else None
 
