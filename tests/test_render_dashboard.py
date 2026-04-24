@@ -65,6 +65,25 @@ class RenderDashboardTests(unittest.TestCase):
         self.assertIn("Legacy Record", html)
         self.assertIn("Posted ", html)
 
+    def test_render_hides_grants_and_service_provider_pitches(self) -> None:
+        now = datetime.now(timezone.utc)
+        grant = make_item("Grant Round", post_ts=iso(now - timedelta(days=2)))
+        grant["opportunity_type"] = "grant"
+        grant["call_to_action"] = "Apply for a governance research grant."
+
+        pitch = make_item("Consultant Pitch", post_ts=iso(now - timedelta(days=1)))
+        pitch["call_to_action"] = "Offer to provide tokenomics support for delegates."
+        pitch["one_line_reason"] = "Service provider pitching into the DAO."
+
+        relevant = make_item("Governance Advisor Search", post_ts=iso(now))
+        relevant["call_to_action"] = "Seeking an external Governance Advisor for a paid 12-month role."
+
+        html = render_dashboard.render([grant, pitch, relevant], [{"name": "Aave"}])
+
+        self.assertIn("Governance Advisor Search", html)
+        self.assertNotIn("Grant Round", html)
+        self.assertNotIn("Consultant Pitch", html)
+
 
 if __name__ == "__main__":
     unittest.main()

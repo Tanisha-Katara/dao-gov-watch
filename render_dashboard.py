@@ -14,8 +14,8 @@ from typing import Optional
 
 
 BASE = Path(__file__).parent
-REFRESH_CADENCE_MINUTES = 10 * 60
-REFRESH_CADENCE_LABEL = "10 hours"
+REFRESH_CADENCE_MINUTES = 24 * 60
+REFRESH_CADENCE_LABEL = "24 hours"
 DEFAULT_MIN_CONFIDENCE = 0.70
 LIVE_MODE = "live"
 BACKFILL_MODE = "backfill"
@@ -27,6 +27,40 @@ TYPE_LABELS = {
     "advisory_request": "Advisory",
     "other": "Other",
 }
+SELF_PROMO_PHRASES = (
+    "i offer",
+    "we offer",
+    "i provide",
+    "we provide",
+    "offering",
+    "offer of services",
+    "dm me",
+    "message me",
+    "happy to help",
+    "available for",
+    "our services",
+    "my services",
+    "offer to provide",
+    "services available",
+    "contractor applying",
+    "pitching",
+)
+PROTOCOL_ASK_PHRASES = (
+    "rfp",
+    "request for proposal",
+    "request for proposals",
+    "submit proposal",
+    "we need",
+    "we are looking",
+    "we're looking",
+    "we are seeking",
+    "we're seeking",
+    "seeking a",
+    "apply via",
+    "apply by",
+    "applications open",
+    "budget",
+)
 
 
 def load_json(path: Path, default):
@@ -86,6 +120,24 @@ def item_ingest_mode(item: dict) -> str:
     if raw in {LIVE_MODE, BACKFILL_MODE}:
         return raw
     return LIVE_MODE
+
+
+def looks_like_service_provider_pitch(text: str) -> bool:
+    lowered = text.lower()
+    has_self_promo = any(phrase in lowered for phrase in SELF_PROMO_PHRASES)
+    has_protocol_ask = any(phrase in lowered for phrase in PROTOCOL_ASK_PHRASES)
+    return has_self_promo and not has_protocol_ask
+
+
+def is_displayable_item(item: dict) -> bool:
+    if item.get("opportunity_type") == "grant":
+        return False
+    combined = "\n".join(
+        str(item.get(key, ""))
+        for key in ("title", "call_to_action", "one_line_reason")
+        if item.get(key)
+    )
+    return not looks_like_service_provider_pitch(combined)
 
 
 def next_scheduled_run(now: datetime) -> datetime:
@@ -605,9 +657,10 @@ def render(items: list[dict], daos: list[dict]) -> str:
     updated = fmt_timestamp(now)
     updated_iso = now.astimezone(timezone.utc).isoformat()
     next_run = fmt_timestamp(next_scheduled_run(now))
-    week, month, total = bucket_counts(items, now)
+    display_items = [item for item in items if is_displayable_item(item)]
+    week, month, total = bucket_counts(display_items, now)
 
-    items_sorted = sorted(items, key=item_post_dt, reverse=True)
+    items_sorted = sorted(display_items, key=item_post_dt, reverse=True)
     dao_names = [dao["name"] for dao in daos]
     dao_count = len(dao_names)
     coverage_chips = "".join(f'<span class="chip">{html.escape(name)}</span>' for name in dao_names) or '<span class="chip">No DAO forums configured</span>'
@@ -617,8 +670,8 @@ def render(items: list[dict], daos: list[dict]) -> str:
 <section class="empty-layout">
   <section class="panel empty-state">
     <div class="section-kicker">Queue Status</div>
-    <h2>No live opportunities right now</h2>
-    <p class="empty-lead">Nothing is currently published because no recent forum posts passed both the keyword screen and classifier threshold. That keeps this page quiet until there is a real signal.</p>
+    <h2>No consulting opportunities right now</h2>
+    <p class="empty-lead">Nothing is currently published because no recent forum posts passed the consultant-focused keyword screen, rubric, and confidence threshold. That keeps this page quiet until there is a real signal.</p>
     <div class="mini-grid">
       <div class="mini-card">
         <span class="mini-label">Latest Refresh</span>
@@ -634,7 +687,7 @@ def render(items: list[dict], daos: list[dict]) -> str:
       </div>
       <div class="mini-card">
         <span class="mini-label">Publishing Rule</span>
-        <div>Clear external ask required</div>
+        <div>Protocol-originated external ask required</div>
       </div>
     </div>
   </section>
@@ -669,7 +722,7 @@ def render(items: list[dict], daos: list[dict]) -> str:
   <section class="panel notes-card">
     <div class="section-kicker">Reading Guide</div>
     <h2>Designed for fast scanning</h2>
-    <p class="empty-lead">Every published card is a post that passed both the regex screen and the Gemini classifier. Historical labels mark posts imported by the one-time backfill, while live hits will appear without that badge.</p>
+    <p class="empty-lead">Every published card is a protocol-originated ask that passed both the regex screen and the Gemini classifier. Historical labels mark posts imported by the one-time backfill, while live hits will appear without that badge.</p>
     <ul class="rules">
       <li><strong>Posted</strong> shows the original forum post timestamp, not when this dashboard ingested the opportunity.</li>
       <li><strong>Historical</strong> means the opportunity was imported through the one-time 30-day backfill.</li>
@@ -716,7 +769,7 @@ def render(items: list[dict], daos: list[dict]) -> str:
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="Bookmarkable live board for DAO governance, tokenomics, and research opportunities.">
+<meta name="description" content="Bookmarkable board for DAO governance, tokenomics, go-to-market, and research consulting opportunities.">
 <title>DAO Gov Watch</title>
 <style>{CSS}</style>
 </head>
@@ -724,9 +777,9 @@ def render(items: list[dict], daos: list[dict]) -> str:
 <div class="wrap">
   <section class="hero">
     <div class="panel hero-copy">
-      <div class="eyebrow">Live DAO Governance Opportunity Monitor</div>
+      <div class="eyebrow">DAO Consulting Opportunity Monitor</div>
       <h1>DAO Gov Watch</h1>
-      <p class="sub">Signals for external governance, tokenomics, and research work pulled from top DAO forums. Built to be checked in under a minute.</p>
+      <p class="sub">Signals for protocol-originated governance, tokenomics, go-to-market, and research work pulled from top DAO forums. Built to be checked in under a minute.</p>
       <div class="meta-row">
         <span class="pill status-pill" id="status-pill">Checking freshness...</span>
         <span class="pill">Updated {updated}</span>
@@ -742,7 +795,7 @@ def render(items: list[dict], daos: list[dict]) -> str:
         <div class="stat"><div class="n">{total}</div><div class="l">All-time</div></div>
         <div class="stat"><div class="n">{dao_count}</div><div class="l">DAOs watched</div></div>
       </div>
-      <div class="side-note">Only clear external asks make it through: RFPs, grant rounds, contractor hires, and explicit requests for governance research help.</div>
+      <div class="side-note">Only protocol-originated asks make it through: RFPs, advisor hires, scoped consulting asks, and explicit requests for governance, tokenomics, go-to-market, or research help.</div>
     </aside>
   </section>
 
@@ -765,8 +818,8 @@ def render(items: list[dict], daos: list[dict]) -> str:
         </div>
       </div>
       <ul class="rules">
-        <li>RFPs, open grant rounds, contractor hires, and explicit research or tokenomics asks can qualify.</li>
-        <li>Routine governance proposals, delegate intros, and general discussion posts are filtered out.</li>
+        <li>RFPs, advisor hires, scoped consulting asks, and explicit requests for governance, tokenomics, go-to-market, or research help can qualify.</li>
+        <li>Grant rounds, service-provider self-promotion, routine governance proposals, delegate intros, and general discussion posts are filtered out.</li>
         <li>Posts must show a real path to engage and clear the {DEFAULT_MIN_CONFIDENCE:.2f} confidence threshold.</li>
       </ul>
     </section>

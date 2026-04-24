@@ -80,5 +80,23 @@ class OpportunityMergeTests(unittest.TestCase):
         self.assertNotIn("ts", merged)
 
 
+class FilteringRuleTests(unittest.TestCase):
+    def test_detects_service_provider_self_promo(self) -> None:
+        text = (
+            "I offer governance and tokenomics reviews for DAO proposals. "
+            "DM me if your delegates need support."
+        )
+
+        self.assertTrue(monitor.looks_like_service_provider_pitch(text))
+
+    def test_does_not_flag_protocol_originated_request(self) -> None:
+        text = (
+            "We are seeking an external tokenomics advisor. "
+            "Reply in thread with relevant prior work."
+        )
+
+        self.assertFalse(monitor.looks_like_service_provider_pitch(text))
+
+
 if __name__ == "__main__":
     unittest.main()

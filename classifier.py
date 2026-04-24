@@ -1,7 +1,8 @@
 """Stage 2: Gemini-based intent classifier.
 
 Decides whether a forum post is a DAO actively soliciting external help
-for governance / tokenomics / research work, or just mentions those topics.
+for governance / tokenomics / go-to-market / research work, or just
+mentions those topics.
 """
 
 from __future__ import annotations
@@ -31,9 +32,9 @@ class Classification(BaseModel):
     one_line_reason: str
 
 
-SYSTEM_PROMPT = """You classify DAO governance forum posts to find consulting opportunities for a governance / tokenomics / research consultant.
+SYSTEM_PROMPT = """You classify DAO governance forum posts to find consulting opportunities for a governance / tokenomics / go-to-market / research consultant.
 
-ACCEPT (is_opportunity=true) ONLY if the post is a DAO, protocol team, or foundation ACTIVELY SOLICITING EXTERNAL WORK in governance, tokenomics, or governance-research. A clear call to action is required: an RFP, a grant round seeking applicants, an open role, a contracting ask, or an explicit "we need X help" post with a way to respond.
+ACCEPT (is_opportunity=true) ONLY if the post is authored by a DAO, protocol team, foundation, or clearly empowered working group that is ACTIVELY SOLICITING EXTERNAL HELP in governance, tokenomics, go-to-market, or research. A clear call to action is required: a formal RFP, a scoped consulting/vendor ask, a paid advisory or research role, or an explicit "we need outside help" post with a way to respond.
 
 REJECT (is_opportunity=false):
 - Routine governance votes or proposal announcements.
@@ -43,12 +44,17 @@ REJECT (is_opportunity=false):
 - Analysis, opinion, or debate posts.
 - Celebration / milestone threads.
 - Meta-discussion ABOUT governance that isn't asking for help.
-- Posts that only MENTION governance / tokenomics / research in passing.
+- Posts that only MENTION governance / tokenomics / go-to-market / research in passing.
+- Grant programs, bounty programs, open application rounds, or community funding announcements.
+- Service providers, contractors, researchers, or individuals advertising their own services TO a DAO. The DAO must be the one asking, not the other way around.
+- Exploratory "any thoughts?" discussion that has no concrete path to engage.
+- Roles unrelated to governance, tokenomics, go-to-market, or research.
 
 Tie-breakers:
 - When uncertain, set confidence <= 0.5 and is_opportunity=false.
 - Prefer missed opportunities over false alerts. Every false alert costs the consultant's attention.
-- opportunity_type: pick "rfp" for formal requests for proposals, "grant" for grant programs / open grant rounds, "hire" for paid roles or contractor hires, "advisory_request" for informal "looking for advice / guidance" posts with a clear path to respond, "other" only if none fit.
+- The DAO must be the demander. If the author is pitching their own services, reject it even if the work sounds relevant.
+- opportunity_type: pick "rfp" for formal requests for proposals, "hire" for paid roles or contractor hires, "advisory_request" for informal but concrete requests for outside guidance with a clear path to respond, "grant" only if a post is truly a consulting procurement mislabeled as a grant, "other" only if none fit.
 
 Return JSON matching the schema exactly. call_to_action must be a single short sentence (<= 200 chars). one_line_reason must explain WHY you accepted or rejected (<= 200 chars)."""
 
@@ -69,11 +75,11 @@ FEW_SHOTS: list[tuple[str, Classification]] = [
     (
         "Forum: Uniswap Governance\nTitle: Announcing the Uniswap Governance Research Grants — Round 3\nExcerpt: We're opening Round 3 of the Uniswap Governance Research Grants. Applications open for researchers studying voter participation, delegation dynamics, and incentive design. Individual grants $10k-$50k. Apply via the form linked below by June 15.",
         Classification(
-            is_opportunity=True,
-            opportunity_type="grant",
-            call_to_action="Apply to Uniswap Governance Research Grants Round 3 (voter participation, delegation, incentive design); $10k-$50k; due June 15.",
-            confidence=0.95,
-            one_line_reason="Open grant round with concrete scope, amounts, and an application path.",
+            is_opportunity=False,
+            opportunity_type="other",
+            call_to_action="",
+            confidence=0.97,
+            one_line_reason="Open grant round, not a protocol hiring or consulting solicitation.",
         ),
     ),
     (
@@ -97,13 +103,33 @@ FEW_SHOTS: list[tuple[str, Classification]] = [
         ),
     ),
     (
-        "Forum: Compound Governance\nTitle: Thinking about tokenomics redesign — anyone done this before?\nExcerpt: We've been discussing whether COMP's incentive structure still fits our current stage. Curious if any contributors here have experience with mid-stage tokenomics overhauls, or can point us to firms that have done this well. Just exploring options at this point, nothing formal yet.",
+        "Forum: ENS Governance\nTitle: Governance Advisor search for the ENS DAO\nExcerpt: The DAO is seeking a named external Governance Advisor for a 12-month term. Responsibilities include process review, governance design guidance, and written recommendations. Compensation is paid quarterly. Interested candidates should reply in thread with relevant experience.",
+        Classification(
+            is_opportunity=True,
+            opportunity_type="hire",
+            call_to_action="Reply in thread to be considered for a paid 12-month Governance Advisor role.",
+            confidence=0.95,
+            one_line_reason="Named paid role with scope, term, and a direct path to apply.",
+        ),
+    ),
+    (
+        "Forum: Compound Governance\nTitle: Seeking outside advisor on tokenomics redesign\nExcerpt: The working group wants outside help evaluating COMP emissions, delegate incentives, and market positioning. If your firm has tokenomics or go-to-market strategy experience, reply in-thread with examples of prior work before May 18.",
         Classification(
             is_opportunity=True,
             opportunity_type="advisory_request",
-            call_to_action="Asking for contributors or firms with experience in mid-stage tokenomics redesigns; informal but open to outside input.",
-            confidence=0.72,
-            one_line_reason="Informal but real: explicit ask for outside expertise with a path to engage via reply. Lower confidence because 'exploring' not 'hiring'.",
+            call_to_action="Reply in-thread with prior work to advise on COMP tokenomics and market positioning before May 18.",
+            confidence=0.88,
+            one_line_reason="Protocol-originated request for outside strategy help with a clear response path.",
+        ),
+    ),
+    (
+        "Forum: Arbitrum Foundation\nTitle: Fixed-scope mechanism-risk review services available\nExcerpt: I'm offering fixed-scope mechanism-risk reviews for upcoming Arbitrum governance proposals. Happy to support delegates over the next month. DM me if useful.",
+        Classification(
+            is_opportunity=False,
+            opportunity_type="other",
+            call_to_action="",
+            confidence=0.98,
+            one_line_reason="Service provider pitching into the DAO; the protocol is not soliciting outside help.",
         ),
     ),
 ]

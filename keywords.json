@@ -4,17 +4,20 @@
     "tokenomics",
     "token model",
     "economic design",
+    "research",
+    "go[- ]to[- ]market",
+    "\\bGTM\\b",
     "delegat",
     "constitution"
   ],
   "ask_surface": [
     "\\bRFP\\b",
     "request for proposals?",
-    "grants? program",
-    "bounty",
-    "open application",
     "call for proposals?",
-    "(looking|seeking|hiring).{0,40}(help|contributor|researcher|consultant|firm|partner)",
-    "we (need|are looking)"
+    "scope of work",
+    "submit (a )?proposal",
+    "(looking|seeking|hiring).{0,60}(advisor|consultant|researcher|firm|partner|vendor|agency|strategist)",
+    "we (need|are looking|are seeking).{0,60}(advisor|consultant|research|researcher|firm|partner|vendor|help|support)",
+    "(reply|email|contact).{0,40}(with|to).{0,40}(proposal|interest|experience|portfolio)"
   ]
 }

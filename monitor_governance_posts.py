@@ -32,9 +32,54 @@ LIVE_MODE = "live"
 BACKFILL_MODE = "backfill"
 DISCOURSE_PAGE_WINDOW = 50
 MAX_EMPTY_BACKFILL_PAGES = 2
+DISALLOWED_OPPORTUNITY_TYPES = {"grant"}
 
 # Free tier: 15 req/min. Keep a 4.5s minimum gap between Gemini calls.
 MIN_GEMINI_GAP_SECONDS = 4.5
+
+SELF_PROMO_PHRASES = (
+    "i offer",
+    "we offer",
+    "i provide",
+    "we provide",
+    "offering",
+    "offer of services",
+    "dm me",
+    "message me",
+    "happy to help",
+    "available for",
+    "our services",
+    "my services",
+    "services available",
+    "contractor applying",
+    "pitching",
+)
+PROTOCOL_ASK_PHRASES = (
+    "rfp",
+    "request for proposal",
+    "request for proposals",
+    "submit proposal",
+    "we need",
+    "we are looking",
+    "we're looking",
+    "we are seeking",
+    "we're seeking",
+    "apply via",
+    "apply by",
+    "applications open",
+    "budget",
+)
+CONSULTING_SCOPE_PHRASES = (
+    "governance",
+    "tokenomics",
+    "research",
+    "go-to-market",
+    "go to market",
+    "gtm",
+    "market positioning",
+    "incentive",
+    "delegat",
+)
 
 
 def load_json(path: Path, default):
@@ -188,6 +233,14 @@ def keyword_match(text: str, gov: list[re.Pattern], ask: list[re.Pattern]) -> bo
     return any(p.search(text) for p in ask)
 
 
+def looks_like_service_provider_pitch(text: str) -> bool:
+    lowered = text.lower()
+    has_scope = any(phrase in lowered for phrase in CONSULTING_SCOPE_PHRASES)
+    has_self_promo = any(phrase in lowered for phrase in SELF_PROMO_PHRASES)
+    has_protocol_ask = any(phrase in lowered for phrase in PROTOCOL_ASK_PHRASES)
+    return has_scope and has_self_promo and not has_protocol_ask
+
+
 def post_url(forum_url: str, post: dict) -> str:
     slug = post.get("topic_slug", "")
     topic_id = post.get("topic_id", "")
@@ -330,11 +383,28 @@ def process_posts(
         if not keyword_match(combined, gov_patterns, ask_patterns):
             continue
         totals["kw_pass"] += 1
+        if looks_like_service_provider_pitch(combined):
+            totals["rule_rejects"] += 1
+            print(f"  SKIP: likely service-provider pitch {title!r}")
+            continue
 
         classification = classifier_session.classify(dao_name, title, body_text[:EXCERPT_MAX_CHARS])
         if classification is None:
             continue
         if not classification.is_opportunity:
+            continue
+        if classification.opportunity_type in DISALLOWED_OPPORTUNITY_TYPES:
+            totals["rule_rejects"] += 1
+            print(f"  SKIP: out-of-scope {classification.opportunity_type} {title!r}")
+            continue
+        classification_context = "\n".join(
+            part
+            for part in (title, body_text, classification.call_to_action, classification.one_line_reason)
+            if part
+        )
+        if looks_like_service_provider_pitch(classification_context):
+            totals["rule_rejects"] += 1
+            print(f"  SKIP: classifier accepted a service-provider pitch {title!r}")
             continue
         if classification.confidence < CONFIDENCE_THRESHOLD:
             continue
@@ -500,6 +570,7 @@ def main() -> int:
         "posts_seen": 0,
         "kw_pass": 0,
         "llm_pass": 0,
+        "rule_rejects": 0,
         "new_hits": 0,
         "updated_hits": 0,
         "bootstrap": 0,
@@ -544,6 +615,7 @@ def main() -> int:
     print(
         f"Summary: mode={args.mode}  posts_seen={totals['posts_seen']}  "
         f"kw_pass={totals['kw_pass']}  llm_pass={totals['llm_pass']}  "
+        f"rule_rejects={totals['rule_rejects']}  "
         f"new_hits={totals['new_hits']}  updated_hits={totals['updated_hits']}  "
         f"bootstrapped={totals['bootstrap']}  forum_errors={totals['forum_errors']}"
     )

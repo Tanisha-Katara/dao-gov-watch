@@ -1,14 +1,14 @@
 # dao-gov-watch
 
-Scans the top DAOs' Discourse forums every 10 hours for posts where a DAO is actively soliciting governance / tokenomics / research help, and publishes them to a dashboard you bookmark.
+Scans the top DAOs' Discourse forums every 24 hours for posts where a DAO is actively soliciting governance / tokenomics / go-to-market / research help, and publishes them to a dashboard you bookmark.
 
-**What counts as a hit:** RFPs, open grant rounds, contractor hires, explicit "we need X help" asks with a way to respond. Not: routine votes, delegate posts, analysis, retrospectives.
+**What counts as a hit:** protocol-originated RFPs, paid advisor or research roles, scoped consulting/vendor asks, and explicit "we need outside help" posts in governance, tokenomics, go-to-market, or research with a real way to respond. Not: grant rounds, bounties, routine votes, delegate posts, analysis, retrospectives, or consultants pitching themselves to a DAO.
 
 **How the filter works:** two stages.
 1. Cheap regex pre-filter (governance vocabulary × call-to-action vocabulary).
 2. Gemini 2.5 Flash classifier with a strict rubric. Only `is_opportunity=true` AND `confidence >= 0.7` get published.
 
-Total cost: $0 (GitHub Actions free tier + Gemini Free tier; ~25 LLM calls/day against a 1,500/day quota).
+Total cost: low, but Gemini quota depends on the model and whether billing is enabled. `GEMINI_MODEL` is overridable so you can adapt without code changes.
 
 ## First-time setup
 
@@ -90,7 +90,7 @@ Any forum running Discourse exposes `/posts.json` — that's the only requiremen
 
 ## Tuning
 
-- **Too many false positives?** Open `keywords.json` and tighten the `ask_surface` patterns — require more specific phrasing. Or add rejecting examples to `FEW_SHOTS` in `classifier.py`.
+- **Too many false positives?** Open `keywords.json` and tighten the `ask_surface` patterns — require protocol-originated hiring language. Or add rejecting examples to `FEW_SHOTS` in `classifier.py`.
 - **Missing real opportunities?** Loosen `gov_surface` / `ask_surface` regex, or lower `CONFIDENCE_THRESHOLD` in `monitor_governance_posts.py` (default 0.7).
 - **Want more context per post?** Bump `EXCERPT_MAX_CHARS` in `monitor_governance_posts.py`.
 
