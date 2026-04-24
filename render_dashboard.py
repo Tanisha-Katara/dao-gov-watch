@@ -14,7 +14,8 @@ from typing import Optional
 
 
 BASE = Path(__file__).parent
-REFRESH_CADENCE_MINUTES = 30
+REFRESH_CADENCE_MINUTES = 10 * 60
+REFRESH_CADENCE_LABEL = "10 hours"
 DEFAULT_MIN_CONFIDENCE = 0.70
 LIVE_MODE = "live"
 BACKFILL_MODE = "backfill"
@@ -89,9 +90,11 @@ def item_ingest_mode(item: dict) -> str:
 
 def next_scheduled_run(now: datetime) -> datetime:
     run = now.astimezone(timezone.utc).replace(second=0, microsecond=0)
-    if run.minute < 30:
-        return run.replace(minute=30)
-    return (run + timedelta(hours=1)).replace(minute=0)
+    midnight = run.replace(hour=0, minute=0)
+    minutes_since_midnight = (run.hour * 60) + run.minute
+    next_slot = ((minutes_since_midnight // REFRESH_CADENCE_MINUTES) + 1) * REFRESH_CADENCE_MINUTES
+    day_offset, minute_of_day = divmod(next_slot, 24 * 60)
+    return midnight + timedelta(days=day_offset, minutes=minute_of_day)
 
 
 def bucket_counts(items: list[dict], now: datetime) -> tuple[int, int, int]:
@@ -507,6 +510,9 @@ h2{
 
 JS_TEMPLATE = """
 const UPDATED_AT = __UPDATED_AT__;
+const REFRESH_CADENCE_MINUTES = __REFRESH_CADENCE_MINUTES__;
+const FRESH_MAX_MINUTES = REFRESH_CADENCE_MINUTES + 120;
+const DELAYED_MAX_MINUTES = (REFRESH_CADENCE_MINUTES * 2) + 120;
 
 const cards = Array.from(document.querySelectorAll('.op-card'));
 const daoSel = document.getElementById('f-dao');
@@ -537,13 +543,13 @@ function updateFreshness() {
   statusPill.classList.remove('is-fresh', 'is-warning', 'is-danger');
   statusPill.title = `Last refresh: ${updated.toLocaleString()}`;
 
-  if (ageMinutes <= 75) {
+  if (ageMinutes <= FRESH_MAX_MINUTES) {
     statusPill.textContent = `Fresh · updated ${formatAge(ageMinutes)} ago`;
     statusPill.classList.add('is-fresh');
     return;
   }
 
-  if (ageMinutes <= 180) {
+  if (ageMinutes <= DELAYED_MAX_MINUTES) {
     statusPill.textContent = `Delayed · updated ${formatAge(ageMinutes)} ago`;
     statusPill.classList.add('is-warning');
     return;
@@ -699,7 +705,11 @@ def render(items: list[dict], daos: list[dict]) -> str:
 </section>
 """
 
-    js = JS_TEMPLATE.replace("__UPDATED_AT__", json.dumps(updated_iso))
+    js = (
+        JS_TEMPLATE
+        .replace("__UPDATED_AT__", json.dumps(updated_iso))
+        .replace("__REFRESH_CADENCE_MINUTES__", str(REFRESH_CADENCE_MINUTES))
+    )
 
     return f"""<!doctype html>
 <html lang="en">
@@ -721,7 +731,7 @@ def render(items: list[dict], daos: list[dict]) -> str:
         <span class="pill status-pill" id="status-pill">Checking freshness...</span>
         <span class="pill">Updated {updated}</span>
         <span class="pill">Next scheduled scan {next_run}</span>
-        <span class="pill">Refreshes every {REFRESH_CADENCE_MINUTES} min</span>
+        <span class="pill">Refreshes every {REFRESH_CADENCE_LABEL}</span>
         <span class="pill">Confidence {DEFAULT_MIN_CONFIDENCE:.2f}+</span>
       </div>
     </div>

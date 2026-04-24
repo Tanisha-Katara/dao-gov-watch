@@ -21,5 +21,11 @@
   { "name": "Celo",      "forum_url": "https://forum.celo.org" },
   { "name": "Moonwell",  "forum_url": "https://forum.moonwell.fi" },
   { "name": "ZK Nation", "forum_url": "https://forum.zknation.io" },
-  { "name": "Berachain", "forum_url": "https://forum.berachain.com" }
+  { "name": "Berachain", "forum_url": "https://forum.berachain.com" },
+  { "name": "Rocket Pool", "forum_url": "https://dao.rocketpool.net" },
+  { "name": "Jupiter",   "forum_url": "https://discuss.jup.ag" },
+  { "name": "Nouns",     "forum_url": "https://discourse.nouns.wtf" },
+  { "name": "Sushi",     "forum_url": "https://forum.sushi.com" },
+  { "name": "StakeWise", "forum_url": "https://forum.stakewise.io" },
+  { "name": "Nexus Mutual", "forum_url": "https://forum.nexusmutual.io" }
 ]

@@ -1,6 +1,6 @@
 # dao-gov-watch
 
-Scans the top DAOs' Discourse forums every 30 minutes for posts where a DAO is actively soliciting governance / tokenomics / research help, and publishes them to a dashboard you bookmark.
+Scans the top DAOs' Discourse forums every 10 hours for posts where a DAO is actively soliciting governance / tokenomics / research help, and publishes them to a dashboard you bookmark.
 
 **What counts as a hit:** RFPs, open grant rounds, contractor hires, explicit "we need X help" asks with a way to respond. Not: routine votes, delegate posts, analysis, retrospectives.
 
