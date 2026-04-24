@@ -331,9 +331,9 @@ h2{
       <p class="sub">Signals for external governance, tokenomics, and research work pulled from top DAO forums. Built to be checked in under a minute.</p>
       <div class="meta-row">
         <span class="pill status-pill" id="status-pill">Checking freshness...</span>
-        <span class="pill">Updated 2026-04-24 06:26 UTC</span>
-        <span class="pill">Next scheduled scan 2026-04-24 06:30 UTC</span>
-        <span class="pill">Refreshes every 30 min</span>
+        <span class="pill">Updated 2026-04-24 06:29 UTC</span>
+        <span class="pill">Next scheduled scan 2026-04-24 10:00 UTC</span>
+        <span class="pill">Refreshes every 10 hours</span>
         <span class="pill">Confidence 0.70+</span>
       </div>
     </div>
@@ -342,7 +342,7 @@ h2{
         <div class="stat"><div class="n">0</div><div class="l">This week</div></div>
         <div class="stat"><div class="n">0</div><div class="l">Last 30 days</div></div>
         <div class="stat"><div class="n">0</div><div class="l">All-time</div></div>
-        <div class="stat"><div class="n">23</div><div class="l">DAOs watched</div></div>
+        <div class="stat"><div class="n">29</div><div class="l">DAOs watched</div></div>
       </div>
       <div class="side-note">Only clear external asks make it through: RFPs, grant rounds, contractor hires, and explicit requests for governance research help.</div>
     </aside>
@@ -353,11 +353,11 @@ h2{
       <div class="section-head">
         <div>
           <div class="section-kicker">Coverage</div>
-          <h2>Watching 23 DAO forums</h2>
+          <h2>Watching 29 DAO forums</h2>
         </div>
         <span class="pill">Public Discourse only</span>
       </div>
-      <div class="chip-row"><span class="chip">Uniswap</span><span class="chip">MakerDAO</span><span class="chip">Aave</span><span class="chip">Compound</span><span class="chip">Arbitrum</span><span class="chip">Optimism</span><span class="chip">ENS</span><span class="chip">Lido</span><span class="chip">Gitcoin</span><span class="chip">Safe</span><span class="chip">Balancer</span><span class="chip">dYdX</span><span class="chip">1inch</span><span class="chip">Yearn</span><span class="chip">Morpho</span><span class="chip">Frax</span><span class="chip">Euler</span><span class="chip">GMX</span><span class="chip">ApeCoin</span><span class="chip">Celo</span><span class="chip">Moonwell</span><span class="chip">ZK Nation</span><span class="chip">Berachain</span></div>
+      <div class="chip-row"><span class="chip">Uniswap</span><span class="chip">MakerDAO</span><span class="chip">Aave</span><span class="chip">Compound</span><span class="chip">Arbitrum</span><span class="chip">Optimism</span><span class="chip">ENS</span><span class="chip">Lido</span><span class="chip">Gitcoin</span><span class="chip">Safe</span><span class="chip">Balancer</span><span class="chip">dYdX</span><span class="chip">1inch</span><span class="chip">Yearn</span><span class="chip">Morpho</span><span class="chip">Frax</span><span class="chip">Euler</span><span class="chip">GMX</span><span class="chip">ApeCoin</span><span class="chip">Celo</span><span class="chip">Moonwell</span><span class="chip">ZK Nation</span><span class="chip">Berachain</span><span class="chip">Rocket Pool</span><span class="chip">Jupiter</span><span class="chip">Nouns</span><span class="chip">Sushi</span><span class="chip">StakeWise</span><span class="chip">Nexus Mutual</span></div>
     </section>
     <section class="panel section-card">
       <div class="section-head">
@@ -383,11 +383,11 @@ h2{
     <div class="mini-grid">
       <div class="mini-card">
         <span class="mini-label">Latest Refresh</span>
-        <div>2026-04-24 06:26 UTC</div>
+        <div>2026-04-24 06:29 UTC</div>
       </div>
       <div class="mini-card">
         <span class="mini-label">Next Scheduled Scan</span>
-        <div>2026-04-24 06:30 UTC</div>
+        <div>2026-04-24 10:00 UTC</div>
       </div>
       <div class="mini-card">
         <span class="mini-label">Publishing Threshold</span>
@@ -418,7 +418,10 @@ h2{
   </div>
 </div>
 <script>
-const UPDATED_AT = "2026-04-24T06:26:55.218591+00:00";
+const UPDATED_AT = "2026-04-24T06:29:06.064442+00:00";
+const REFRESH_CADENCE_MINUTES = 600;
+const FRESH_MAX_MINUTES = REFRESH_CADENCE_MINUTES + 120;
+const DELAYED_MAX_MINUTES = (REFRESH_CADENCE_MINUTES * 2) + 120;
 
 const cards = Array.from(document.querySelectorAll('.op-card'));
 const daoSel = document.getElementById('f-dao');
@@ -449,13 +452,13 @@ function updateFreshness() {
   statusPill.classList.remove('is-fresh', 'is-warning', 'is-danger');
   statusPill.title = `Last refresh: ${updated.toLocaleString()}`;
 
-  if (ageMinutes <= 75) {
+  if (ageMinutes <= FRESH_MAX_MINUTES) {
     statusPill.textContent = `Fresh · updated ${formatAge(ageMinutes)} ago`;
     statusPill.classList.add('is-fresh');
     return;
   }
 
-  if (ageMinutes <= 180) {
+  if (ageMinutes <= DELAYED_MAX_MINUTES) {
     statusPill.textContent = `Delayed · updated ${formatAge(ageMinutes)} ago`;
     statusPill.classList.add('is-warning');
     return;
