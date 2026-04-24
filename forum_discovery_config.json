@@ -1,0 +1,118 @@
+{
+  "ignored_categories": [
+    "CEX",
+    "Chain",
+    "Bridge",
+    "Canonical Bridge",
+    "Cross Chain Bridge",
+    "Stablecoin Issuer",
+    "Payments",
+    "Wallets",
+    "Interface",
+    "Telegram Bot",
+    "NFT Marketplace",
+    "Physical TCG",
+    "Developer Tools"
+  ],
+  "family_aliases": {
+    "ethena": {
+      "protocol_name": "Ethena",
+      "defillama_slugs": [
+        "ethena-usde",
+        "ethena-usdtb",
+        "ethena-tsusde"
+      ],
+      "fee_names": [
+        "Ethena USDe",
+        "Ethena USDtb",
+        "Ethena tsUSDe"
+      ]
+    },
+    "centrifuge": {
+      "protocol_name": "Centrifuge",
+      "defillama_slugs": [
+        "centrifuge-protocol"
+      ],
+      "fee_names": [
+        "Centrifuge Protocol"
+      ]
+    },
+    "obol": {
+      "protocol_name": "Obol",
+      "defillama_slugs": [
+        "obol"
+      ],
+      "fee_names": [
+        "Obol"
+      ]
+    },
+    "renzo": {
+      "protocol_name": "Renzo",
+      "defillama_slugs": [
+        "renzo"
+      ],
+      "fee_names": [
+        "Renzo"
+      ]
+    },
+    "eigenlayer": {
+      "protocol_name": "EigenLayer",
+      "defillama_slugs": [
+        "eigencloud"
+      ],
+      "fee_names": [
+        "EigenCloud",
+        "EigenLayer"
+      ]
+    },
+    "kamino": {
+      "protocol_name": "Kamino",
+      "defillama_slugs": [
+        "kamino-lend",
+        "kamino-liquidity"
+      ],
+      "fee_names": [
+        "Kamino Lend",
+        "Kamino Liquidity"
+      ]
+    },
+    "ssvnetwork": {
+      "protocol_name": "SSV Network",
+      "defillama_slugs": [
+        "ssv-network"
+      ],
+      "fee_names": [
+        "SSV Network"
+      ]
+    },
+    "babylon": {
+      "protocol_name": "Babylon",
+      "defillama_slugs": [
+        "babylon-protocol"
+      ],
+      "fee_names": [
+        "Babylon Protocol"
+      ]
+    }
+  },
+  "forum_overrides": {
+    "ethena": "https://gov.ethenafoundation.com",
+    "centrifuge": "https://gov.centrifuge.io",
+    "obol": "https://community.obol.org",
+    "renzo": "https://gov.renzoprotocol.com",
+    "eigenlayer": "https://forum.eigenlayer.xyz",
+    "kamino": "https://gov.kamino.finance",
+    "ssvnetwork": "https://forum.ssv.network",
+    "babylon": "https://forum.babylon.foundation"
+  },
+  "ignored_slugs": [
+    "anemoy-capital",
+    "digift",
+    "gaib",
+    "re",
+    "spiko",
+    "tether-gold",
+    "wisdomtree",
+    "xstocks"
+  ]
+}

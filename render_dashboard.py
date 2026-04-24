@@ -130,8 +130,11 @@ def looks_like_service_provider_pitch(text: str) -> bool:
 
 
 def is_displayable_item(item: dict) -> bool:
-    if item.get("opportunity_type") == "grant":
-        return False
+    # Grant PROGRAMS (DAO seeking applicants) are consulting-relevant — a
+    # consultant can apply to deliver the work. The classifier rubric now
+    # rejects grant REQUESTS (internal team asking treasury) at classify
+    # time, so anything with opportunity_type == "grant" that reaches here
+    # is assumed to be a program worth showing.
     combined = "\n".join(
         str(item.get(key, ""))
         for key in ("title", "call_to_action", "one_line_reason")

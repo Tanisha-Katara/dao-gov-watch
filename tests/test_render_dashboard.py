@@ -65,11 +65,14 @@ class RenderDashboardTests(unittest.TestCase):
         self.assertIn("Legacy Record", html)
         self.assertIn("Posted ", html)
 
-    def test_render_hides_grants_and_service_provider_pitches(self) -> None:
+    def test_render_shows_grant_programs_and_hides_service_provider_pitches(self) -> None:
         now = datetime.now(timezone.utc)
-        grant = make_item("Grant Round", post_ts=iso(now - timedelta(days=2)))
-        grant["opportunity_type"] = "grant"
-        grant["call_to_action"] = "Apply for a governance research grant."
+        # Grant PROGRAMS (DAO seeking applicants) are consulting-relevant and
+        # should now display. The rubric rejects grant REQUESTS upstream, so
+        # anything reaching the renderer with type=="grant" is a program.
+        grant_program = make_item("Governance Research Grants", post_ts=iso(now - timedelta(days=2)))
+        grant_program["opportunity_type"] = "grant"
+        grant_program["call_to_action"] = "Apply via form by June 15 for governance research grants."
 
         pitch = make_item("Consultant Pitch", post_ts=iso(now - timedelta(days=1)))
         pitch["call_to_action"] = "Offer to provide tokenomics support for delegates."
@@ -78,10 +81,10 @@ class RenderDashboardTests(unittest.TestCase):
         relevant = make_item("Governance Advisor Search", post_ts=iso(now))
         relevant["call_to_action"] = "Seeking an external Governance Advisor for a paid 12-month role."
 
-        html = render_dashboard.render([grant, pitch, relevant], [{"name": "Aave"}])
+        html = render_dashboard.render([grant_program, pitch, relevant], [{"name": "Aave"}])
 
         self.assertIn("Governance Advisor Search", html)
-        self.assertNotIn("Grant Round", html)
+        self.assertIn("Governance Research Grants", html)
         self.assertNotIn("Consultant Pitch", html)
 
 

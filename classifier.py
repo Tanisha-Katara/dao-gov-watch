@@ -34,7 +34,7 @@ class Classification(BaseModel):
 
 SYSTEM_PROMPT = """You classify DAO governance forum posts to find consulting opportunities for a governance / tokenomics / go-to-market / research consultant.
 
-ACCEPT (is_opportunity=true) ONLY if the post is authored by a DAO, protocol team, foundation, or clearly empowered working group that is ACTIVELY SOLICITING EXTERNAL HELP in governance, tokenomics, go-to-market, or research. A clear call to action is required: a formal RFP, a scoped consulting/vendor ask, a paid advisory or research role, or an explicit "we need outside help" post with a way to respond.
+ACCEPT (is_opportunity=true) ONLY if the post is authored by a DAO, protocol team, foundation, or clearly empowered working group that is ACTIVELY SOLICITING EXTERNAL HELP in governance, tokenomics, go-to-market, or research. A clear call to action is required: a formal RFP, a scoped consulting/vendor ask, a paid advisory or research role, a grant PROGRAM where the DAO is calling for researchers/consultants/teams to apply and deliver work, or an explicit "we need outside help" post with a way to respond.
 
 REJECT (is_opportunity=false):
 - Routine governance votes or proposal announcements.
@@ -45,7 +45,7 @@ REJECT (is_opportunity=false):
 - Celebration / milestone threads.
 - Meta-discussion ABOUT governance that isn't asking for help.
 - Posts that only MENTION governance / tokenomics / go-to-market / research in passing.
-- Grant programs, bounty programs, open application rounds, or community funding announcements.
+- Grant REQUESTS where an internal team, working group, or contributor is asking a DAO treasury to fund their own project (the DAO is the funder, the author is the beneficiary). Also reject generic bounty-only programs and vague community funding announcements with no call for external expertise.
 - Service providers, contractors, researchers, or individuals advertising their own services TO a DAO. The DAO must be the one asking, not the other way around.
 - Exploratory "any thoughts?" discussion that has no concrete path to engage.
 - Roles unrelated to governance, tokenomics, go-to-market, or research.
@@ -54,7 +54,8 @@ Tie-breakers:
 - When uncertain, set confidence <= 0.5 and is_opportunity=false.
 - Prefer missed opportunities over false alerts. Every false alert costs the consultant's attention.
 - The DAO must be the demander. If the author is pitching their own services, reject it even if the work sounds relevant.
-- opportunity_type: pick "rfp" for formal requests for proposals, "hire" for paid roles or contractor hires, "advisory_request" for informal but concrete requests for outside guidance with a clear path to respond, "grant" only if a post is truly a consulting procurement mislabeled as a grant, "other" only if none fit.
+- Grant distinction: ACCEPT grant PROGRAMS (DAO is funder, external experts apply to deliver work — a consultant can submit); REJECT grant REQUESTS (internal team asking DAO treasury to fund them — not consulting).
+- opportunity_type: pick "rfp" for formal requests for proposals, "hire" for paid roles or contractor hires, "advisory_request" for informal but concrete requests for outside guidance with a clear path to respond, "grant" for open grant rounds/programs where the DAO is calling for external researchers or consultants to apply, "other" only if none fit.
 
 Return JSON matching the schema exactly. call_to_action must be a single short sentence (<= 200 chars). one_line_reason must explain WHY you accepted or rejected (<= 200 chars)."""
 
@@ -75,11 +76,21 @@ FEW_SHOTS: list[tuple[str, Classification]] = [
     (
         "Forum: Uniswap Governance\nTitle: Announcing the Uniswap Governance Research Grants — Round 3\nExcerpt: We're opening Round 3 of the Uniswap Governance Research Grants. Applications open for researchers studying voter participation, delegation dynamics, and incentive design. Individual grants $10k-$50k. Apply via the form linked below by June 15.",
         Classification(
+            is_opportunity=True,
+            opportunity_type="grant",
+            call_to_action="Apply to Uniswap Governance Research Grants Round 3 (voter participation, delegation, incentive design); $10k-$50k; due June 15.",
+            confidence=0.92,
+            one_line_reason="Grant PROGRAM: DAO is calling for external researchers to apply and deliver work — consultants can submit.",
+        ),
+    ),
+    (
+        "Forum: Aave Governance\nTitle: [ARFC] Funding request — $75k to build a security framework for Aave V4\nExcerpt: We are proposing a Phase 1 grant of $50k-$75k from the Aave DAO treasury to fund development of AaveShield, a modular security framework for Aave V4. Requesting community feedback and treasury approval.",
+        Classification(
             is_opportunity=False,
             opportunity_type="other",
             call_to_action="",
-            confidence=0.97,
-            one_line_reason="Open grant round, not a protocol hiring or consulting solicitation.",
+            confidence=0.95,
+            one_line_reason="Grant REQUEST: internal team asking DAO treasury to fund its own project — not an external consulting opportunity.",
         ),
     ),
     (

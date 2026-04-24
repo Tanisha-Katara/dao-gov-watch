@@ -1,18 +1,5 @@
 [
   {
-    "dao": "Aave",
-    "forum_url": "https://governance.aave.com",
-    "post_url": "https://governance.aave.com/t/arfc-aaveshield-modular-security-framework-for-aave-v4/24453",
-    "title": "[ARFC] AaveShield — Modular Security Framework for Aave V4",
-    "post_ts": "2026-04-15T12:11:04.048Z",
-    "detected_ts": "2026-04-24T07:39:09Z",
-    "ingest_mode": "backfill",
-    "opportunity_type": "grant",
-    "call_to_action": "Requesting community feedback on integrating AaveShield into Aave V4 security, with a Phase 1 grant of $50k-$75k.",
-    "confidence": 0.85,
-    "one_line_reason": "This is a grant request tied to a specific technical integration and security framework, with a clear budget range."
-  },
-  {
     "dao": "Arbitrum",
     "forum_url": "https://forum.arbitrum.foundation",
     "post_url": "https://forum.arbitrum.foundation/t/security-service-fixed-scope-mechanism-risk-review-of-upcoming-governance-proposals-kaelrune0/30811",

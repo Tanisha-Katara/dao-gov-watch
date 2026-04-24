@@ -11,6 +11,8 @@ on:
       - 'dashboard.html'
       - 'opportunities.json'
       - 'state.json'
+      - 'forum_candidates.json'
+      - 'forum_candidates.md'
 
 concurrency:
   group: monitor

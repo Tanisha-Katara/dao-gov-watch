@@ -68,6 +68,24 @@ This paginates each tracked Discourse forum, imports qualifying posts from the l
 
 In GitHub Actions, use **Backfill DAO Forums** and keep the default `30` day window unless you want a narrower manual import.
 
+## Forum discovery
+
+To expand coverage without auto-changing the live watchlist, run the reviewed discovery pipeline:
+
+```bash
+python discover_forum_candidates.py
+python discover_forum_candidates.py --top-n 25 --min-score 0.45
+```
+
+This uses DeFiLlama's free `/protocols` and `/overview/fees` endpoints, collapses protocol families with `forum_discovery_config.json`, validates candidate Discourse forums via `/posts.json`, and writes:
+
+- `forum_candidates.json` for machine-readable review
+- `forum_candidates.md` for a human-friendly add/review/reject report
+
+The discovery workflow never edits `daos.json`. To approve a forum, copy the entry you want from the report into `daos.json`.
+
+In GitHub Actions, **Discover DAO Forums** refreshes this review report every Monday at 01:00 UTC and commits only the discovery artifacts.
+
 Try the classifier directly:
 
 ```bash
