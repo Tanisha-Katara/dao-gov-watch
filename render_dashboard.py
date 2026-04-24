@@ -61,6 +61,17 @@ PROTOCOL_ASK_PHRASES = (
     "applications open",
     "budget",
 )
+STATUS_UPDATE_PHRASES = (
+    "retro draft final report",
+    "final report",
+    "retrospective",
+    "postmortem",
+    "status update",
+    "progress update",
+    "quarterly report",
+    "monthly report",
+    "weekly report",
+)
 
 
 def load_json(path: Path, default):
@@ -129,6 +140,13 @@ def looks_like_service_provider_pitch(text: str) -> bool:
     return has_self_promo and not has_protocol_ask
 
 
+def looks_like_status_update(text: str) -> bool:
+    lowered = text.lower()
+    has_status_language = any(phrase in lowered for phrase in STATUS_UPDATE_PHRASES)
+    has_protocol_ask = any(phrase in lowered for phrase in PROTOCOL_ASK_PHRASES)
+    return has_status_language and not has_protocol_ask
+
+
 def is_displayable_item(item: dict) -> bool:
     # Grant PROGRAMS (DAO seeking applicants) are consulting-relevant — a
     # consultant can apply to deliver the work. The classifier rubric now
@@ -140,7 +158,7 @@ def is_displayable_item(item: dict) -> bool:
         for key in ("title", "call_to_action", "one_line_reason")
         if item.get(key)
     )
-    return not looks_like_service_provider_pitch(combined)
+    return not looks_like_service_provider_pitch(combined) and not looks_like_status_update(combined)
 
 
 def next_scheduled_run(now: datetime) -> datetime:

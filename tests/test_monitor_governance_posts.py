@@ -97,6 +97,19 @@ class FilteringRuleTests(unittest.TestCase):
 
         self.assertFalse(monitor.looks_like_service_provider_pitch(text))
 
+    def test_detects_status_update_without_clear_ask(self) -> None:
+        text = "ENS Retro Draft Final Report with a status update on previous work."
+
+        self.assertTrue(monitor.looks_like_status_update(text))
+
+    def test_does_not_flag_status_language_when_real_ask_exists(self) -> None:
+        text = (
+            "Quarterly report plus a request for proposals for governance research. "
+            "Submit proposal by May 15."
+        )
+
+        self.assertFalse(monitor.looks_like_status_update(text))
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -87,6 +87,20 @@ class RenderDashboardTests(unittest.TestCase):
         self.assertIn("Governance Research Grants", html)
         self.assertNotIn("Consultant Pitch", html)
 
+    def test_render_hides_status_update_false_positives(self) -> None:
+        now = datetime.now(timezone.utc)
+        report = make_item("ENS Retro Draft Final Report", post_ts=iso(now - timedelta(days=1)))
+        report["call_to_action"] = "Retro draft final report for the working group."
+        report["one_line_reason"] = "Status update on previous work."
+
+        role = make_item("Governance Advisor Search", post_ts=iso(now))
+        role["call_to_action"] = "Seeking an external Governance Advisor for a paid 12-month role."
+
+        html = render_dashboard.render([report, role], [{"name": "ENS"}])
+
+        self.assertIn("Governance Advisor Search", html)
+        self.assertNotIn("ENS Retro Draft Final Report", html)
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -69,6 +69,17 @@ PROTOCOL_ASK_PHRASES = (
     "applications open",
     "budget",
 )
+STATUS_UPDATE_PHRASES = (
+    "retro draft final report",
+    "final report",
+    "retrospective",
+    "postmortem",
+    "status update",
+    "progress update",
+    "quarterly report",
+    "monthly report",
+    "weekly report",
+)
 CONSULTING_SCOPE_PHRASES = (
     "governance",
     "tokenomics",
@@ -241,6 +252,13 @@ def looks_like_service_provider_pitch(text: str) -> bool:
     return has_scope and has_self_promo and not has_protocol_ask
 
 
+def looks_like_status_update(text: str) -> bool:
+    lowered = text.lower()
+    has_status_language = any(phrase in lowered for phrase in STATUS_UPDATE_PHRASES)
+    has_protocol_ask = any(phrase in lowered for phrase in PROTOCOL_ASK_PHRASES)
+    return has_status_language and not has_protocol_ask
+
+
 def post_url(forum_url: str, post: dict) -> str:
     slug = post.get("topic_slug", "")
     topic_id = post.get("topic_id", "")
@@ -405,6 +423,10 @@ def process_posts(
         if looks_like_service_provider_pitch(classification_context):
             totals["rule_rejects"] += 1
             print(f"  SKIP: classifier accepted a service-provider pitch {title!r}")
+            continue
+        if looks_like_status_update(classification_context):
+            totals["rule_rejects"] += 1
+            print(f"  SKIP: likely status/update post {title!r}")
             continue
         if classification.confidence < CONFIDENCE_THRESHOLD:
             continue
