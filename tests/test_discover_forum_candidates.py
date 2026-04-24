@@ -35,8 +35,8 @@ class AliasAggregationTests(unittest.TestCase):
         slug_to_key, name_to_key, family_names = discover.build_alias_maps(config)
         tracked_keys = set()
         rows = [
-            {"name": "Ethena USDe", "slug": "ethena-usde", "category": "Basis Trading", "tvl": 100, "url": "https://app.ethena.fi"},
-            {"name": "Ethena USDtb", "slug": "ethena-usdtb", "category": "RWA", "tvl": 40, "url": "https://app.ethena.fi"},
+            {"name": "Ethena USDe", "slug": "ethena-usde", "parentProtocol": "parent#ethena", "category": "Basis Trading", "tvl": 100, "url": "https://app.ethena.fi"},
+            {"name": "Ethena USDtb", "slug": "ethena-usdtb", "parentProtocol": "parent#ethena", "category": "RWA", "tvl": 40, "url": "https://app.ethena.fi"},
             {"name": "Kamino Lend", "slug": "kamino-lend", "category": "Lending", "tvl": 80, "url": "https://kamino.com"},
             {"name": "Kamino Liquidity", "slug": "kamino-liquidity", "category": "Liquidity Manager", "tvl": 20, "url": "https://kamino.com"},
         ]
@@ -78,6 +78,25 @@ class AliasAggregationTests(unittest.TestCase):
             rows,
             config=config,
             tracked_keys=tracked_keys,
+            slug_to_key=slug_to_key,
+            name_to_key=name_to_key,
+            family_names=family_names,
+        )
+
+        self.assertEqual(candidates, {})
+
+    def test_ignored_slug_is_excluded(self) -> None:
+        config = {
+            "ignored_categories": [],
+            "ignored_slugs": ["gauntlet"],
+            "family_aliases": {},
+        }
+        slug_to_key, name_to_key, family_names = discover.build_alias_maps(config)
+
+        candidates = discover.aggregate_protocols(
+            [{"name": "Gauntlet", "slug": "gauntlet", "category": "Risk Curators", "tvl": 100, "url": "https://gauntlet.xyz"}],
+            config=config,
+            tracked_keys=set(),
             slug_to_key=slug_to_key,
             name_to_key=name_to_key,
             family_names=family_names,
@@ -177,6 +196,7 @@ class RankingTests(unittest.TestCase):
         gamma["latest_post_ts"] = None
         gamma["score"] = round((0.45 * gamma["tvl_percentile"]) + (0.35 * gamma["fees_7d_percentile"]), 4)
         gamma["pre_score"] = 0.5
+        gamma["override_forum_match"] = True
         gamma["recommendation"] = discover.choose_recommendation(gamma)
 
         self.assertEqual(alpha["recommendation"], "add_now")

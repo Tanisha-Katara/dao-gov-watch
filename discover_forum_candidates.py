@@ -3,10 +3,12 @@
 from __future__ import annotations
 
 import argparse
+import concurrent.futures
 import json
 import re
 import socket
 import ssl
+import time
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -27,6 +29,8 @@ DEFI_LLAMA_FEES_URL = "https://api.llama.fi/overview/fees"
 FORUM_PREFIXES = ("gov", "forum", "discuss", "community", "research")
 USER_AGENT = "dao-gov-watch/0.1 (forum discovery)"
 FETCH_TIMEOUT = 20
+MAX_FETCH_ATTEMPTS = 3
+MAX_FORUM_WORKERS = 8
 DEFAULT_TOP_N = 25
 DEFAULT_MIN_SCORE = 0.45
 ADD_NOW_THRESHOLD = 0.65
@@ -66,8 +70,25 @@ def normalize_key(text: str) -> str:
 
 def fetch_json(url: str, *, timeout: int = FETCH_TIMEOUT) -> Any:
     req = urllib.request.Request(url, headers={"User-Agent": USER_AGENT, "Accept": "application/json"})
-    with urllib.request.urlopen(req, timeout=timeout) as resp:
-        return json.loads(resp.read().decode("utf-8"))
+    last_error: Optional[Exception] = None
+
+    for attempt in range(1, MAX_FETCH_ATTEMPTS + 1):
+        try:
+            with urllib.request.urlopen(req, timeout=timeout) as resp:
+                return json.loads(resp.read().decode("utf-8"))
+        except urllib.error.HTTPError as exc:
+            last_error = exc
+            if exc.code not in {429, 500, 502, 503, 504} or attempt == MAX_FETCH_ATTEMPTS:
+                raise
+        except (TimeoutError, socket.timeout, urllib.error.URLError) as exc:
+            last_error = exc
+            if attempt == MAX_FETCH_ATTEMPTS:
+                raise
+
+        time.sleep(attempt)
+
+    assert last_error is not None
+    raise last_error
 
 
 def build_alias_maps(config: dict[str, Any]) -> tuple[dict[str, str], dict[str, str], dict[str, str]]:
@@ -158,7 +179,9 @@ def aggregate_protocols(
     for row in protocol_rows:
         slug = str(row.get("slug") or "")
         category = str(row.get("category") or "")
-        if not slug or row.get("parentProtocol"):
+        if not slug:
+            continue
+        if row.get("parentProtocol") and slug not in slug_to_key:
             continue
         if category in ignored_categories or slug in ignored_slugs:
             continue
@@ -430,7 +453,7 @@ def choose_recommendation(candidate: dict[str, Any]) -> str:
             return "review"
         return "skip"
 
-    if candidate["forum_status"] == "tls_error" and candidate["pre_score"] >= REVIEW_THRESHOLD:
+    if candidate["forum_status"] == "tls_error" and candidate.get("override_forum_match") and candidate["pre_score"] >= REVIEW_THRESHOLD:
         return "review"
 
     return "skip"
@@ -468,10 +491,12 @@ def evaluate_candidate(
         for url in candidate_forum_urls(candidate, config)
     ]
     probe_result = choose_best_probe_result(probe_results)
+    override_url = str(config.get("forum_overrides", {}).get(candidate["canonical_key"], "")).rstrip("/")
     candidate["forum_url"] = probe_result["forum_url"]
     candidate["forum_status"] = probe_result["forum_status"]
     candidate["latest_post_ts"] = probe_result["latest_post_ts"]
     candidate["reason"] = probe_result["reason"]
+    candidate["override_forum_match"] = bool(override_url and probe_result["forum_url"] == override_url)
     candidate["forum_activity_score"] = forum_activity_score(candidate["latest_post_ts"], now=now)
     candidate["score"] = round(
         (0.45 * candidate["tvl_percentile"])
@@ -490,32 +515,38 @@ def evaluate_existing_forums(
     fetcher: Callable[[str], Any] = fetch_json,
 ) -> list[dict[str, Any]]:
     broken: list[dict[str, Any]] = []
-    for dao in daos:
+
+    def inspect_dao(dao: dict[str, str]) -> Optional[dict[str, Any]]:
         name = str(dao.get("name") or "")
         forum_url = str(dao.get("forum_url") or "")
         if not name or not forum_url:
-            continue
+            return None
 
         result = validate_forum_url(forum_url, fetcher=fetcher)
         if result["forum_status"] == "ok":
-            continue
+            return None
 
-        broken.append(
-            {
-                "protocol_name": name,
-                "canonical_key": normalize_key(name),
-                "defillama_slugs": [],
-                "category": "tracked_watchlist",
-                "tvl": 0.0,
-                "fees_7d": 0.0,
-                "forum_url": forum_url.rstrip("/"),
-                "forum_status": result["forum_status"],
-                "latest_post_ts": result["latest_post_ts"],
-                "score": 0.0,
-                "recommendation": "existing_broken",
-                "reason": f"Tracked forum failed validation: {result['reason']}",
-            }
-        )
+        return {
+            "protocol_name": name,
+            "canonical_key": normalize_key(name),
+            "defillama_slugs": [],
+            "category": "tracked_watchlist",
+            "tvl": 0.0,
+            "fees_7d": 0.0,
+            "forum_url": forum_url.rstrip("/"),
+            "forum_status": result["forum_status"],
+            "latest_post_ts": result["latest_post_ts"],
+            "score": 0.0,
+            "recommendation": "existing_broken",
+            "reason": f"Tracked forum failed validation: {result['reason']}",
+        }
+
+    with concurrent.futures.ThreadPoolExecutor(max_workers=MAX_FORUM_WORKERS) as executor:
+        futures = [executor.submit(inspect_dao, dao) for dao in daos]
+        for future in concurrent.futures.as_completed(futures):
+            result = future.result()
+            if result is not None:
+                broken.append(result)
 
     return sorted(broken, key=lambda item: item["protocol_name"].lower())
 
@@ -538,6 +569,7 @@ def serialize_candidate(candidate: dict[str, Any]) -> dict[str, Any]:
         "fees_7d_percentile": round(float(candidate["fees_7d_percentile"]), 4),
         "forum_activity_score": round(float(candidate["forum_activity_score"]), 4),
         "pre_score": round(float(candidate["pre_score"]), 4),
+        "override_forum_match": bool(candidate.get("override_forum_match")),
     }
 
 
@@ -680,10 +712,12 @@ def discover_candidates(
         top_n=top_n,
         override_keys=set(config.get("forum_overrides", {}).keys()),
     )
-    evaluated = [
-        evaluate_candidate(dict(candidate), config=config, now=now, fetcher=fetcher)
-        for candidate in shortlisted
-    ]
+    with concurrent.futures.ThreadPoolExecutor(max_workers=MAX_FORUM_WORKERS) as executor:
+        futures = [
+            executor.submit(evaluate_candidate, dict(candidate), config=config, now=now, fetcher=fetcher)
+            for candidate in shortlisted
+        ]
+        evaluated = [future.result() for future in concurrent.futures.as_completed(futures)]
     serialized = sort_candidates_for_output([serialize_candidate(candidate) for candidate in evaluated])
     existing_broken = evaluate_existing_forums(daos, fetcher=fetcher)
     return serialized, existing_broken

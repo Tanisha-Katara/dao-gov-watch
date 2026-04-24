@@ -107,10 +107,16 @@
   },
   "ignored_slugs": [
     "anemoy-capital",
+    "binance-staked-eth",
+    "binance-staked-sol",
+    "coinbase-wrapped-staked-eth",
     "digift",
+    "gauntlet",
     "gaib",
     "re",
+    "sentora",
     "spiko",
+    "steakhouse-financial",
     "tether-gold",
     "wisdomtree",
     "xstocks"
