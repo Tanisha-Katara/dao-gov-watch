@@ -1,1 +1,41 @@
-[]
+[
+  {
+    "dao": "Aave",
+    "forum_url": "https://governance.aave.com",
+    "post_url": "https://governance.aave.com/t/arfc-aaveshield-modular-security-framework-for-aave-v4/24453",
+    "title": "[ARFC] AaveShield — Modular Security Framework for Aave V4",
+    "post_ts": "2026-04-15T12:11:04.048Z",
+    "detected_ts": "2026-04-24T07:39:09Z",
+    "ingest_mode": "backfill",
+    "opportunity_type": "grant",
+    "call_to_action": "Requesting community feedback on integrating AaveShield into Aave V4 security, with a Phase 1 grant of $50k-$75k.",
+    "confidence": 0.85,
+    "one_line_reason": "This is a grant request tied to a specific technical integration and security framework, with a clear budget range."
+  },
+  {
+    "dao": "Arbitrum",
+    "forum_url": "https://forum.arbitrum.foundation",
+    "post_url": "https://forum.arbitrum.foundation/t/security-service-fixed-scope-mechanism-risk-review-of-upcoming-governance-proposals-kaelrune0/30811",
+    "title": "[Security Service] Fixed-scope mechanism-risk review of upcoming governance proposals — kaelrune0",
+    "post_ts": "2026-04-22T22:25:23.400Z",
+    "detected_ts": "2026-04-24T07:41:38Z",
+    "ingest_mode": "backfill",
+    "opportunity_type": "hire",
+    "call_to_action": "Offer to provide fixed-scope mechanism-risk reviews for Arbitrum executable governance proposals for a 30-day period.",
+    "confidence": 0.9,
+    "one_line_reason": "This is a direct offer of services for a specific scope and duration, akin to a contractor applying for ongoing work."
+  },
+  {
+    "dao": "ENS",
+    "forum_url": "https://discuss.ens.domains",
+    "post_url": "https://discuss.ens.domains/t/ens-retro-draft-final-report/22067/3",
+    "title": "ENS Retro Draft Final Report",
+    "post_ts": "2026-04-20T16:44:22.869Z",
+    "detected_ts": "2026-04-24T07:42:24Z",
+    "ingest_mode": "backfill",
+    "opportunity_type": "hire",
+    "call_to_action": "Seeking a named, publicly accountable individual or entity for a 12-month Governance Advisor role, paid quarterly, with conflict-of-interest restrictions.",
+    "confidence": 0.9,
+    "one_line_reason": "This post outlines a specific role (Governance Advisor) with clear responsibilities, term, compensation structure, and reporting requirements, indicating a hiring opportunity."
+  }
+]
