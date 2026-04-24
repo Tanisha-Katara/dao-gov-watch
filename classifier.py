@@ -17,7 +17,10 @@ from pydantic import BaseModel, Field
 
 
 KEYCHAIN_SERVICE = "gemini-api-key"
-MODEL = "gemini-2.5-flash"
+# As of Apr 2026 the Gemini free tier was cut hard: gemini-2.5-flash is 20 RPD
+# and gemini-2.0-flash is 0 RPD. gemini-2.5-flash-lite still has a usable free
+# bucket and is more than capable for this classification. Override via env if paid.
+MODEL = os.environ.get("GEMINI_MODEL", "gemini-2.5-flash-lite")
 
 
 class Classification(BaseModel):
@@ -156,6 +159,13 @@ def _build_contents(forum_name: str, title: str, excerpt: str) -> list[types.Con
     return contents
 
 
+def _short_error(e: Exception) -> str:
+    """One-line summary of a google-genai exception: status + message prefix."""
+    msg = str(e)
+    head = msg.split("{", 1)[0].strip().rstrip(".")
+    return head[:200] or type(e).__name__
+
+
 def classify_post(forum_name: str, title: str, excerpt: str, client: genai.Client | None = None) -> Classification | None:
     """Classify a single forum post. Returns None on API failure (caller continues)."""
     client = client or get_client()
@@ -172,7 +182,7 @@ def classify_post(forum_name: str, title: str, excerpt: str, client: genai.Clien
             ),
         )
     except Exception as e:
-        print(f"    WARN: Gemini call failed: {type(e).__name__}")
+        print(f"    WARN: Gemini call failed: {_short_error(e)}")
         return None
 
     if response.parsed is not None:
