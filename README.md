@@ -59,7 +59,7 @@ python classifier.py "Arbitrum" "Looking for governance consultants" "We are ope
 
 ## Known forum limitations
 
-- **Curve** (`gov.curve.finance`) sits behind Cloudflare bot protection that requires a JS-capable browser. The lightweight `urllib`-based fetcher is blocked with a 403. Re-add it to `daos.json` if you later add a headless-browser fetch path (e.g. Playwright) — for now it's excluded.
+- **Curve** (`gov.curve.finance`) and **Rocket Pool** (`dao.rocketpool.net`) sit behind Cloudflare bot protection that requires a JS-capable browser. The lightweight `urllib`-based fetcher is blocked with 403. Re-add to `daos.json` if you later add a headless-browser fetch path (e.g. Playwright) — for now they're excluded.
 
 ## Adding a DAO
 

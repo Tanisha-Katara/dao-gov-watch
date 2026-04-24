@@ -1,26 +1,22 @@
-name: Monitor DAO Forums (Live)
+name: Backfill DAO Forums
 
 on:
-  schedule:
-    - cron: '*/30 * * * *'  # Every 30 minutes
   workflow_dispatch:
-  push:
-    branches:
-      - master
-    paths-ignore:
-      - 'dashboard.html'
-      - 'opportunities.json'
-      - 'state.json'
+    inputs:
+      days:
+        description: Backfill window in days
+        required: true
+        default: "30"
 
 concurrency:
-  group: monitor
+  group: backfill
   cancel-in-progress: false
 
 permissions:
   contents: write
 
 jobs:
-  monitor:
+  backfill:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -31,18 +27,18 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
-          cache: 'pip'
+          python-version: "3.11"
+          cache: "pip"
 
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Poll forums and classify (live)
+      - name: Run historical backfill
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-        run: python monitor_governance_posts.py
+        run: python monitor_governance_posts.py --mode backfill --days "${{ github.event.inputs.days }}"
 
       - name: Render dashboard
         run: python render_dashboard.py
@@ -53,8 +49,10 @@ jobs:
           git config --local user.name "dao-gov-watch bot"
           git add state.json opportunities.json dashboard.html
           if ! git diff --staged --quiet; then
-            git commit -m "auto-update $(date -u +'%Y-%m-%dT%H:%MZ')"
+            git commit -m "historical backfill ${DAYS}d $(date -u +'%Y-%m-%dT%H:%MZ')"
             git push
           else
             echo "No changes to commit"
           fi
+        env:
+          DAYS: ${{ github.event.inputs.days }}

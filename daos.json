@@ -12,5 +12,14 @@
   { "name": "Balancer",  "forum_url": "https://forum.balancer.fi" },
   { "name": "dYdX",      "forum_url": "https://dydx.forum" },
   { "name": "1inch",     "forum_url": "https://gov.1inch.io" },
-  { "name": "Yearn",     "forum_url": "https://gov.yearn.fi" }
+  { "name": "Yearn",     "forum_url": "https://gov.yearn.fi" },
+  { "name": "Morpho",    "forum_url": "https://forum.morpho.org" },
+  { "name": "Frax",      "forum_url": "https://gov.frax.finance" },
+  { "name": "Euler",     "forum_url": "https://forum.euler.finance" },
+  { "name": "GMX",       "forum_url": "https://gov.gmx.io" },
+  { "name": "ApeCoin",   "forum_url": "https://forum.apecoin.com" },
+  { "name": "Celo",      "forum_url": "https://forum.celo.org" },
+  { "name": "Moonwell",  "forum_url": "https://forum.moonwell.fi" },
+  { "name": "ZK Nation", "forum_url": "https://forum.zknation.io" },
+  { "name": "Berachain", "forum_url": "https://forum.berachain.com" }
 ]
