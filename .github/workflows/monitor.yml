@@ -57,7 +57,13 @@ jobs:
             # Rebase on any commits that landed while this job ran so the push
             # survives races with other scheduled runs.
             for attempt in 1 2 3; do
-              if git pull --rebase origin master && git push; then
+              # Clear any in-progress rebase from a prior attempt.
+              git rebase --abort 2>/dev/null || true
+              # -Xours: on textual conflict, keep the version we just committed.
+              # Safe for dashboard.html (regenerated each run) and state.json
+              # (max-id logic handles it); opportunities.json is URL-keyed and
+              # cron/backfill rarely race in practice.
+              if git pull --rebase -Xours origin master && git push; then
                 exit 0
               fi
               echo "push attempt $attempt failed, retrying..."

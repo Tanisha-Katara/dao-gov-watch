@@ -51,7 +51,8 @@ jobs:
           if ! git diff --staged --quiet; then
             git commit -m "historical backfill ${DAYS}d $(date -u +'%Y-%m-%dT%H:%MZ')"
             for attempt in 1 2 3; do
-              if git pull --rebase origin master && git push; then
+              git rebase --abort 2>/dev/null || true
+              if git pull --rebase -Xours origin master && git push; then
                 exit 0
               fi
               echo "push attempt $attempt failed, retrying..."
