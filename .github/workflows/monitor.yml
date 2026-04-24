@@ -59,11 +59,12 @@ jobs:
             for attempt in 1 2 3; do
               # Clear any in-progress rebase from a prior attempt.
               git rebase --abort 2>/dev/null || true
-              # -Xours: on textual conflict, keep the version we just committed.
-              # Safe for dashboard.html (regenerated each run) and state.json
-              # (max-id logic handles it); opportunities.json is URL-keyed and
-              # cron/backfill rarely race in practice.
-              if git pull --rebase -Xours origin master && git push; then
+              # -Xtheirs during pull-rebase means "prefer the commit being
+              # replayed" (our just-committed changes). Git flips ours/theirs
+              # semantics during rebase vs merge; see git-rebase(1). Safe for
+              # dashboard.html (regenerated each run), state.json (max-id), and
+              # opportunities.json (URL-keyed dedup).
+              if git pull --rebase -Xtheirs origin master && git push; then
                 exit 0
               fi
               echo "push attempt $attempt failed, retrying..."
