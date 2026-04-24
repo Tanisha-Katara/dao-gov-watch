@@ -3,7 +3,7 @@
   "https://forum.makerdao.com": 106248,
   "https://governance.aave.com": 63601,
   "https://www.comp.xyz": 19109,
-  "https://forum.arbitrum.foundation": 76469,
+  "https://forum.arbitrum.foundation": 76470,
   "https://gov.optimism.io": 46345,
   "https://discuss.ens.domains": 61178,
   "https://research.lido.fi": 25233,
@@ -20,5 +20,9 @@
   "https://forum.celo.org": 27702,
   "https://forum.moonwell.fi": 4823,
   "https://forum.zknation.io": 2435,
-  "https://forum.berachain.com": 2835
+  "https://forum.berachain.com": 2835,
+  "https://dao.rocketpool.net": 11463,
+  "https://discuss.jup.ag": 76834,
+  "https://forum.stakewise.io": 4027,
+  "https://forum.nexusmutual.io": 4598
 }
