@@ -1,15 +1,15 @@
 {
   "https://gov.uniswap.org": 58372,
-  "https://forum.makerdao.com": 106260,
-  "https://governance.aave.com": 63643,
-  "https://www.comp.xyz": 19125,
-  "https://forum.arbitrum.foundation": 76480,
+  "https://forum.makerdao.com": 106269,
+  "https://governance.aave.com": 63689,
+  "https://www.comp.xyz": 19140,
+  "https://forum.arbitrum.foundation": 76492,
   "https://gov.optimism.io": 46345,
-  "https://discuss.ens.domains": 61191,
-  "https://research.lido.fi": 25259,
-  "https://gov.gitcoin.co": 56585,
+  "https://discuss.ens.domains": 61199,
+  "https://research.lido.fi": 25260,
+  "https://gov.gitcoin.co": 56595,
   "https://forum.safe.global": 13763,
-  "https://forum.balancer.fi": 16883,
+  "https://forum.balancer.fi": 16885,
   "https://dydx.forum": 10753,
   "https://gov.1inch.io": 4311,
   "https://gov.yearn.fi": 36013,
@@ -29,5 +29,5 @@
   "https://forum.eigenlayer.xyz": 144818,
   "https://gov.kamino.finance": 1141,
   "https://community.obol.org": 1641,
-  "https://forum.ssv.network": 4814
+  "https://forum.ssv.network": 4816
 }
