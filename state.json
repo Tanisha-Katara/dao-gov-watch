@@ -1,12 +1,12 @@
 {
   "https://gov.uniswap.org": 58375,
-  "https://forum.makerdao.com": 106274,
+  "https://forum.makerdao.com": 106275,
   "https://governance.aave.com": 63716,
   "https://www.comp.xyz": 19147,
   "https://forum.arbitrum.foundation": 76508,
   "https://gov.optimism.io": 46349,
   "https://discuss.ens.domains": 61207,
-  "https://research.lido.fi": 25272,
+  "https://research.lido.fi": 25273,
   "https://gov.gitcoin.co": 56604,
   "https://forum.safe.global": 13763,
   "https://forum.balancer.fi": 16885,
@@ -29,5 +29,16 @@
   "https://forum.eigenlayer.xyz": 144818,
   "https://gov.kamino.finance": 1141,
   "https://community.obol.org": 1641,
-  "https://forum.ssv.network": 4816
+  "https://forum.ssv.network": 4816,
+  "https://forum.staderlabs.com": 3053,
+  "https://gov.renzoprotocol.com": 392,
+  "https://forum.babylon.foundation": 1233,
+  "https://forum.thegraph.com": 13855,
+  "https://forum.decentraland.org": 109859,
+  "https://gov.indexcoop.com": 17377,
+  "https://community.metamask.io": 89530,
+  "https://forum.cosmos.network": 39321,
+  "https://forum.osmosis.zone": 9192,
+  "https://forum.hop.exchange": 3781,
+  "https://forum.mantle.xyz": 19651
 }
