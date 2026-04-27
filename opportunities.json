@@ -24,5 +24,44 @@
     "call_to_action": "Seeking a named, publicly accountable individual or entity for a 12-month Governance Advisor role, paid quarterly, with conflict-of-interest restrictions.",
     "confidence": 0.9,
     "one_line_reason": "This post outlines a specific role (Governance Advisor) with clear responsibilities, term, compensation structure, and reporting requirements, indicating a hiring opportunity."
+  },
+  {
+    "dao": "Compound",
+    "forum_url": "https://www.comp.xyz",
+    "post_url": "https://www.comp.xyz/t/establishment-of-treasury-management-program-and-treasury-management-committee/7710",
+    "title": "Establishment of Treasury Management Program and Treasury Management Committee",
+    "post_ts": "2026-04-06T19:48:03.818Z",
+    "detected_ts": "2026-04-27T07:55:49Z",
+    "ingest_mode": "backfill",
+    "opportunity_type": "rfp",
+    "call_to_action": "Compound DAO is seeking proposals for treasury management programs and committees to manage its $120M treasury.",
+    "confidence": 0.9,
+    "one_line_reason": "The DAO is outlining a need for structured treasury management and referencing a prior successful RFP process, indicating a likely future RFP for external services."
+  },
+  {
+    "dao": "Arbitrum",
+    "forum_url": "https://forum.arbitrum.foundation",
+    "post_url": "https://forum.arbitrum.foundation/t/dda-3-0-dev-tooling-post-audit-commit-drift-review-harness-on-arbitrum-bold-m1-memo-already-shipped-single-paid-milestone-ask/30820",
+    "title": "[DDA 3.0 Dev Tooling] Post-audit commit-drift review harness on Arbitrum BoLD — M1 memo already shipped, single paid milestone ask",
+    "post_ts": "2026-04-24T11:56:12.327Z",
+    "detected_ts": "2026-04-27T07:59:50Z",
+    "ingest_mode": "backfill",
+    "opportunity_type": "rfp",
+    "call_to_action": "Submit for $5,000 USDC to deliver a full report and harness for Arbitrum BoLD commit-drift review.",
+    "confidence": 0.85,
+    "one_line_reason": "This is a fixed-scope, paid milestone ask for a specific deliverable (report + harness) related to Arbitrum's development tooling."
+  },
+  {
+    "dao": "ZK Nation",
+    "forum_url": "https://forum.zknation.io",
+    "post_url": "https://forum.zknation.io/t/rfc-governance-platform-migration-staking-continuity/942",
+    "title": "[RFC] Governance Platform Migration & Staking Continuity",
+    "post_ts": "2026-03-31T10:14:20.433Z",
+    "detected_ts": "2026-04-27T08:07:13Z",
+    "ingest_mode": "backfill",
+    "opportunity_type": "advisory_request",
+    "call_to_action": "Community discussion needed to evaluate long-term governance platform and ensure staking continuity after Tally winds down.",
+    "confidence": 0.7,
+    "one_line_reason": "While not a direct RFP, the post highlights a critical need for a new governance platform and asks for community/foundation input on requirements and transition, indicating a potential need for external expertise."
   }
 ]
