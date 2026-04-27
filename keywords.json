@@ -12,12 +12,17 @@
   ],
   "ask_surface": [
     "\\bRFP\\b",
+    "\\bRFI\\b",
+    "\\bRFQ\\b",
     "request for proposals?",
     "call for proposals?",
     "scope of work",
-    "submit (a )?proposal",
-    "(looking|seeking|hiring).{0,60}(advisor|consultant|researcher|firm|partner|vendor|agency|strategist)",
-    "we (need|are looking|are seeking).{0,60}(advisor|consultant|research|researcher|firm|partner|vendor|help|support)",
-    "(reply|email|contact).{0,40}(with|to).{0,40}(proposal|interest|experience|portfolio)"
+    "submit (a |an |your )?(proposal|application|expression)",
+    "open (role|position|application|call|round)",
+    "applications? open",
+    "apply (by|via|here|now|through)",
+    "(looking|seeking|hiring|wanted|invite)",
+    "we (need|are looking|are seeking|want|require|invite)",
+    "(reply|email|contact|dm).{0,40}(with|to|if)"
   ]
 }

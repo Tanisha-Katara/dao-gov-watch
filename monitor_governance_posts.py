@@ -24,7 +24,7 @@ from classifier import classify_post, get_client
 
 BASE = Path(__file__).parent
 USER_AGENT = "dao-gov-watch/0.1 (governance consulting lead monitor)"
-CONFIDENCE_THRESHOLD = 0.7
+CONFIDENCE_THRESHOLD = 0.6
 EXCERPT_MAX_CHARS = 1500
 FETCH_TIMEOUT = 20
 DEFAULT_BACKFILL_DAYS = 30

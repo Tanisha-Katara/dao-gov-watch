@@ -29,5 +29,17 @@
   { "name": "Obol",      "forum_url": "https://community.obol.org" },
   { "name": "SSV Network", "forum_url": "https://forum.ssv.network" },
   { "name": "StakeWise", "forum_url": "https://forum.stakewise.io" },
-  { "name": "Nexus Mutual", "forum_url": "https://forum.nexusmutual.io" }
+  { "name": "Nexus Mutual", "forum_url": "https://forum.nexusmutual.io" },
+  { "name": "Stader",    "forum_url": "https://forum.staderlabs.com" },
+  { "name": "Renzo",     "forum_url": "https://gov.renzoprotocol.com" },
+  { "name": "Babylon",   "forum_url": "https://forum.babylon.foundation" },
+  { "name": "The Graph", "forum_url": "https://forum.thegraph.com" },
+  { "name": "Decentraland", "forum_url": "https://forum.decentraland.org" },
+  { "name": "Index Coop", "forum_url": "https://gov.indexcoop.com" },
+  { "name": "Gnosis",    "forum_url": "https://forum.gnosis.io" },
+  { "name": "MetaMask",  "forum_url": "https://community.metamask.io" },
+  { "name": "Cosmos Hub", "forum_url": "https://forum.cosmos.network" },
+  { "name": "Osmosis",   "forum_url": "https://forum.osmosis.zone" },
+  { "name": "Hop",       "forum_url": "https://forum.hop.exchange" },
+  { "name": "Mantle",    "forum_url": "https://forum.mantle.xyz" }
 ]
