@@ -225,6 +225,130 @@ h2{
   margin-top:20px;
   align-items:center;
 }
+.feedback-bar,.summary-actions,.sync-row{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  align-items:center;
+}
+.feedback-bar{
+  justify-content:space-between;
+}
+.feedback-actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+}
+.feedback-btn,.ghost-btn{
+  appearance:none;
+  border:1px solid var(--line);
+  border-radius:999px;
+  background:rgba(255,255,255,0.86);
+  color:var(--ink);
+  cursor:pointer;
+  font:inherit;
+  font-size:12px;
+  padding:9px 13px;
+  transition:transform 120ms ease, background 120ms ease, border-color 120ms ease, color 120ms ease;
+}
+.feedback-btn:hover,.ghost-btn:hover{
+  transform:translateY(-1px);
+}
+.feedback-btn.is-active,.ghost-btn.is-active{
+  border-color:transparent;
+}
+.feedback-btn-done.is-active{
+  background:rgba(15,118,110,0.12);
+  color:var(--teal);
+}
+.feedback-btn-not-relevant.is-active{
+  background:rgba(181,84,47,0.12);
+  color:var(--accent-strong);
+}
+.ghost-btn{
+  background:transparent;
+}
+.fit-chip{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:7px 11px;
+  border-radius:999px;
+  border:1px solid var(--line);
+  background:rgba(255,255,255,0.82);
+  color:var(--muted);
+  font-size:12px;
+}
+.fit-chip.is-positive{
+  background:rgba(15,118,110,0.1);
+  color:var(--teal);
+  border-color:rgba(15,118,110,0.22);
+}
+.fit-chip.is-negative{
+  background:rgba(181,84,47,0.12);
+  color:var(--accent-strong);
+  border-color:rgba(181,84,47,0.2);
+}
+.feedback-summary{
+  margin-top:18px;
+  padding-top:18px;
+  border-top:1px solid var(--line);
+}
+.summary-grid{
+  display:grid;
+  gap:12px;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  margin:14px 0;
+}
+.summary-item{
+  padding:12px 14px;
+  border:1px solid var(--line);
+  border-radius:var(--radius-md);
+  background:rgba(255,255,255,0.7);
+}
+.summary-value{
+  display:block;
+  font-family:"Space Grotesk","Avenir Next","Helvetica Neue",sans-serif;
+  font-size:24px;
+  line-height:1;
+  margin-bottom:6px;
+}
+.summary-label{
+  display:block;
+  font-size:11px;
+  letter-spacing:0.12em;
+  text-transform:uppercase;
+  color:var(--muted);
+}
+.sync-row{
+  margin-top:14px;
+}
+.sync-input{
+  flex:1 1 260px;
+  min-width:220px;
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:12px 14px;
+  background:rgba(255,255,255,0.9);
+  color:var(--ink);
+  font:inherit;
+}
+.sync-status,.smart-note{
+  font-size:12px;
+  color:var(--muted);
+}
+.sync-status.is-success{color:var(--teal)}
+.sync-status.is-error{color:var(--accent-strong)}
+.sync-status.is-warning{color:var(--gold)}
+.op-card.is-done,.op-card.is-not-relevant,.op-card.is-smart-hidden{
+  opacity:0.84;
+}
+.op-card.is-done{
+  border-color:rgba(15,118,110,0.22);
+}
+.op-card.is-not-relevant,.op-card.is-smart-hidden{
+  border-color:rgba(181,84,47,0.2);
+}
 .score,.confidence{
   padding:7px 11px;
   background:var(--accent-soft);
@@ -234,7 +358,7 @@ h2{
 .feed-sub{margin:8px 0 0}
 .filters{
   display:grid;
-  grid-template-columns:repeat(4,minmax(0,1fr));
+  grid-template-columns:repeat(5,minmax(0,1fr));
   gap:12px;
   align-items:end;
   margin-bottom:18px;
@@ -311,14 +435,15 @@ h2{
 }
 @media (max-width:980px){
   .hero,.info-grid,.empty-layout,.board-grid,.feed-grid{grid-template-columns:1fr}
-  .filters{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .filters,.summary-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
 @media (max-width:640px){
   .wrap{padding:20px 14px 42px}
   .hero-copy,.hero-side,.section-card,.empty-state,.notes-card,.feature-card,.feed-panel{padding:20px}
   h1{font-size:clamp(2.4rem,14vw,3.8rem)}
-  .stat-grid,.mini-grid,.filters,.feed-grid{grid-template-columns:1fr}
+  .stat-grid,.mini-grid,.filters,.feed-grid,.summary-grid{grid-template-columns:1fr}
   .section-head,.feed-head,.feature-footer,.footer{flex-direction:column;align-items:flex-start}
+  .feedback-bar,.sync-row{align-items:stretch}
 }
 </style>
 </head>
@@ -331,7 +456,7 @@ h2{
       <p class="sub">Signals for protocol-originated governance, tokenomics, go-to-market, and research work pulled from top DAO forums. Built to be checked in under a minute.</p>
       <div class="meta-row">
         <span class="pill status-pill" id="status-pill">Checking freshness...</span>
-        <span class="pill">Updated 2026-04-27 08:10 UTC</span>
+        <span class="pill">Updated 2026-04-27 11:36 UTC</span>
         <span class="pill">Next scheduled scan 2026-04-28 00:00 UTC</span>
         <span class="pill">Refreshes every 24 hours</span>
         <span class="pill">Confidence 0.70+</span>
@@ -377,38 +502,75 @@ h2{
   
 <section class="board-grid">
   
-<section class="panel feature-card">
+<section class="panel feature-card" id="feature-card" data-post-url="https://forum.arbitrum.foundation/t/dda-3-0-dev-tooling-post-audit-commit-drift-review-harness-on-arbitrum-bold-m1-memo-already-shipped-single-paid-milestone-ask/30820" data-dao="Arbitrum" data-type="rfp" data-type-label="RFP" data-title="[DDA 3.0 Dev Tooling] Post-audit commit-drift review harness on Arbitrum BoLD — M1 memo already shipped, single paid milestone ask" data-cta="Submit for $5,000 USDC to deliver a full report and harness for Arbitrum BoLD commit-drift review." data-reason="This is a fixed-scope, paid milestone ask for a specific deliverable (report + harness) related to Arbitrum&#x27;s development tooling." data-conf="0.850" data-post-ts="2026-04-24T11:56:12.327Z" data-ingest-mode="backfill">
   <div class="section-head">
     <div>
       <div class="section-kicker">Latest Signal</div>
       <h2>Most recent opportunity</h2>
     </div>
-    <span class="pill">Posted 2026-04-24 11:56 UTC</span>
+    <span class="pill" id="feature-posted">Posted 2026-04-24 11:56 UTC</span>
   </div>
-  <div class="feature-meta">
+  <div class="feature-meta" id="feature-meta">
     <span class="chip chip-dao">Arbitrum</span>
     <span class="type type-rfp">RFP</span>
     <span class="badge-historical">Historical</span>
     
   </div>
-  <a class="feature-title" href="https://forum.arbitrum.foundation/t/dda-3-0-dev-tooling-post-audit-commit-drift-review-harness-on-arbitrum-bold-m1-memo-already-shipped-single-paid-milestone-ask/30820" target="_blank" rel="noopener">[DDA 3.0 Dev Tooling] Post-audit commit-drift review harness on Arbitrum BoLD — M1 memo already shipped, single paid milestone ask</a>
-  <p class="feature-cta">Submit for $5,000 USDC to deliver a full report and harness for Arbitrum BoLD commit-drift review.</p>
-  <p class="feature-reason">This is a fixed-scope, paid milestone ask for a specific deliverable (report + harness) related to Arbitrum&#x27;s development tooling.</p>
+  <a class="feature-title" id="feature-title" href="https://forum.arbitrum.foundation/t/dda-3-0-dev-tooling-post-audit-commit-drift-review-harness-on-arbitrum-bold-m1-memo-already-shipped-single-paid-milestone-ask/30820" target="_blank" rel="noopener">[DDA 3.0 Dev Tooling] Post-audit commit-drift review harness on Arbitrum BoLD — M1 memo already shipped, single paid milestone ask</a>
+  <p class="feature-cta" id="feature-cta">Submit for $5,000 USDC to deliver a full report and harness for Arbitrum BoLD commit-drift review.</p>
+  <p class="feature-reason" id="feature-reason">This is a fixed-scope, paid milestone ask for a specific deliverable (report + harness) related to Arbitrum&#x27;s development tooling.</p>
+  <div class="feedback-bar feature-feedback">
+    
+<div class="feedback-actions" data-feedback-scope="feature">
+  <button type="button" class="feedback-btn feedback-btn-done" data-feedback-action="done">Done</button>
+  <button type="button" class="feedback-btn feedback-btn-not-relevant" data-feedback-action="not_relevant">Not relevant</button>
+</div>
+
+    <span class="fit-chip" id="feature-fit">Neutral fit</span>
+  </div>
   <div class="feature-footer">
-    <span class="score">Confidence 0.85</span>
-    <a class="op-link" href="https://forum.arbitrum.foundation/t/dda-3-0-dev-tooling-post-audit-commit-drift-review-harness-on-arbitrum-bold-m1-memo-already-shipped-single-paid-milestone-ask/30820" target="_blank" rel="noopener">Open forum post</a>
+    <span class="score" id="feature-score">Confidence 0.85</span>
+    <a class="op-link" id="feature-link" href="https://forum.arbitrum.foundation/t/dda-3-0-dev-tooling-post-audit-commit-drift-review-harness-on-arbitrum-bold-m1-memo-already-shipped-single-paid-milestone-ask/30820" target="_blank" rel="noopener">Open forum post</a>
   </div>
 </section>
 
   <section class="panel notes-card">
-    <div class="section-kicker">Reading Guide</div>
-    <h2>Designed for fast scanning</h2>
-    <p class="empty-lead">Every published card is a protocol-originated ask that passed both the regex screen and the Gemini classifier. Historical labels mark posts imported by the one-time backfill, while live hits will appear without that badge.</p>
+    <div class="section-kicker">Learning Engine</div>
+    <h2>Teach the board what matters</h2>
+    <p class="empty-lead">Mark <strong>Done</strong> when a lead was relevant and <strong>Not relevant</strong> when you never want more of that pattern. The front end learns from the DAO, the opportunity type, and the wording in the post. If GitHub sync is connected, the backend can use the same feedback on future runs too.</p>
     <ul class="rules">
       <li><strong>Posted</strong> shows the original forum post timestamp, not when this dashboard ingested the opportunity.</li>
       <li><strong>Historical</strong> means the opportunity was imported through the one-time 30-day backfill.</li>
       <li><strong>New</strong> marks forum posts from the last 24 hours.</li>
+      <li><strong>Low fit</strong> means your prior feedback suggests the opportunity is likely not worth your attention.</li>
     </ul>
+    <div class="feedback-summary">
+      <div class="mini-label">Personalization</div>
+      <div class="summary-grid">
+        <div class="summary-item">
+          <span class="summary-value" id="feedback-done-count">0</span>
+          <span class="summary-label">Marked done</span>
+        </div>
+        <div class="summary-item">
+          <span class="summary-value" id="feedback-not-relevant-count">0</span>
+          <span class="summary-label">Not relevant</span>
+        </div>
+        <div class="summary-item">
+          <span class="summary-value" id="feedback-smart-hidden-count">0</span>
+          <span class="summary-label">Auto-hidden</span>
+        </div>
+      </div>
+      <div class="summary-actions">
+        <button type="button" class="ghost-btn" id="reset-feedback">Reset feedback</button>
+        <span class="sync-status" id="feedback-status">Feedback is stored in this browser until GitHub sync is connected.</span>
+      </div>
+      <div class="sync-row">
+        <input id="github-token" class="sync-input" type="password" placeholder="Optional fine-grained GitHub token for repo sync">
+        <button type="button" class="ghost-btn" id="save-token">Save token</button>
+        <button type="button" class="ghost-btn" id="clear-token">Clear token</button>
+      </div>
+      <p class="smart-note">Use a fine-grained token with read/write access to <code>Contents</code> for this repo only. The dashboard writes feedback to <code>feedback.json</code>, which future monitor runs can read as preference signals.</p>
+    </div>
   </section>
 </section>
 
@@ -427,6 +589,14 @@ h2{
     <label>Type
       <select id="f-type"><option value="">All types</option><option value="advisory_request">Advisory</option><option value="hire">Hire</option><option value="rfp">RFP</option></select>
     </label>
+    <label>Status
+      <select id="f-status">
+        <option value="open">Open only</option>
+        <option value="done">Done</option>
+        <option value="not_relevant">Not relevant</option>
+        <option value="all">All</option>
+      </select>
+    </label>
     <label>Min confidence <span class="conf-readout" id="f-conf-val">0.70</span>
       <input type="range" id="f-conf" min="0" max="1" step="0.05" value="0.70">
     </label>
@@ -434,7 +604,7 @@ h2{
   </div>
   <div class="feed-grid">
     
-<article class="op-card" data-dao="Arbitrum" data-type="rfp" data-conf="0.850">
+<article class="op-card" data-post-url="https://forum.arbitrum.foundation/t/dda-3-0-dev-tooling-post-audit-commit-drift-review-harness-on-arbitrum-bold-m1-memo-already-shipped-single-paid-milestone-ask/30820" data-dao="Arbitrum" data-type="rfp" data-type-label="RFP" data-title="[DDA 3.0 Dev Tooling] Post-audit commit-drift review harness on Arbitrum BoLD — M1 memo already shipped, single paid milestone ask" data-cta="Submit for $5,000 USDC to deliver a full report and harness for Arbitrum BoLD commit-drift review." data-reason="This is a fixed-scope, paid milestone ask for a specific deliverable (report + harness) related to Arbitrum&#x27;s development tooling." data-conf="0.850" data-post-ts="2026-04-24T11:56:12.327Z" data-ingest-mode="backfill">
   <div class="op-top">
     <span class="timestamp">Posted 2026-04-24 11:56 UTC</span>
     <span class="confidence">0.85</span>
@@ -448,10 +618,19 @@ h2{
   <a class="op-title" href="https://forum.arbitrum.foundation/t/dda-3-0-dev-tooling-post-audit-commit-drift-review-harness-on-arbitrum-bold-m1-memo-already-shipped-single-paid-milestone-ask/30820" target="_blank" rel="noopener">[DDA 3.0 Dev Tooling] Post-audit commit-drift review harness on Arbitrum BoLD — M1 memo already shipped, single paid milestone ask</a>
   <p class="op-cta">Submit for $5,000 USDC to deliver a full report and harness for Arbitrum BoLD commit-drift review.</p>
   <p class="op-reason">This is a fixed-scope, paid milestone ask for a specific deliverable (report + harness) related to Arbitrum&#x27;s development tooling.</p>
+  <div class="feedback-bar">
+    
+<div class="feedback-actions" data-feedback-scope="card">
+  <button type="button" class="feedback-btn feedback-btn-done" data-feedback-action="done">Done</button>
+  <button type="button" class="feedback-btn feedback-btn-not-relevant" data-feedback-action="not_relevant">Not relevant</button>
+</div>
+
+    <span class="fit-chip" data-fit-badge>Neutral fit</span>
+  </div>
   <a class="op-link" href="https://forum.arbitrum.foundation/t/dda-3-0-dev-tooling-post-audit-commit-drift-review-harness-on-arbitrum-bold-m1-memo-already-shipped-single-paid-milestone-ask/30820" target="_blank" rel="noopener">Open forum post</a>
 </article>
 
-<article class="op-card" data-dao="ENS" data-type="hire" data-conf="0.900">
+<article class="op-card" data-post-url="https://discuss.ens.domains/t/ens-retro-draft-final-report/22067/3" data-dao="ENS" data-type="hire" data-type-label="Hire" data-title="ENS Retro Draft Final Report" data-cta="Seeking a named, publicly accountable individual or entity for a 12-month Governance Advisor role, paid quarterly, with conflict-of-interest restrictions." data-reason="This post outlines a specific role (Governance Advisor) with clear responsibilities, term, compensation structure, and reporting requirements, indicating a hiring opportunity." data-conf="0.900" data-post-ts="2026-04-20T16:44:22.869Z" data-ingest-mode="backfill">
   <div class="op-top">
     <span class="timestamp">Posted 2026-04-20 16:44 UTC</span>
     <span class="confidence">0.90</span>
@@ -465,10 +644,19 @@ h2{
   <a class="op-title" href="https://discuss.ens.domains/t/ens-retro-draft-final-report/22067/3" target="_blank" rel="noopener">ENS Retro Draft Final Report</a>
   <p class="op-cta">Seeking a named, publicly accountable individual or entity for a 12-month Governance Advisor role, paid quarterly, with conflict-of-interest restrictions.</p>
   <p class="op-reason">This post outlines a specific role (Governance Advisor) with clear responsibilities, term, compensation structure, and reporting requirements, indicating a hiring opportunity.</p>
+  <div class="feedback-bar">
+    
+<div class="feedback-actions" data-feedback-scope="card">
+  <button type="button" class="feedback-btn feedback-btn-done" data-feedback-action="done">Done</button>
+  <button type="button" class="feedback-btn feedback-btn-not-relevant" data-feedback-action="not_relevant">Not relevant</button>
+</div>
+
+    <span class="fit-chip" data-fit-badge>Neutral fit</span>
+  </div>
   <a class="op-link" href="https://discuss.ens.domains/t/ens-retro-draft-final-report/22067/3" target="_blank" rel="noopener">Open forum post</a>
 </article>
 
-<article class="op-card" data-dao="Compound" data-type="rfp" data-conf="0.900">
+<article class="op-card" data-post-url="https://www.comp.xyz/t/establishment-of-treasury-management-program-and-treasury-management-committee/7710" data-dao="Compound" data-type="rfp" data-type-label="RFP" data-title="Establishment of Treasury Management Program and Treasury Management Committee" data-cta="Compound DAO is seeking proposals for treasury management programs and committees to manage its $120M treasury." data-reason="The DAO is outlining a need for structured treasury management and referencing a prior successful RFP process, indicating a likely future RFP for external services." data-conf="0.900" data-post-ts="2026-04-06T19:48:03.818Z" data-ingest-mode="backfill">
   <div class="op-top">
     <span class="timestamp">Posted 2026-04-06 19:48 UTC</span>
     <span class="confidence">0.90</span>
@@ -482,10 +670,19 @@ h2{
   <a class="op-title" href="https://www.comp.xyz/t/establishment-of-treasury-management-program-and-treasury-management-committee/7710" target="_blank" rel="noopener">Establishment of Treasury Management Program and Treasury Management Committee</a>
   <p class="op-cta">Compound DAO is seeking proposals for treasury management programs and committees to manage its $120M treasury.</p>
   <p class="op-reason">The DAO is outlining a need for structured treasury management and referencing a prior successful RFP process, indicating a likely future RFP for external services.</p>
+  <div class="feedback-bar">
+    
+<div class="feedback-actions" data-feedback-scope="card">
+  <button type="button" class="feedback-btn feedback-btn-done" data-feedback-action="done">Done</button>
+  <button type="button" class="feedback-btn feedback-btn-not-relevant" data-feedback-action="not_relevant">Not relevant</button>
+</div>
+
+    <span class="fit-chip" data-fit-badge>Neutral fit</span>
+  </div>
   <a class="op-link" href="https://www.comp.xyz/t/establishment-of-treasury-management-program-and-treasury-management-committee/7710" target="_blank" rel="noopener">Open forum post</a>
 </article>
 
-<article class="op-card" data-dao="ZK Nation" data-type="advisory_request" data-conf="0.700">
+<article class="op-card" data-post-url="https://forum.zknation.io/t/rfc-governance-platform-migration-staking-continuity/942" data-dao="ZK Nation" data-type="advisory_request" data-type-label="Advisory" data-title="[RFC] Governance Platform Migration &amp; Staking Continuity" data-cta="Community discussion needed to evaluate long-term governance platform and ensure staking continuity after Tally winds down." data-reason="While not a direct RFP, the post highlights a critical need for a new governance platform and asks for community/foundation input on requirements and transition, indicating a potential need for external expertise." data-conf="0.700" data-post-ts="2026-03-31T10:14:20.433Z" data-ingest-mode="backfill">
   <div class="op-top">
     <span class="timestamp">Posted 2026-03-31 10:14 UTC</span>
     <span class="confidence">0.70</span>
@@ -499,6 +696,15 @@ h2{
   <a class="op-title" href="https://forum.zknation.io/t/rfc-governance-platform-migration-staking-continuity/942" target="_blank" rel="noopener">[RFC] Governance Platform Migration &amp; Staking Continuity</a>
   <p class="op-cta">Community discussion needed to evaluate long-term governance platform and ensure staking continuity after Tally winds down.</p>
   <p class="op-reason">While not a direct RFP, the post highlights a critical need for a new governance platform and asks for community/foundation input on requirements and transition, indicating a potential need for external expertise.</p>
+  <div class="feedback-bar">
+    
+<div class="feedback-actions" data-feedback-scope="card">
+  <button type="button" class="feedback-btn feedback-btn-done" data-feedback-action="done">Done</button>
+  <button type="button" class="feedback-btn feedback-btn-not-relevant" data-feedback-action="not_relevant">Not relevant</button>
+</div>
+
+    <span class="fit-chip" data-fit-badge>Neutral fit</span>
+  </div>
   <a class="op-link" href="https://forum.zknation.io/t/rfc-governance-platform-migration-staking-continuity/942" target="_blank" rel="noopener">Open forum post</a>
 </article>
 
@@ -513,19 +719,246 @@ h2{
   </div>
 </div>
 <script>
-const UPDATED_AT = "2026-04-27T08:10:40.075169+00:00";
+const UPDATED_AT = "2026-04-27T11:36:07.582347+00:00";
 const REFRESH_CADENCE_MINUTES = 1440;
 const FRESH_MAX_MINUTES = REFRESH_CADENCE_MINUTES + 120;
 const DELAYED_MAX_MINUTES = (REFRESH_CADENCE_MINUTES * 2) + 120;
+const FEEDBACK_KEY = 'daoGovWatchFeedbackV1';
+const GITHUB_TOKEN_KEY = 'daoGovWatchGithubTokenV1';
+const GITHUB_BRANCH = 'master';
+const STATUS_OPEN = 'open';
+const STATUS_DONE = 'done';
+const STATUS_NOT_RELEVANT = 'not_relevant';
+const STATUS_ALL = 'all';
+const SMART_HIDE_THRESHOLD = -1.75;
+const MIN_FEEDBACK_FOR_SMART_HIDE = 2;
+const STOP_WORDS = new Set([
+  'about','advisor','advisory','again','apply','around','because','clear','consulting','could','deliver',
+  'external','forum','governance','great','hello','helps','hiring','into','just','looking','maybe',
+  'named','need','outside','paid','post','proposal','protocol','quarterly','reply','report','research',
+  'review','role','scope','seeking','should','signal','similar','still','support','their','there',
+  'these','this','thread','through','tokenomics','update','vendor','with','work'
+]);
 
 const cards = Array.from(document.querySelectorAll('.op-card'));
+const feedGrid = document.querySelector('.feed-grid');
 const daoSel = document.getElementById('f-dao');
 const typeSel = document.getElementById('f-type');
+const statusSel = document.getElementById('f-status');
 const confRange = document.getElementById('f-conf');
 const confVal = document.getElementById('f-conf-val');
 const visibleCount = document.getElementById('visible-count');
 const emptyFilter = document.getElementById('empty-filter');
 const statusPill = document.getElementById('status-pill');
+const feedbackDoneCount = document.getElementById('feedback-done-count');
+const feedbackNotRelevantCount = document.getElementById('feedback-not-relevant-count');
+const feedbackSmartHiddenCount = document.getElementById('feedback-smart-hidden-count');
+const feedbackStatus = document.getElementById('feedback-status');
+const resetFeedbackBtn = document.getElementById('reset-feedback');
+const githubTokenInput = document.getElementById('github-token');
+const saveTokenBtn = document.getElementById('save-token');
+const clearTokenBtn = document.getElementById('clear-token');
+const featureCard = document.getElementById('feature-card');
+const featurePosted = document.getElementById('feature-posted');
+const featureMeta = document.getElementById('feature-meta');
+const featureTitle = document.getElementById('feature-title');
+const featureCta = document.getElementById('feature-cta');
+const featureReason = document.getElementById('feature-reason');
+const featureScore = document.getElementById('feature-score');
+const featureLink = document.getElementById('feature-link');
+const featureFit = document.getElementById('feature-fit');
+
+for (const [index, card] of cards.entries()) {
+  card.dataset.originalIndex = String(index);
+}
+
+function defaultStore() {
+  return { version: 1, updated_at: null, items: {} };
+}
+
+function normalizeStore(raw) {
+  const store = defaultStore();
+  if (!raw || typeof raw !== 'object') {
+    return store;
+  }
+  if (typeof raw.updated_at === 'string') {
+    store.updated_at = raw.updated_at;
+  }
+  const sourceItems = raw.items && typeof raw.items === 'object' ? raw.items : raw;
+  if (!sourceItems || typeof sourceItems !== 'object') {
+    return store;
+  }
+  for (const [postUrl, entry] of Object.entries(sourceItems)) {
+    if (!postUrl || !entry || typeof entry !== 'object') {
+      continue;
+    }
+    store.items[postUrl] = {
+      label: typeof entry.label === 'string' ? entry.label : '',
+      removed: Boolean(entry.removed),
+      dao: typeof entry.dao === 'string' ? entry.dao : '',
+      opportunity_type: typeof entry.opportunity_type === 'string' ? entry.opportunity_type : '',
+      title: typeof entry.title === 'string' ? entry.title : '',
+      call_to_action: typeof entry.call_to_action === 'string' ? entry.call_to_action : '',
+      one_line_reason: typeof entry.one_line_reason === 'string' ? entry.one_line_reason : '',
+      updated_at: typeof entry.updated_at === 'string' ? entry.updated_at : null
+    };
+  }
+  return store;
+}
+
+function isoMs(value) {
+  const millis = value ? Date.parse(value) : 0;
+  return Number.isFinite(millis) ? millis : 0;
+}
+
+function mergeStores(base, incoming) {
+  const left = normalizeStore(base);
+  const right = normalizeStore(incoming);
+  const merged = defaultStore();
+  merged.updated_at = isoMs(right.updated_at) > isoMs(left.updated_at) ? right.updated_at : left.updated_at;
+
+  for (const [postUrl, entry] of Object.entries(left.items)) {
+    merged.items[postUrl] = entry;
+  }
+  for (const [postUrl, entry] of Object.entries(right.items)) {
+    const current = merged.items[postUrl];
+    if (!current || isoMs(entry.updated_at) >= isoMs(current.updated_at)) {
+      merged.items[postUrl] = entry;
+    }
+  }
+  return merged;
+}
+
+function loadLocalStore() {
+  try {
+    const raw = window.localStorage.getItem(FEEDBACK_KEY);
+    return raw ? normalizeStore(JSON.parse(raw)) : defaultStore();
+  } catch (error) {
+    return defaultStore();
+  }
+}
+
+function saveLocalStore() {
+  try {
+    window.localStorage.setItem(FEEDBACK_KEY, JSON.stringify(feedbackStore));
+  } catch (error) {
+    // Ignore localStorage failures and keep the in-memory store working.
+  }
+}
+
+function loadGithubToken() {
+  try {
+    return window.localStorage.getItem(GITHUB_TOKEN_KEY) || '';
+  } catch (error) {
+    return '';
+  }
+}
+
+function saveGithubToken(token) {
+  try {
+    if (token) {
+      window.localStorage.setItem(GITHUB_TOKEN_KEY, token);
+    } else {
+      window.localStorage.removeItem(GITHUB_TOKEN_KEY);
+    }
+  } catch (error) {
+    // Ignore persistence failures.
+  }
+}
+
+function normalizeTokens(text) {
+  const lowered = (text || '').toLowerCase();
+  const matches = lowered.match(/[a-z0-9]{4,}/g) || [];
+  return Array.from(new Set(matches.filter((token) => !STOP_WORDS.has(token))));
+}
+
+function addWeight(bucket, key, delta) {
+  if (!key) return;
+  bucket[key] = Number(((bucket[key] || 0) + delta).toFixed(3));
+}
+
+function buildProfile(store) {
+  const profile = {
+    total: 0,
+    done: 0,
+    notRelevant: 0,
+    dao: {},
+    type: {},
+    tokens: {}
+  };
+
+  for (const entry of Object.values(store.items || {})) {
+    if (!entry || entry.removed) continue;
+    const label = entry.label;
+    if (label !== STATUS_DONE && label !== STATUS_NOT_RELEVANT) continue;
+
+    const positive = label === STATUS_DONE;
+    profile.total += 1;
+    if (positive) {
+      profile.done += 1;
+    } else {
+      profile.notRelevant += 1;
+    }
+
+    const direction = positive ? 1 : -1;
+    addWeight(profile.dao, entry.dao || '', direction * 2.4);
+    addWeight(profile.type, entry.opportunity_type || '', direction * 1.6);
+
+    const tokenSource = [
+      entry.dao || '',
+      entry.opportunity_type || '',
+      entry.title || '',
+      entry.call_to_action || '',
+      entry.one_line_reason || ''
+    ].join(' ');
+    for (const token of normalizeTokens(tokenSource)) {
+      addWeight(profile.tokens, token, direction * 0.45);
+    }
+  }
+  return profile;
+}
+
+function feedbackEntryFor(postUrl) {
+  const entry = feedbackStore.items[postUrl];
+  if (!entry || entry.removed) return null;
+  return entry;
+}
+
+function explicitLabelFor(postUrl) {
+  const entry = feedbackEntryFor(postUrl);
+  return entry ? entry.label : '';
+}
+
+function predictFit(card) {
+  const daoScore = Number(profile.dao[card.dataset.dao || ''] || 0);
+  const typeScore = Number(profile.type[card.dataset.type || ''] || 0);
+  const tokens = normalizeTokens([
+    card.dataset.dao || '',
+    card.dataset.type || '',
+    card.dataset.title || '',
+    card.dataset.cta || '',
+    card.dataset.reason || ''
+  ].join(' '));
+  let tokenSum = 0;
+  for (const token of tokens) {
+    tokenSum += Number(profile.tokens[token] || 0);
+  }
+  const tokenScore = tokens.length ? tokenSum / Math.min(tokens.length, 6) : 0;
+  return Number((daoScore + typeScore + tokenScore).toFixed(2));
+}
+
+function smartHideApplies(card) {
+  if (explicitLabelFor(card.dataset.postUrl || '')) return false;
+  if (profile.total < MIN_FEEDBACK_FOR_SMART_HIDE || profile.notRelevant < 1) return false;
+  return predictFit(card) <= SMART_HIDE_THRESHOLD;
+}
+
+function stateRank(card) {
+  const state = card.dataset.feedbackState || STATUS_OPEN;
+  if (state === STATUS_DONE) return 1;
+  if (state === STATUS_NOT_RELEVANT || state === 'smart_hidden') return 2;
+  return 0;
+}
 
 function formatAge(totalMinutes) {
   if (totalMinutes < 1) return 'just now';
@@ -563,41 +996,431 @@ function updateFreshness() {
   statusPill.classList.add('is-danger');
 }
 
+function setBadgeState(element, text, tone) {
+  if (!element) return;
+  element.textContent = text;
+  element.classList.remove('is-positive', 'is-negative');
+  if (tone === 'positive') {
+    element.classList.add('is-positive');
+  } else if (tone === 'negative') {
+    element.classList.add('is-negative');
+  }
+}
+
+function updateButtons(root, label) {
+  if (!root) return;
+  for (const button of root.querySelectorAll('[data-feedback-action]')) {
+    button.classList.toggle('is-active', button.dataset.feedbackAction === label);
+  }
+}
+
+function updateCardState(card) {
+  const postUrl = card.dataset.postUrl || '';
+  const label = explicitLabelFor(postUrl);
+  const smartHidden = !label && smartHideApplies(card);
+  const fit = predictFit(card);
+  const badge = card.querySelector('[data-fit-badge]');
+
+  card.classList.remove('is-done', 'is-not-relevant', 'is-smart-hidden');
+  let state = STATUS_OPEN;
+
+  if (label === STATUS_DONE) {
+    state = STATUS_DONE;
+    card.classList.add('is-done');
+    setBadgeState(badge, 'Marked relevant', 'positive');
+  } else if (label === STATUS_NOT_RELEVANT) {
+    state = STATUS_NOT_RELEVANT;
+    card.classList.add('is-not-relevant');
+    setBadgeState(badge, 'Hidden by you', 'negative');
+  } else if (smartHidden) {
+    state = 'smart_hidden';
+    card.classList.add('is-smart-hidden');
+    setBadgeState(badge, 'Likely not relevant', 'negative');
+  } else if (fit >= 1.5) {
+    setBadgeState(badge, `High fit · ${fit.toFixed(1)}`, 'positive');
+  } else if (fit <= -1.5) {
+    setBadgeState(badge, `Low fit · ${fit.toFixed(1)}`, 'negative');
+  } else {
+    setBadgeState(badge, fit ? `Neutral fit · ${fit.toFixed(1)}` : 'Neutral fit', 'neutral');
+  }
+
+  card.dataset.feedbackState = state;
+  updateButtons(card, label);
+}
+
+function compareCards(a, b, status) {
+  if (status === STATUS_ALL) {
+    const rankDiff = stateRank(a) - stateRank(b);
+    if (rankDiff !== 0) return rankDiff;
+  }
+  const fitDiff = predictFit(b) - predictFit(a);
+  if (Math.abs(fitDiff) > 0.05) return fitDiff;
+  const timeDiff = isoMs(b.dataset.postTs || '') - isoMs(a.dataset.postTs || '');
+  if (timeDiff !== 0) return timeDiff;
+  return Number(a.dataset.originalIndex || '0') - Number(b.dataset.originalIndex || '0');
+}
+
+function syncFeaturedCard(card) {
+  if (!featureCard) return;
+  if (!card) {
+    featureCard.hidden = true;
+    return;
+  }
+
+  featureCard.hidden = false;
+  featureCard.dataset.postUrl = card.dataset.postUrl || '';
+  featureCard.dataset.dao = card.dataset.dao || '';
+  featureCard.dataset.type = card.dataset.type || '';
+  featureCard.dataset.typeLabel = card.dataset.typeLabel || '';
+  featureCard.dataset.title = card.dataset.title || '';
+  featureCard.dataset.cta = card.dataset.cta || '';
+  featureCard.dataset.reason = card.dataset.reason || '';
+  featureCard.dataset.conf = card.dataset.conf || '0';
+  featureCard.dataset.postTs = card.dataset.postTs || '';
+  featureCard.dataset.ingestMode = card.dataset.ingestMode || '';
+
+  if (featurePosted) {
+    const posted = card.querySelector('.timestamp');
+    featurePosted.textContent = posted ? posted.textContent : '';
+  }
+  if (featureMeta) {
+    const meta = card.querySelector('.op-meta');
+    featureMeta.innerHTML = meta ? meta.innerHTML : '';
+  }
+  if (featureTitle) {
+    featureTitle.textContent = card.dataset.title || '';
+    featureTitle.href = card.dataset.postUrl || '#';
+  }
+  if (featureCta) {
+    featureCta.textContent = card.dataset.cta || '';
+  }
+  if (featureReason) {
+    featureReason.textContent = card.dataset.reason || '';
+  }
+  if (featureScore) {
+    featureScore.textContent = `Confidence ${Number(card.dataset.conf || '0').toFixed(2)}`;
+  }
+  if (featureLink) {
+    featureLink.href = card.dataset.postUrl || '#';
+  }
+  if (featureFit) {
+    const cardBadge = card.querySelector('[data-fit-badge]');
+    const tone = cardBadge && cardBadge.classList.contains('is-positive')
+      ? 'positive'
+      : cardBadge && cardBadge.classList.contains('is-negative')
+        ? 'negative'
+        : 'neutral';
+    setBadgeState(featureFit, cardBadge ? cardBadge.textContent : 'Neutral fit', tone);
+  }
+  updateButtons(featureCard, explicitLabelFor(card.dataset.postUrl || ''));
+}
+
+function updateFeedbackSummary() {
+  const autoHidden = cards.filter((card) => card.dataset.feedbackState === 'smart_hidden').length;
+  if (feedbackDoneCount) {
+    feedbackDoneCount.textContent = String(profile.done);
+  }
+  if (feedbackNotRelevantCount) {
+    feedbackNotRelevantCount.textContent = String(profile.notRelevant);
+  }
+  if (feedbackSmartHiddenCount) {
+    feedbackSmartHiddenCount.textContent = String(autoHidden);
+  }
+}
+
+function setStatusMessage(text, tone) {
+  if (!feedbackStatus) return;
+  feedbackStatus.textContent = text;
+  feedbackStatus.classList.remove('is-success', 'is-error', 'is-warning');
+  if (tone === 'success') {
+    feedbackStatus.classList.add('is-success');
+  } else if (tone === 'error') {
+    feedbackStatus.classList.add('is-error');
+  } else if (tone === 'warning') {
+    feedbackStatus.classList.add('is-warning');
+  }
+}
+
+function updateTokenUi() {
+  if (githubTokenInput) {
+    githubTokenInput.value = '';
+    githubTokenInput.placeholder = githubToken
+      ? 'GitHub token saved in this browser'
+      : 'Optional fine-grained GitHub token for repo sync';
+  }
+  if (githubToken) {
+    setStatusMessage('GitHub sync is enabled in this browser. New feedback can train future backend runs.', 'success');
+  } else {
+    setStatusMessage('Feedback is stored locally. Add a GitHub token if you want clicks to sync into feedback.json.', 'warning');
+  }
+}
+
+function deriveRepoInfo() {
+  const host = window.location.hostname.toLowerCase();
+  const parts = window.location.pathname.split('/').filter(Boolean);
+  if (!host.endsWith('.github.io') || parts.length === 0) {
+    return null;
+  }
+  return {
+    owner: host.split('.')[0],
+    repo: parts[0]
+  };
+}
+
+function encodeBase64Utf8(text) {
+  const bytes = new TextEncoder().encode(text);
+  let binary = '';
+  for (const byte of bytes) {
+    binary += String.fromCharCode(byte);
+  }
+  return window.btoa(binary);
+}
+
+async function syncFeedbackToGithub() {
+  if (!githubToken) {
+    setStatusMessage('Saved locally only. Add a GitHub token to sync into the backend.', 'warning');
+    return false;
+  }
+  const repoInfo = deriveRepoInfo();
+  if (!repoInfo) {
+    setStatusMessage('Could not infer the GitHub repo from this page URL, so backend sync is unavailable here.', 'error');
+    return false;
+  }
+
+  const apiUrl = `https://api.github.com/repos/${repoInfo.owner}/${repoInfo.repo}/contents/feedback.json`;
+  const headers = {
+    Authorization: `Bearer ${githubToken}`,
+    Accept: 'application/vnd.github+json'
+  };
+
+  setStatusMessage('Syncing feedback to GitHub…', 'warning');
+  let sha = null;
+  const lookup = await fetch(`${apiUrl}?ref=${encodeURIComponent(GITHUB_BRANCH)}`, { headers });
+  if (lookup.ok) {
+    const payload = await lookup.json();
+    sha = payload.sha || null;
+  } else if (lookup.status !== 404) {
+    const errorBody = await lookup.text();
+    throw new Error(errorBody || `GitHub lookup failed (${lookup.status})`);
+  }
+
+  feedbackStore.updated_at = new Date().toISOString();
+  const body = {
+    message: `feedback update ${feedbackStore.updated_at}`,
+    content: encodeBase64Utf8(JSON.stringify(feedbackStore, null, 2) + '\n'),
+    branch: GITHUB_BRANCH
+  };
+  if (sha) {
+    body.sha = sha;
+  }
+
+  const response = await fetch(apiUrl, {
+    method: 'PUT',
+    headers: {
+      ...headers,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(body)
+  });
+  if (!response.ok) {
+    const errorBody = await response.text();
+    throw new Error(errorBody || `GitHub sync failed (${response.status})`);
+  }
+
+  setStatusMessage('Synced to GitHub. The next monitor run can use this feedback profile.', 'success');
+  return true;
+}
+
+function storeEntryFromCard(card, label) {
+  return {
+    label,
+    removed: false,
+    dao: card.dataset.dao || '',
+    opportunity_type: card.dataset.type || '',
+    title: card.dataset.title || '',
+    call_to_action: card.dataset.cta || '',
+    one_line_reason: card.dataset.reason || '',
+    updated_at: new Date().toISOString()
+  };
+}
+
+function storeRemoval(postUrl) {
+  feedbackStore.items[postUrl] = {
+    label: '',
+    removed: true,
+    dao: '',
+    opportunity_type: '',
+    title: '',
+    call_to_action: '',
+    one_line_reason: '',
+    updated_at: new Date().toISOString()
+  };
+}
+
 function applyFilters() {
-  if (!daoSel || !typeSel || !confRange) return;
+  if (!feedGrid || !daoSel || !typeSel || !confRange) return;
 
   const dao = daoSel.value;
   const type = typeSel.value;
+  const status = statusSel ? statusSel.value : STATUS_OPEN;
   const minConf = parseFloat(confRange.value);
 
   if (confVal) {
     confVal.textContent = minConf.toFixed(2);
   }
 
-  let visible = 0;
+  const visibleCards = [];
+
   for (const card of cards) {
+    updateCardState(card);
+    const state = card.dataset.feedbackState || STATUS_OPEN;
     const matchDao = dao === '' || card.dataset.dao === dao;
     const matchType = type === '' || card.dataset.type === type;
     const matchConf = parseFloat(card.dataset.conf || '0') >= minConf;
-    const show = matchDao && matchType && matchConf;
+    const matchStatus =
+      status === STATUS_ALL ? true :
+      status === STATUS_DONE ? state === STATUS_DONE :
+      status === STATUS_NOT_RELEVANT ? state === STATUS_NOT_RELEVANT || state === 'smart_hidden' :
+      state === STATUS_OPEN;
+
+    const show = matchDao && matchType && matchConf && matchStatus;
     card.hidden = !show;
-    if (show) visible += 1;
+    if (show) {
+      visibleCards.push(card);
+    }
+  }
+
+  visibleCards.sort((a, b) => compareCards(a, b, status));
+  for (const card of visibleCards) {
+    feedGrid.appendChild(card);
   }
 
   if (visibleCount) {
-    visibleCount.textContent = String(visible);
+    visibleCount.textContent = String(visibleCards.length);
   }
   if (emptyFilter) {
-    emptyFilter.hidden = visible !== 0;
+    emptyFilter.hidden = visibleCards.length !== 0;
+  }
+  updateFeedbackSummary();
+  syncFeaturedCard(visibleCards[0] || null);
+}
+
+async function hydrateRemoteFeedback() {
+  try {
+    const response = await fetch(new URL('feedback.json', window.location.href), { cache: 'no-store' });
+    if (!response.ok) return;
+    const remoteStore = normalizeStore(await response.json());
+    const merged = mergeStores(remoteStore, feedbackStore);
+    if (JSON.stringify(merged) !== JSON.stringify(feedbackStore)) {
+      feedbackStore = merged;
+      saveLocalStore();
+      profile = buildProfile(feedbackStore);
+      applyFilters();
+    }
+  } catch (error) {
+    // Failing to hydrate remote feedback should not break the dashboard.
   }
 }
 
+async function setFeedback(postUrl, label) {
+  const card = cards.find((item) => item.dataset.postUrl === postUrl);
+  if (!card) return;
+
+  const existing = explicitLabelFor(postUrl);
+  if (existing === label) {
+    storeRemoval(postUrl);
+  } else {
+    feedbackStore.items[postUrl] = storeEntryFromCard(card, label);
+  }
+  feedbackStore.updated_at = new Date().toISOString();
+  saveLocalStore();
+  profile = buildProfile(feedbackStore);
+  applyFilters();
+
+  if (githubToken) {
+    try {
+      await syncFeedbackToGithub();
+    } catch (error) {
+      setStatusMessage(`Saved locally, but GitHub sync failed: ${error.message || error}`, 'error');
+    }
+  } else {
+    setStatusMessage('Saved locally. Add a GitHub token if you want the backend to learn from this too.', 'warning');
+  }
+}
+
+async function handleClick(event) {
+  const feedbackButton = event.target.closest('[data-feedback-action]');
+  if (feedbackButton) {
+    const label = feedbackButton.dataset.feedbackAction;
+    const owner = feedbackButton.closest('[data-post-url]') || featureCard;
+    const postUrl = owner && owner.dataset ? owner.dataset.postUrl : '';
+    if (postUrl && (label === STATUS_DONE || label === STATUS_NOT_RELEVANT)) {
+      await setFeedback(postUrl, label);
+    }
+    return;
+  }
+
+  if (resetFeedbackBtn && event.target === resetFeedbackBtn) {
+    if (!window.confirm('Reset all dashboard feedback in this browser?')) return;
+    feedbackStore = defaultStore();
+    saveLocalStore();
+    profile = buildProfile(feedbackStore);
+    applyFilters();
+    if (githubToken) {
+      try {
+        await syncFeedbackToGithub();
+      } catch (error) {
+        setStatusMessage(`Reset locally, but GitHub sync failed: ${error.message || error}`, 'error');
+      }
+    } else {
+      updateTokenUi();
+    }
+    return;
+  }
+
+  if (saveTokenBtn && event.target === saveTokenBtn) {
+    const token = githubTokenInput ? githubTokenInput.value.trim() : '';
+    if (!token) {
+      setStatusMessage('Paste a fine-grained GitHub token first.', 'warning');
+      return;
+    }
+    githubToken = token;
+    saveGithubToken(token);
+    updateTokenUi();
+    try {
+      await syncFeedbackToGithub();
+    } catch (error) {
+      setStatusMessage(`Token saved, but GitHub sync failed: ${error.message || error}`, 'error');
+    }
+    return;
+  }
+
+  if (clearTokenBtn && event.target === clearTokenBtn) {
+    githubToken = '';
+    saveGithubToken('');
+    updateTokenUi();
+  }
+}
+
+let feedbackStore = loadLocalStore();
+let profile = buildProfile(feedbackStore);
+let githubToken = loadGithubToken();
+
 updateFreshness();
 window.setInterval(updateFreshness, 60000);
+updateTokenUi();
+hydrateRemoteFeedback();
+
+document.addEventListener('click', (event) => {
+  handleClick(event);
+});
 
 if (daoSel && typeSel && confRange) {
   daoSel.addEventListener('change', applyFilters);
   typeSel.addEventListener('change', applyFilters);
+  if (statusSel) {
+    statusSel.addEventListener('change', applyFilters);
+  }
   confRange.addEventListener('input', applyFilters);
   applyFilters();
 }

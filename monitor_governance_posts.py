@@ -20,6 +20,7 @@ from pathlib import Path
 from typing import Any, Optional, Tuple
 
 from classifier import classify_post, get_client
+from feedback_profile import build_feedback_profile, build_preference_note, load_feedback_entries, score_feedback
 
 
 BASE = Path(__file__).parent
@@ -33,6 +34,8 @@ BACKFILL_MODE = "backfill"
 DISCOURSE_PAGE_WINDOW = 50
 MAX_EMPTY_BACKFILL_PAGES = 2
 DISALLOWED_OPPORTUNITY_TYPES = {"grant"}
+FEEDBACK_PREFILTER_THRESHOLD = -2.25
+FEEDBACK_POSTCLASSIFY_THRESHOLD = -1.75
 
 # Free tier: 15 req/min. Keep a 4.5s minimum gap between Gemini calls.
 MIN_GEMINI_GAP_SECONDS = 4.5
@@ -325,11 +328,12 @@ def load_opportunity_index(path: Path) -> dict[str, dict[str, Any]]:
 
 
 class ClassifierSession:
-    def __init__(self) -> None:
+    def __init__(self, user_preference_note: str = "") -> None:
         self.client = None
         self.last_gemini_ts = 0.0
         self.disabled = False
         self.error_reported = False
+        self.user_preference_note = user_preference_note
 
     def classify(self, forum_name: str, title: str, excerpt: str):
         if self.disabled:
@@ -347,7 +351,13 @@ class ClassifierSession:
                 self.disabled = True
                 return None
 
-        result = classify_post(forum_name, title, excerpt, client=self.client)
+        result = classify_post(
+            forum_name,
+            title,
+            excerpt,
+            client=self.client,
+            user_preference_note=self.user_preference_note,
+        )
         self.last_gemini_ts = time.monotonic()
         return result
 
@@ -390,6 +400,7 @@ def process_posts(
     classifier_session: ClassifierSession,
     opportunities: dict[str, dict[str, Any]],
     totals: dict[str, int],
+    feedback_profile: dict[str, Any],
 ) -> None:
     totals["posts_seen"] += len(posts)
 
@@ -401,6 +412,12 @@ def process_posts(
         if not keyword_match(combined, gov_patterns, ask_patterns):
             continue
         totals["kw_pass"] += 1
+        if feedback_profile.get("total", 0) >= 3:
+            pref_score = score_feedback(feedback_profile, dao_name=dao_name, text=combined)
+            if pref_score <= FEEDBACK_PREFILTER_THRESHOLD:
+                totals["feedback_rejects"] += 1
+                print(f"  SKIP: feedback profile says likely irrelevant {title!r} (score={pref_score:.2f})")
+                continue
         if looks_like_service_provider_pitch(combined):
             totals["rule_rejects"] += 1
             print(f"  SKIP: likely service-provider pitch {title!r}")
@@ -428,6 +445,17 @@ def process_posts(
             totals["rule_rejects"] += 1
             print(f"  SKIP: likely status/update post {title!r}")
             continue
+        if feedback_profile.get("total", 0) >= 2:
+            pref_score = score_feedback(
+                feedback_profile,
+                dao_name=dao_name,
+                opportunity_type=classification.opportunity_type,
+                text=classification_context,
+            )
+            if pref_score <= FEEDBACK_POSTCLASSIFY_THRESHOLD:
+                totals["feedback_rejects"] += 1
+                print(f"  SKIP: feedback profile rejected {title!r} (score={pref_score:.2f})")
+                continue
         if classification.confidence < CONFIDENCE_THRESHOLD:
             continue
         totals["llm_pass"] += 1
@@ -474,6 +502,7 @@ def run_live_forum(
     classifier_session: ClassifierSession,
     opportunities: dict[str, dict[str, Any]],
     totals: dict[str, int],
+    feedback_profile: dict[str, Any],
 ) -> None:
     name = dao["name"]
     forum_url = dao["forum_url"]
@@ -519,6 +548,7 @@ def run_live_forum(
         classifier_session=classifier_session,
         opportunities=opportunities,
         totals=totals,
+        feedback_profile=feedback_profile,
     )
     update_state_cursor(state, forum_url, latest_visible_id)
 
@@ -533,6 +563,7 @@ def run_backfill_forum(
     opportunities: dict[str, dict[str, Any]],
     totals: dict[str, int],
     cutoff: datetime,
+    feedback_profile: dict[str, Any],
 ) -> None:
     name = dao["name"]
     forum_url = dao["forum_url"]
@@ -565,6 +596,7 @@ def run_backfill_forum(
         classifier_session=classifier_session,
         opportunities=opportunities,
         totals=totals,
+        feedback_profile=feedback_profile,
     )
 
 
@@ -585,14 +617,18 @@ def main() -> int:
     keywords = load_json(BASE / "keywords.json", {"gov_surface": [], "ask_surface": []})
     state = load_json(BASE / "state.json", {})
     opportunities = load_opportunity_index(BASE / "opportunities.json")
+    feedback_entries = load_feedback_entries(BASE / "feedback.json")
+    feedback_profile = build_feedback_profile(feedback_entries)
+    preference_note = build_preference_note(feedback_profile)
 
     gov_patterns, ask_patterns = compile_patterns(keywords)
-    classifier_session = ClassifierSession()
+    classifier_session = ClassifierSession(user_preference_note=preference_note)
     totals = {
         "posts_seen": 0,
         "kw_pass": 0,
         "llm_pass": 0,
         "rule_rejects": 0,
+        "feedback_rejects": 0,
         "new_hits": 0,
         "updated_hits": 0,
         "bootstrap": 0,
@@ -606,6 +642,12 @@ def main() -> int:
     else:
         print(f"Running {LIVE_MODE} mode")
 
+    if feedback_profile.get("total", 0):
+        print(
+            f"Loaded feedback profile: total={feedback_profile['total']} "
+            f"done={feedback_profile['done']} not_relevant={feedback_profile['not_relevant']}"
+        )
+
     for dao in daos:
         if args.mode == BACKFILL_MODE:
             run_backfill_forum(
@@ -617,6 +659,7 @@ def main() -> int:
                 opportunities=opportunities,
                 totals=totals,
                 cutoff=cutoff,
+                feedback_profile=feedback_profile,
             )
             continue
 
@@ -628,6 +671,7 @@ def main() -> int:
             classifier_session=classifier_session,
             opportunities=opportunities,
             totals=totals,
+            feedback_profile=feedback_profile,
         )
 
     save_json(BASE / "state.json", state)
@@ -637,7 +681,7 @@ def main() -> int:
     print(
         f"Summary: mode={args.mode}  posts_seen={totals['posts_seen']}  "
         f"kw_pass={totals['kw_pass']}  llm_pass={totals['llm_pass']}  "
-        f"rule_rejects={totals['rule_rejects']}  "
+        f"rule_rejects={totals['rule_rejects']}  feedback_rejects={totals['feedback_rejects']}  "
         f"new_hits={totals['new_hits']}  updated_hits={totals['updated_hits']}  "
         f"bootstrapped={totals['bootstrap']}  forum_errors={totals['forum_errors']}"
     )

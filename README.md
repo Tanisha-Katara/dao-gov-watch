@@ -86,6 +86,23 @@ The discovery workflow never edits `daos.json`. To approve a forum, copy the ent
 
 In GitHub Actions, **Discover DAO Forums** refreshes this review report every Monday at 01:00 UTC and commits only the discovery artifacts.
 
+## Feedback loop
+
+The dashboard now supports per-opportunity feedback:
+
+- `Done` means the opportunity was relevant for you.
+- `Not relevant` means you do not want to see more opportunities like that.
+
+The front end stores this feedback in the browser immediately so the board can:
+
+- hide completed opportunities from the default queue
+- hide obviously irrelevant opportunities from the default queue
+- reprioritize similar future opportunities using DAO, opportunity type, and text-pattern similarity
+
+To let the backend learn from the same signals, connect the dashboard to GitHub with a fine-grained personal access token that has **Contents: Read and write** access to this repo only. The page writes your clicks into `feedback.json`, and future monitor runs read that file as a user-preference profile.
+
+Important: GitHub Pages is static, so there is no server-side write path unless you provide that token from your browser. Without a token, the learning stays local to that browser only.
+
 Try the classifier directly:
 
 ```bash
@@ -117,6 +134,8 @@ Any forum running Discourse exposes `/posts.json` — that's the only requiremen
 | File | Role |
 |---|---|
 | `daos.json` | Curated list of DAO name → Discourse forum URL |
+| `feedback.json` | User feedback store synced from the dashboard UI and read by backend runs |
+| `feedback_profile.py` | Builds preference weights and prompt hints from `feedback.json` |
 | `keywords.json` | Regex pre-filter (gov vocabulary × ask vocabulary, AND) |
 | `classifier.py` | Gemini intent classifier with rubric + few-shots |
 | `monitor_governance_posts.py` | Orchestrator (fetch → prefilter → classify → append) |

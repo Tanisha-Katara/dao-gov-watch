@@ -101,6 +101,20 @@ class RenderDashboardTests(unittest.TestCase):
         self.assertIn("Governance Advisor Search", html)
         self.assertNotIn("ENS Retro Draft Final Report", html)
 
+    def test_render_includes_feedback_controls_and_sync_ui(self) -> None:
+        now = datetime.now(timezone.utc)
+        item = make_item("Governance Advisor Search", post_ts=iso(now))
+        item["call_to_action"] = "Seeking an external Governance Advisor for a paid 12-month role."
+
+        html = render_dashboard.render([item], [{"name": "ENS"}])
+
+        self.assertIn('data-feedback-action="done"', html)
+        self.assertIn('data-feedback-action="not_relevant"', html)
+        self.assertIn('id="f-status"', html)
+        self.assertIn('id="github-token"', html)
+        self.assertIn("feedback.json", html)
+        self.assertIn("daoGovWatchFeedbackV1", html)
+
 
 if __name__ == "__main__":
     unittest.main()

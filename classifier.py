@@ -203,7 +203,19 @@ def _short_error(e: Exception) -> str:
     return head[:200] or type(e).__name__
 
 
-def classify_post(forum_name: str, title: str, excerpt: str, client: genai.Client | None = None) -> Classification | None:
+def build_system_prompt(user_preference_note: str = "") -> str:
+    if not user_preference_note.strip():
+        return SYSTEM_PROMPT
+    return SYSTEM_PROMPT + "\n\n" + user_preference_note.strip()
+
+
+def classify_post(
+    forum_name: str,
+    title: str,
+    excerpt: str,
+    client: genai.Client | None = None,
+    user_preference_note: str = "",
+) -> Classification | None:
     """Classify a single forum post. Returns None on API failure (caller continues)."""
     client = client or get_client()
     contents = _build_contents(forum_name, title, excerpt)
@@ -212,7 +224,7 @@ def classify_post(forum_name: str, title: str, excerpt: str, client: genai.Clien
             model=MODEL,
             contents=contents,
             config=types.GenerateContentConfig(
-                system_instruction=SYSTEM_PROMPT,
+                system_instruction=build_system_prompt(user_preference_note),
                 response_mime_type="application/json",
                 response_schema=Classification,
                 temperature=0.1,
