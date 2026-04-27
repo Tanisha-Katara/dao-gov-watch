@@ -743,8 +743,19 @@ def main() -> int:
     generated_at = now_iso()
     now = parse_ts(generated_at)
 
-    protocols_payload = fetch_json(DEFI_LLAMA_PROTOCOLS_URL)
-    fees_payload = fetch_json(DEFI_LLAMA_FEES_URL)
+    # DefiLlama is a third-party API. A timeout there shouldn't crash the
+    # whole discovery run — fall back to empty payloads so we still produce
+    # a (sparse) report rather than failing CI.
+    try:
+        protocols_payload = fetch_json(DEFI_LLAMA_PROTOCOLS_URL)
+    except Exception as e:
+        print(f"WARN: protocols fetch failed ({type(e).__name__}); continuing without protocol scores")
+        protocols_payload = []
+    try:
+        fees_payload = fetch_json(DEFI_LLAMA_FEES_URL)
+    except Exception as e:
+        print(f"WARN: fees fetch failed ({type(e).__name__}); continuing without fee scores")
+        fees_payload = {}
     candidates, existing_broken = discover_candidates(
         protocols_payload=protocols_payload,
         fees_payload=fees_payload,
