@@ -514,6 +514,46 @@ h2{
   gap:10px;
   align-items:center;
 }
+.queue-tabs{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-bottom:18px;
+}
+.queue-tab{
+  appearance:none;
+  border:1px solid var(--line);
+  border-radius:999px;
+  background:rgba(255,255,255,0.74);
+  color:var(--muted);
+  cursor:pointer;
+  font:inherit;
+  font-size:13px;
+  font-weight:600;
+  padding:10px 14px;
+  transition:transform 120ms ease, background 120ms ease, border-color 120ms ease, color 120ms ease;
+}
+.queue-tab:hover{
+  transform:translateY(-1px);
+}
+.queue-tab.is-active{
+  background:rgba(181,84,47,0.12);
+  color:var(--accent-strong);
+  border-color:rgba(181,84,47,0.22);
+}
+.queue-tab-count{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-width:24px;
+  margin-left:8px;
+  padding:2px 8px;
+  border-radius:999px;
+  background:rgba(255,255,255,0.92);
+  color:inherit;
+  font-family:"IBM Plex Mono","SFMono-Regular",Consolas,monospace;
+  font-size:11px;
+}
 .feedback-bar{
   justify-content:space-between;
 }
@@ -641,7 +681,7 @@ h2{
 .feed-sub{margin:8px 0 0}
 .filters{
   display:grid;
-  grid-template-columns:repeat(5,minmax(0,1fr));
+  grid-template-columns:repeat(4,minmax(0,1fr));
   gap:12px;
   align-items:end;
   margin-bottom:18px;
@@ -710,6 +750,9 @@ h2{
   border-radius:var(--radius-md);
   background:rgba(255,255,255,0.5);
 }
+.queue-empty-card .empty-lead{
+  margin:12px 0 0;
+}
 .footer{
   justify-content:space-between;
   margin-top:12px;
@@ -742,7 +785,7 @@ const GITHUB_BRANCH = 'master';
 const STATUS_OPEN = 'open';
 const STATUS_DONE = 'done';
 const STATUS_NOT_RELEVANT = 'not_relevant';
-const STATUS_ALL = 'all';
+const STATUS_SMART_HIDDEN = 'smart_hidden';
 const SMART_HIDE_THRESHOLD = -1.75;
 const MIN_FEEDBACK_FOR_SMART_HIDE = 2;
 const STOP_WORDS = new Set([
@@ -757,12 +800,17 @@ const cards = Array.from(document.querySelectorAll('.op-card'));
 const feedGrid = document.querySelector('.feed-grid');
 const daoSel = document.getElementById('f-dao');
 const typeSel = document.getElementById('f-type');
-const statusSel = document.getElementById('f-status');
 const confRange = document.getElementById('f-conf');
 const confVal = document.getElementById('f-conf-val');
 const visibleCount = document.getElementById('visible-count');
 const emptyFilter = document.getElementById('empty-filter');
 const statusPill = document.getElementById('status-pill');
+const queueTabs = Array.from(document.querySelectorAll('[data-queue-tab]'));
+const queueCounts = {
+  [STATUS_OPEN]: document.getElementById('tab-count-open'),
+  [STATUS_DONE]: document.getElementById('tab-count-done'),
+  [STATUS_NOT_RELEVANT]: document.getElementById('tab-count-not-relevant')
+};
 const feedbackDoneCount = document.getElementById('feedback-done-count');
 const feedbackNotRelevantCount = document.getElementById('feedback-not-relevant-count');
 const feedbackSmartHiddenCount = document.getElementById('feedback-smart-hidden-count');
@@ -780,6 +828,10 @@ const featureReason = document.getElementById('feature-reason');
 const featureScore = document.getElementById('feature-score');
 const featureLink = document.getElementById('feature-link');
 const featureFit = document.getElementById('feature-fit');
+const queueEmptyCard = document.getElementById('queue-empty-card');
+const queueEmptyKicker = document.getElementById('queue-empty-kicker');
+const queueEmptyTitle = document.getElementById('queue-empty-title');
+const queueEmptyBody = document.getElementById('queue-empty-body');
 
 for (const [index, card] of cards.entries()) {
   card.dataset.originalIndex = String(index);
@@ -942,6 +994,49 @@ function explicitLabelFor(postUrl) {
   return entry ? entry.label : '';
 }
 
+function queueForState(state) {
+  if (state === STATUS_DONE) return STATUS_DONE;
+  if (state === STATUS_NOT_RELEVANT || state === STATUS_SMART_HIDDEN) return STATUS_NOT_RELEVANT;
+  return STATUS_OPEN;
+}
+
+function feedbackUpdatedAtFor(postUrl) {
+  const entry = feedbackEntryFor(postUrl);
+  return entry && entry.updated_at ? entry.updated_at : '';
+}
+
+function emptyStateCopy(tab, hasQueueItems) {
+  if (hasQueueItems) {
+    return {
+      kicker: 'Filtered View',
+      title: `No ${tab.replace('_', ' ')} opportunities match these filters`,
+      body: 'Try widening the DAO, type, or confidence filters to bring items back into view.'
+    };
+  }
+
+  if (tab === STATUS_DONE) {
+    return {
+      kicker: 'Done Queue',
+      title: 'Nothing marked done yet',
+      body: 'When you mark a relevant opportunity as done, it will move here for later follow-up.'
+    };
+  }
+
+  if (tab === STATUS_NOT_RELEVANT) {
+    return {
+      kicker: 'Dismissed Queue',
+      title: 'Nothing dismissed yet',
+      body: 'Mark irrelevant opportunities and they will leave the main queue but stay reviewable here.'
+    };
+  }
+
+  return {
+    kicker: 'Open Queue',
+    title: 'No active opportunities right now',
+    body: 'Everything in the queue has either been handled, dismissed, or filtered out by your current preferences.'
+  };
+}
+
 function predictFit(card) {
   const daoScore = Number(profile.dao[card.dataset.dao || ''] || 0);
   const typeScore = Number(profile.type[card.dataset.type || ''] || 0);
@@ -964,13 +1059,6 @@ function smartHideApplies(card) {
   if (explicitLabelFor(card.dataset.postUrl || '')) return false;
   if (profile.total < MIN_FEEDBACK_FOR_SMART_HIDE || profile.notRelevant < 1) return false;
   return predictFit(card) <= SMART_HIDE_THRESHOLD;
-}
-
-function stateRank(card) {
-  const state = card.dataset.feedbackState || STATUS_OPEN;
-  if (state === STATUS_DONE) return 1;
-  if (state === STATUS_NOT_RELEVANT || state === 'smart_hidden') return 2;
-  return 0;
 }
 
 function formatAge(totalMinutes) {
@@ -1046,7 +1134,7 @@ function updateCardState(card) {
     card.classList.add('is-not-relevant');
     setBadgeState(badge, 'Hidden by you', 'negative');
   } else if (smartHidden) {
-    state = 'smart_hidden';
+    state = STATUS_SMART_HIDDEN;
     card.classList.add('is-smart-hidden');
     setBadgeState(badge, 'Likely not relevant', 'negative');
   } else if (fit >= 1.5) {
@@ -1058,13 +1146,14 @@ function updateCardState(card) {
   }
 
   card.dataset.feedbackState = state;
+  card.dataset.feedbackUpdatedAt = feedbackUpdatedAtFor(postUrl);
   updateButtons(card, label);
 }
 
-function compareCards(a, b, status) {
-  if (status === STATUS_ALL) {
-    const rankDiff = stateRank(a) - stateRank(b);
-    if (rankDiff !== 0) return rankDiff;
+function compareCards(a, b, tab) {
+  if (tab === STATUS_DONE) {
+    const feedbackTimeDiff = isoMs(b.dataset.feedbackUpdatedAt || '') - isoMs(a.dataset.feedbackUpdatedAt || '');
+    if (feedbackTimeDiff !== 0) return feedbackTimeDiff;
   }
   const fitDiff = predictFit(b) - predictFit(a);
   if (Math.abs(fitDiff) > 0.05) return fitDiff;
@@ -1073,14 +1162,24 @@ function compareCards(a, b, status) {
   return Number(a.dataset.originalIndex || '0') - Number(b.dataset.originalIndex || '0');
 }
 
-function syncFeaturedCard(card) {
+function syncFeaturedCard(card, tab, queueItemCount, filteredCount) {
   if (!featureCard) return;
   if (!card) {
     featureCard.hidden = true;
+    if (queueEmptyCard) {
+      const copy = emptyStateCopy(tab, queueItemCount > 0 && filteredCount === 0);
+      queueEmptyCard.hidden = false;
+      if (queueEmptyKicker) queueEmptyKicker.textContent = copy.kicker;
+      if (queueEmptyTitle) queueEmptyTitle.textContent = copy.title;
+      if (queueEmptyBody) queueEmptyBody.textContent = copy.body;
+    }
     return;
   }
 
   featureCard.hidden = false;
+  if (queueEmptyCard) {
+    queueEmptyCard.hidden = true;
+  }
   featureCard.dataset.postUrl = card.dataset.postUrl || '';
   featureCard.dataset.dao = card.dataset.dao || '';
   featureCard.dataset.type = card.dataset.type || '';
@@ -1129,7 +1228,7 @@ function syncFeaturedCard(card) {
 }
 
 function updateFeedbackSummary() {
-  const autoHidden = cards.filter((card) => card.dataset.feedbackState === 'smart_hidden').length;
+  const autoHidden = cards.filter((card) => card.dataset.feedbackState === STATUS_SMART_HIDDEN).length;
   if (feedbackDoneCount) {
     feedbackDoneCount.textContent = String(profile.done);
   }
@@ -1270,40 +1369,57 @@ function storeRemoval(postUrl) {
   };
 }
 
+function updateQueueTabs(counts) {
+  for (const button of queueTabs) {
+    const tab = button.dataset.queueTab;
+    const isActive = tab === activeTab;
+    button.classList.toggle('is-active', isActive);
+    button.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+    const counter = queueCounts[tab];
+    if (counter) {
+      counter.textContent = String(counts[tab] || 0);
+    }
+  }
+}
+
 function applyFilters() {
   if (!feedGrid || !daoSel || !typeSel || !confRange) return;
 
   const dao = daoSel.value;
   const type = typeSel.value;
-  const status = statusSel ? statusSel.value : STATUS_OPEN;
   const minConf = parseFloat(confRange.value);
 
   if (confVal) {
     confVal.textContent = minConf.toFixed(2);
   }
 
+  const counts = {
+    [STATUS_OPEN]: 0,
+    [STATUS_DONE]: 0,
+    [STATUS_NOT_RELEVANT]: 0
+  };
   const visibleCards = [];
 
   for (const card of cards) {
     updateCardState(card);
     const state = card.dataset.feedbackState || STATUS_OPEN;
+    const tab = queueForState(state);
+    counts[tab] += 1;
     const matchDao = dao === '' || card.dataset.dao === dao;
     const matchType = type === '' || card.dataset.type === type;
     const matchConf = parseFloat(card.dataset.conf || '0') >= minConf;
-    const matchStatus =
-      status === STATUS_ALL ? true :
-      status === STATUS_DONE ? state === STATUS_DONE :
-      status === STATUS_NOT_RELEVANT ? state === STATUS_NOT_RELEVANT || state === 'smart_hidden' :
-      state === STATUS_OPEN;
+    const matchTab = tab === activeTab;
 
-    const show = matchDao && matchType && matchConf && matchStatus;
+    const show = matchDao && matchType && matchConf && matchTab;
     card.hidden = !show;
     if (show) {
       visibleCards.push(card);
     }
   }
 
-  visibleCards.sort((a, b) => compareCards(a, b, status));
+  updateQueueTabs(counts);
+
+  visibleCards.sort((a, b) => compareCards(a, b, activeTab));
   for (const card of visibleCards) {
     feedGrid.appendChild(card);
   }
@@ -1313,9 +1429,14 @@ function applyFilters() {
   }
   if (emptyFilter) {
     emptyFilter.hidden = visibleCards.length !== 0;
+    if (!emptyFilter.hidden) {
+      emptyFilter.textContent = counts[activeTab] === 0
+        ? emptyStateCopy(activeTab, false).body
+        : 'No opportunities match your current filters.';
+    }
   }
   updateFeedbackSummary();
-  syncFeaturedCard(visibleCards[0] || null);
+  syncFeaturedCard(visibleCards[0] || null, activeTab, counts[activeTab], visibleCards.length);
 }
 
 async function hydrateRemoteFeedback() {
@@ -1418,6 +1539,7 @@ async function handleClick(event) {
 let feedbackStore = loadLocalStore();
 let profile = buildProfile(feedbackStore);
 let githubToken = loadGithubToken();
+let activeTab = STATUS_OPEN;
 
 updateFreshness();
 window.setInterval(updateFreshness, 60000);
@@ -1428,12 +1550,16 @@ document.addEventListener('click', (event) => {
   handleClick(event);
 });
 
+for (const button of queueTabs) {
+  button.addEventListener('click', () => {
+    activeTab = button.dataset.queueTab || STATUS_OPEN;
+    applyFilters();
+  });
+}
+
 if (daoSel && typeSel && confRange) {
   daoSel.addEventListener('change', applyFilters);
   typeSel.addEventListener('change', applyFilters);
-  if (statusSel) {
-    statusSel.addEventListener('change', applyFilters);
-  }
   confRange.addEventListener('input', applyFilters);
   applyFilters();
 }
@@ -1507,6 +1633,11 @@ def render(items: list[dict], daos: list[dict]) -> str:
         body = f"""
 <section class="board-grid">
   {featured_html}
+  <section class="panel feature-card queue-empty-card" id="queue-empty-card" hidden>
+    <div class="section-kicker" id="queue-empty-kicker">Open Queue</div>
+    <h2 id="queue-empty-title">No active opportunities right now</h2>
+    <p class="empty-lead" id="queue-empty-body">Everything in the queue has either been handled, dismissed, or filtered out by your current preferences.</p>
+  </section>
   <section class="panel notes-card">
     <div class="section-kicker">Learning Engine</div>
     <h2>Teach the board what matters</h2>
@@ -1555,20 +1686,17 @@ def render(items: list[dict], daos: list[dict]) -> str:
       <p class="feed-sub">Reverse-chronological archive by forum post date, mixing live detections and historical imports in one feed.</p>
     </div>
   </div>
+  <div class="queue-tabs" role="tablist" aria-label="Opportunity queues">
+    <button type="button" class="queue-tab is-active" data-queue-tab="open" aria-pressed="true">Open <span class="queue-tab-count" id="tab-count-open">0</span></button>
+    <button type="button" class="queue-tab" data-queue-tab="done" aria-pressed="false">Done <span class="queue-tab-count" id="tab-count-done">0</span></button>
+    <button type="button" class="queue-tab" data-queue-tab="not_relevant" aria-pressed="false">Not relevant <span class="queue-tab-count" id="tab-count-not-relevant">0</span></button>
+  </div>
   <div class="filters">
     <label>DAO
       <select id="f-dao">{dao_opts}</select>
     </label>
     <label>Type
       <select id="f-type">{type_opts}</select>
-    </label>
-    <label>Status
-      <select id="f-status">
-        <option value="open">Open only</option>
-        <option value="done">Done</option>
-        <option value="not_relevant">Not relevant</option>
-        <option value="all">All</option>
-      </select>
     </label>
     <label>Min confidence <span class="conf-readout" id="f-conf-val">{DEFAULT_MIN_CONFIDENCE:.2f}</span>
       <input type="range" id="f-conf" min="0" max="1" step="0.05" value="{DEFAULT_MIN_CONFIDENCE:.2f}">

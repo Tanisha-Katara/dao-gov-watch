@@ -110,10 +110,25 @@ class RenderDashboardTests(unittest.TestCase):
 
         self.assertIn('data-feedback-action="done"', html)
         self.assertIn('data-feedback-action="not_relevant"', html)
-        self.assertIn('id="f-status"', html)
+        self.assertIn('data-queue-tab="open"', html)
+        self.assertIn('data-queue-tab="done"', html)
+        self.assertIn('data-queue-tab="not_relevant"', html)
+        self.assertIn('id="queue-empty-card"', html)
         self.assertIn('id="github-token"', html)
         self.assertIn("feedback.json", html)
         self.assertIn("daoGovWatchFeedbackV1", html)
+        self.assertIn("feedbackUpdatedAt", html)
+        self.assertNotIn('id="f-status"', html)
+
+    def test_render_includes_tab_specific_empty_copy(self) -> None:
+        now = datetime.now(timezone.utc)
+        item = make_item("Governance Advisor Search", post_ts=iso(now))
+
+        html = render_dashboard.render([item], [{"name": "ENS"}])
+
+        self.assertIn("Nothing marked done yet", html)
+        self.assertIn("Nothing dismissed yet", html)
+        self.assertIn("No active opportunities right now", html)
 
 
 if __name__ == "__main__":
