@@ -63,5 +63,18 @@
     "call_to_action": "Community discussion needed to evaluate long-term governance platform and ensure staking continuity after Tally winds down.",
     "confidence": 0.7,
     "one_line_reason": "While not a direct RFP, the post highlights a critical need for a new governance platform and asks for community/foundation input on requirements and transition, indicating a potential need for external expertise."
+  },
+  {
+    "dao": "Aave",
+    "forum_url": "https://governance.aave.com",
+    "post_url": "https://governance.aave.com/t/research-physical-layer-latency-ghost-window-in-aave-v3-v4/24811",
+    "title": "[RESEARCH] Physical Layer Latency & \"Ghost Window\" in Aave V3/V4",
+    "post_ts": "2026-04-30T00:18:32.901Z",
+    "detected_ts": "2026-04-30T02:48:40Z",
+    "ingest_mode": "live",
+    "opportunity_type": "advisory_request",
+    "call_to_action": "Provide reproducible PoC and technical validation for a potential architectural vulnerability under responsible disclosure.",
+    "confidence": 0.85,
+    "one_line_reason": "Researcher is seeking structured disclosure and technical validation from the core team for a potential vulnerability."
   }
 ]
