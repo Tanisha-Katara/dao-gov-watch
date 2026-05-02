@@ -2,7 +2,7 @@
   "https://gov.uniswap.org": 58382,
   "https://forum.makerdao.com": 106316,
   "https://governance.aave.com": 63839,
-  "https://www.comp.xyz": 19227,
+  "https://www.comp.xyz": 19229,
   "https://forum.arbitrum.foundation": 76587,
   "https://gov.optimism.io": 46365,
   "https://discuss.ens.domains": 61265,
@@ -29,7 +29,7 @@
   "https://forum.eigenlayer.xyz": 144818,
   "https://gov.kamino.finance": 1141,
   "https://community.obol.org": 1650,
-  "https://forum.ssv.network": 4829,
+  "https://forum.ssv.network": 4830,
   "https://forum.staderlabs.com": 3053,
   "https://gov.renzoprotocol.com": 392,
   "https://forum.babylon.foundation": 1233,
@@ -40,5 +40,9 @@
   "https://forum.cosmos.network": 39364,
   "https://forum.osmosis.zone": 9192,
   "https://forum.hop.exchange": 3781,
-  "https://forum.mantle.xyz": 19651
+  "https://forum.mantle.xyz": 19651,
+  "https://forum.jito.network": 1767,
+  "https://forum.marinade.finance": 4288,
+  "https://forum.wormhole.com": 1382,
+  "https://forum.cow.fi": 7980
 }
