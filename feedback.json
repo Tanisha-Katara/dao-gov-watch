@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated_at": "2026-05-02T19:59:53.574Z",
+  "updated_at": "2026-05-02T20:06:55.583Z",
   "items": {
     "https://forum.arbitrum.foundation/t/dda-3-0-dev-tooling-post-audit-commit-drift-review-harness-on-arbitrum-bold-m1-memo-already-shipped-single-paid-milestone-ask/30820": {
       "label": "not_relevant",
@@ -51,6 +51,16 @@
       "call_to_action": "Provide reproducible PoC and technical validation for a potential architectural vulnerability under responsible disclosure.",
       "one_line_reason": "Researcher is seeking structured disclosure and technical validation from the core team for a potential vulnerability.",
       "updated_at": "2026-05-02T19:59:53.269Z"
+    },
+    "https://www.comp.xyz/t/establishment-of-treasury-management-program-and-treasury-management-committee/7710": {
+      "label": "done",
+      "removed": false,
+      "dao": "Compound",
+      "opportunity_type": "rfp",
+      "title": "Establishment of Treasury Management Program and Treasury Management Committee",
+      "call_to_action": "Compound DAO is seeking proposals for treasury management programs and committees to manage its $120M treasury.",
+      "one_line_reason": "The DAO is outlining a need for structured treasury management and referencing a prior successful RFP process, indicating a likely future RFP for external services.",
+      "updated_at": "2026-05-02T20:06:55.298Z"
     }
   }
 }
