@@ -76,5 +76,18 @@
     "call_to_action": "Provide reproducible PoC and technical validation for a potential architectural vulnerability under responsible disclosure.",
     "confidence": 0.85,
     "one_line_reason": "Researcher is seeking structured disclosure and technical validation from the core team for a potential vulnerability."
+  },
+  {
+    "dao": "ZK Nation",
+    "forum_url": "https://forum.zknation.io",
+    "post_url": "https://forum.zknation.io/t/zip-16-v31-interop-bundles-upgrade/979/3",
+    "title": "[ZIP-16] V31 Interop Bundles Upgrade",
+    "post_ts": "2026-05-01T12:44:14.122Z",
+    "detected_ts": "2026-05-02T02:37:13Z",
+    "ingest_mode": "live",
+    "opportunity_type": "advisory_request",
+    "call_to_action": "Help understand the tokenomics decision for the fixed 10 ZK fee for enterprise adoption.",
+    "confidence": 0.85,
+    "one_line_reason": "Author is asking for specific tokenomics/go-to-market guidance from the protocol team, indicating a need for external expertise."
   }
 ]
