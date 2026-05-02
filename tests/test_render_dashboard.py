@@ -32,6 +32,19 @@ def make_item(title: str, *, post_ts: Optional[str] = None, detected_ts: Optiona
 
 
 class RenderDashboardTests(unittest.TestCase):
+    def test_next_scheduled_run_matches_every_three_days_midnight_schedule(self) -> None:
+        may_3 = datetime(2026, 5, 3, 15, 30, tzinfo=timezone.utc)
+        may_4 = datetime(2026, 5, 4, 0, 0, tzinfo=timezone.utc)
+
+        self.assertEqual(
+            render_dashboard.next_scheduled_run(may_3),
+            datetime(2026, 5, 4, 0, 0, tzinfo=timezone.utc),
+        )
+        self.assertEqual(
+            render_dashboard.next_scheduled_run(may_4),
+            datetime(2026, 5, 7, 0, 0, tzinfo=timezone.utc),
+        )
+
     def test_render_sorts_by_post_timestamp_and_marks_historical_items(self) -> None:
         now = datetime.now(timezone.utc)
         older_live = make_item(
@@ -118,6 +131,7 @@ class RenderDashboardTests(unittest.TestCase):
         self.assertIn("feedback.json", html)
         self.assertIn("daoGovWatchFeedbackV1", html)
         self.assertIn("feedbackUpdatedAt", html)
+        self.assertIn("Refreshes every 3 days", html)
         self.assertNotIn('id="f-status"', html)
 
     def test_render_includes_tab_specific_empty_copy(self) -> None:

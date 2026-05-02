@@ -2,7 +2,7 @@ name: Monitor DAO Forums (Live)
 
 on:
   schedule:
-    - cron: '0 0 * * *'  # Every 24 hours
+    - cron: '0 0 */3 * *'  # Every 3 days at 00:00 UTC
   workflow_dispatch:
   push:
     branches:

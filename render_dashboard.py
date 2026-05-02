@@ -14,8 +14,9 @@ from typing import Optional
 
 
 BASE = Path(__file__).parent
-REFRESH_CADENCE_MINUTES = 24 * 60
-REFRESH_CADENCE_LABEL = "24 hours"
+REFRESH_CADENCE_DAYS = 3
+REFRESH_CADENCE_MINUTES = REFRESH_CADENCE_DAYS * 24 * 60
+REFRESH_CADENCE_LABEL = "3 days"
 DEFAULT_MIN_CONFIDENCE = 0.70
 LIVE_MODE = "live"
 BACKFILL_MODE = "backfill"
@@ -163,11 +164,10 @@ def is_displayable_item(item: dict) -> bool:
 
 def next_scheduled_run(now: datetime) -> datetime:
     run = now.astimezone(timezone.utc).replace(second=0, microsecond=0)
-    midnight = run.replace(hour=0, minute=0)
-    minutes_since_midnight = (run.hour * 60) + run.minute
-    next_slot = ((minutes_since_midnight // REFRESH_CADENCE_MINUTES) + 1) * REFRESH_CADENCE_MINUTES
-    day_offset, minute_of_day = divmod(next_slot, 24 * 60)
-    return midnight + timedelta(days=day_offset, minutes=minute_of_day)
+    candidate = run.replace(hour=0, minute=0) + timedelta(days=1)
+    while (candidate.day - 1) % REFRESH_CADENCE_DAYS != 0:
+        candidate += timedelta(days=1)
+    return candidate
 
 
 def bucket_counts(items: list[dict], now: datetime) -> tuple[int, int, int]:
