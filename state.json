@@ -17,7 +17,7 @@
   "https://gov.frax.finance": 8039,
   "https://forum.euler.finance": 4322,
   "https://gov.gmx.io": 12517,
-  "https://forum.celo.org": 27740,
+  "https://forum.celo.org": 27744,
   "https://forum.moonwell.fi": 4834,
   "https://forum.zknation.io": 2451,
   "https://forum.berachain.com": 2835,
@@ -44,5 +44,10 @@
   "https://forum.jito.network": 1767,
   "https://forum.marinade.finance": 4288,
   "https://forum.wormhole.com": 1382,
-  "https://forum.cow.fi": 7980
+  "https://forum.cow.fi": 7980,
+  "https://forum.pyth.network": 6803,
+  "https://community.venus.io": 13026,
+  "https://gov.velora.xyz": 6965,
+  "https://forum.minswap.org": 11733,
+  "https://gov.bancor.network": 16239
 }
