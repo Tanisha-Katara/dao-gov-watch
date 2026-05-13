@@ -89,5 +89,18 @@
     "call_to_action": "Help understand the tokenomics decision for the fixed 10 ZK fee for enterprise adoption.",
     "confidence": 0.85,
     "one_line_reason": "Author is asking for specific tokenomics/go-to-market guidance from the protocol team, indicating a need for external expertise."
+  },
+  {
+    "dao": "Gitcoin",
+    "forum_url": "https://gov.gitcoin.co",
+    "post_url": "https://gov.gitcoin.co/t/draft-rfp-reboot-the-gitcoin-community-for-the-3-3-era/25256",
+    "title": "DRAFT - RFP: Reboot the Gitcoin Community for the 3.3 Era",
+    "post_ts": "2026-05-13T02:10:47.548Z",
+    "detected_ts": "2026-05-13T04:04:31Z",
+    "ingest_mode": "live",
+    "opportunity_type": "rfp",
+    "call_to_action": "Submit proposals for Gitcoin community reboot (delegation, engagement, comms) with open budget, rolling deadline, first review June 1, 2026.",
+    "confidence": 0.95,
+    "one_line_reason": "Formal RFP from Gitcoin DAO with budget, scope, and clear submission path for multiple contracts."
   }
 ]
