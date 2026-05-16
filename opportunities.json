@@ -102,5 +102,31 @@
     "call_to_action": "Submit proposals for Gitcoin community reboot (delegation, engagement, comms) with open budget, rolling deadline, first review June 1, 2026.",
     "confidence": 0.95,
     "one_line_reason": "Formal RFP from Gitcoin DAO with budget, scope, and clear submission path for multiple contracts."
+  },
+  {
+    "dao": "CoW DAO",
+    "forum_url": "https://forum.cow.fi",
+    "post_url": "https://forum.cow.fi/t/rfp-cow-value-distribution-mechanism/3328/19",
+    "title": "RFP : CoW Value Distribution Mechanism",
+    "post_ts": "2026-05-14T12:21:52.995Z",
+    "detected_ts": "2026-05-16T03:49:54Z",
+    "ingest_mode": "live",
+    "opportunity_type": "rfp",
+    "call_to_action": "Submit proposal for CoW Value Distribution Mechanism RFP, focusing on separating buybacks for value accrual from operational workflows.",
+    "confidence": 0.9,
+    "one_line_reason": "This is a formal RFP from the DAO seeking external teams to design and implement a specific mechanism, with clear technical and operational requirements outlined needs outlined."
+  },
+  {
+    "dao": "Cosmos Hub",
+    "forum_url": "https://forum.cosmos.network",
+    "post_url": "https://forum.cosmos.network/t/the-french-paradox-of-the-hub-moving-from-cavalerie-to-real-economy-le-paradoxe-francais-du-hub-arretons-la-cavalerie/16955/10",
+    "title": "The \"French Paradox\" of the Hub: Moving from 'Cavalerie' to Real Economy / Le paradoxe français du Hub : Arrêtons la cavalerie",
+    "post_ts": "2026-05-15T09:44:22.777Z",
+    "detected_ts": "2026-05-16T03:51:26Z",
+    "ingest_mode": "live",
+    "opportunity_type": "advisory_request",
+    "call_to_action": "Draft a governance proposal to fund a team to build a real-time revenue vs. dilution dashboard.",
+    "confidence": 0.75,
+    "one_line_reason": "The author is proposing a concrete action item (drafting a proposal to fund a dashboard) which implies a need for external expertise in building such a system, even if not explicitly stated as a solicitation."
   }
 ]
