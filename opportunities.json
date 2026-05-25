@@ -128,5 +128,18 @@
     "call_to_action": "Draft a governance proposal to fund a team to build a real-time revenue vs. dilution dashboard.",
     "confidence": 0.75,
     "one_line_reason": "The author is proposing a concrete action item (drafting a proposal to fund a dashboard) which implies a need for external expertise in building such a system, even if not explicitly stated as a solicitation."
+  },
+  {
+    "dao": "Livepeer",
+    "forum_url": "https://forum.livepeer.org",
+    "post_url": "https://forum.livepeer.org/t/rfp-delegator-ux-analysis-self-custody-vs-custodial-staking/3254/3",
+    "title": "RFP — Delegator UX Analysis (Self-Custody vs. Custodial Staking)",
+    "post_ts": "2026-05-24T17:26:15.719Z",
+    "detected_ts": "2026-05-25T04:41:28Z",
+    "ingest_mode": "live",
+    "opportunity_type": "rfp",
+    "call_to_action": "Submit proposal for Delegator UX Analysis (Self-Custody vs. Custodial Staking).",
+    "confidence": 0.9,
+    "one_line_reason": "Formal RFP for analysis of delegator UX, indicating a need for external expertise."
   }
 ]
