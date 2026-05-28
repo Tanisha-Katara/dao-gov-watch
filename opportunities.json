@@ -141,5 +141,44 @@
     "call_to_action": "Submit proposal for Delegator UX Analysis (Self-Custody vs. Custodial Staking).",
     "confidence": 0.9,
     "one_line_reason": "Formal RFP for analysis of delegator UX, indicating a need for external expertise."
+  },
+  {
+    "dao": "ENS",
+    "forum_url": "https://discuss.ens.domains",
+    "post_url": "https://discuss.ens.domains/t/temp-check-ens-dao-coordination-layer/22133/20",
+    "title": "[Temp Check] ENS DAO Coordination Layer",
+    "post_ts": "2026-05-27T17:40:18.490Z",
+    "detected_ts": "2026-05-28T04:18:31Z",
+    "ingest_mode": "live",
+    "opportunity_type": "advisory_request",
+    "call_to_action": "Seek counsel from a neutral third party for an unbiased perspective on ENS DAO coordination layer reform.",
+    "confidence": 0.75,
+    "one_line_reason": "Author suggests seeking outside counsel for an unbiased perspective on governance reform, indicating a potential need for external expertise."
+  },
+  {
+    "dao": "Livepeer",
+    "forum_url": "https://forum.livepeer.org",
+    "post_url": "https://forum.livepeer.org/t/rfp-delegator-ux-analysis-self-custody-vs-custodial-staking/3254/5",
+    "title": "RFP — Delegator UX Analysis (Self-Custody vs. Custodial Staking)",
+    "post_ts": "2026-05-26T20:21:30.061Z",
+    "detected_ts": "2026-05-28T04:20:01Z",
+    "ingest_mode": "live",
+    "opportunity_type": "rfp",
+    "call_to_action": "Review submissions for Delegator UX Analysis RFP, with one submission marked 'READY FOR REVIEW'.",
+    "confidence": 0.9,
+    "one_line_reason": "This is a status update on an existing RFP, not a new solicitation for external help."
+  },
+  {
+    "dao": "Zcash",
+    "forum_url": "https://forum.zcashcommunity.com",
+    "post_url": "https://forum.zcashcommunity.com/t/closing-the-zcg-vulnerability-bounty-program/55855/6",
+    "title": "Closing the ZCG Vulnerability Bounty Program",
+    "post_ts": "2026-05-27T11:46:17.225Z",
+    "detected_ts": "2026-05-28T04:20:49Z",
+    "ingest_mode": "live",
+    "opportunity_type": "advisory_request",
+    "call_to_action": "Clarify ZCG vulnerability bounty program process: final review, advisory, and payout workflow.",
+    "confidence": 0.7,
+    "one_line_reason": "The author is seeking clarification and guidance on an existing program's process, indicating a need for external expertise to structure or explain it."
   }
 ]
