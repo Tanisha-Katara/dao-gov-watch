@@ -180,5 +180,18 @@
     "call_to_action": "Clarify ZCG vulnerability bounty program process: final review, advisory, and payout workflow.",
     "confidence": 0.7,
     "one_line_reason": "The author is seeking clarification and guidance on an existing program's process, indicating a need for external expertise to structure or explain it."
+  },
+  {
+    "dao": "Gitcoin",
+    "forum_url": "https://gov.gitcoin.co",
+    "post_url": "https://gov.gitcoin.co/t/draft-rfp-reboot-the-gitcoin-community-for-the-3-3-era/25256/3",
+    "title": "DRAFT - RFP: Reboot the Gitcoin Community for the 3.3 Era",
+    "post_ts": "2026-06-01T00:32:01.791Z",
+    "detected_ts": "2026-06-01T05:02:03Z",
+    "ingest_mode": "live",
+    "opportunity_type": "rfp",
+    "call_to_action": "Submit proposal for Gitcoin 3.3 community reboot RFP, focusing on Workstream A (Delegation) and governance education.",
+    "confidence": 0.9,
+    "one_line_reason": "This is a draft RFP response, indicating a formal solicitation for external services related to governance and community reboot."
   }
 ]
