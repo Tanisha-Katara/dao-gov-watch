@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated_at": "2026-05-18T21:27:23.627Z",
+  "updated_at": "2026-06-01T14:37:30.940Z",
   "items": {
     "https://forum.arbitrum.foundation/t/dda-3-0-dev-tooling-post-audit-commit-drift-review-harness-on-arbitrum-bold-m1-memo-already-shipped-single-paid-milestone-ask/30820": {
       "label": "not_relevant",
@@ -71,6 +71,76 @@
       "call_to_action": "Submit proposal for CoW Value Distribution Mechanism RFP, focusing on separating buybacks for value accrual from operational workflows.",
       "one_line_reason": "This is a formal RFP from the DAO seeking external teams to design and implement a specific mechanism, with clear technical and operational requirements outlined needs outlined.",
       "updated_at": "2026-05-18T21:27:23.380Z"
+    },
+    "https://gov.gitcoin.co/t/draft-rfp-reboot-the-gitcoin-community-for-the-3-3-era/25256": {
+      "label": "done",
+      "removed": false,
+      "dao": "Gitcoin",
+      "opportunity_type": "rfp",
+      "title": "DRAFT - RFP: Reboot the Gitcoin Community for the 3.3 Era",
+      "call_to_action": "Submit proposals for Gitcoin community reboot (delegation, engagement, comms) with open budget, rolling deadline, first review June 1, 2026.",
+      "one_line_reason": "Formal RFP from Gitcoin DAO with budget, scope, and clear submission path for multiple contracts.",
+      "updated_at": "2026-05-18T21:27:30.930Z"
+    },
+    "https://forum.livepeer.org/t/rfp-delegator-ux-analysis-self-custody-vs-custodial-staking/3254/3": {
+      "label": "done",
+      "removed": false,
+      "dao": "Livepeer",
+      "opportunity_type": "rfp",
+      "title": "RFP — Delegator UX Analysis (Self-Custody vs. Custodial Staking)",
+      "call_to_action": "Submit proposal for Delegator UX Analysis (Self-Custody vs. Custodial Staking).",
+      "one_line_reason": "Formal RFP for analysis of delegator UX, indicating a need for external expertise.",
+      "updated_at": "2026-05-27T20:35:23.501Z"
+    },
+    "https://gov.gitcoin.co/t/draft-rfp-reboot-the-gitcoin-community-for-the-3-3-era/25256/3": {
+      "label": "done",
+      "removed": false,
+      "dao": "Gitcoin",
+      "opportunity_type": "rfp",
+      "title": "DRAFT - RFP: Reboot the Gitcoin Community for the 3.3 Era",
+      "call_to_action": "Submit proposal for Gitcoin 3.3 community reboot RFP, focusing on Workstream A (Delegation) and governance education.",
+      "one_line_reason": "This is a draft RFP response, indicating a formal solicitation for external services related to governance and community reboot.",
+      "updated_at": "2026-06-01T14:22:13.215Z"
+    },
+    "https://forum.livepeer.org/t/rfp-delegator-ux-analysis-self-custody-vs-custodial-staking/3254/5": {
+      "label": "done",
+      "removed": false,
+      "dao": "Livepeer",
+      "opportunity_type": "rfp",
+      "title": "RFP — Delegator UX Analysis (Self-Custody vs. Custodial Staking)",
+      "call_to_action": "Review submissions for Delegator UX Analysis RFP, with one submission marked 'READY FOR REVIEW'.",
+      "one_line_reason": "This is a status update on an existing RFP, not a new solicitation for external help.",
+      "updated_at": "2026-06-01T14:23:09.697Z"
+    },
+    "https://forum.zcashcommunity.com/t/closing-the-zcg-vulnerability-bounty-program/55855/6": {
+      "label": "not_relevant",
+      "removed": false,
+      "dao": "Zcash",
+      "opportunity_type": "advisory_request",
+      "title": "Closing the ZCG Vulnerability Bounty Program",
+      "call_to_action": "Clarify ZCG vulnerability bounty program process: final review, advisory, and payout workflow.",
+      "one_line_reason": "The author is seeking clarification and guidance on an existing program's process, indicating a need for external expertise to structure or explain it.",
+      "updated_at": "2026-06-01T14:23:42.663Z"
+    },
+    "https://forum.cosmos.network/t/the-french-paradox-of-the-hub-moving-from-cavalerie-to-real-economy-le-paradoxe-francais-du-hub-arretons-la-cavalerie/16955/10": {
+      "label": "not_relevant",
+      "removed": false,
+      "dao": "Cosmos Hub",
+      "opportunity_type": "advisory_request",
+      "title": "The \"French Paradox\" of the Hub: Moving from 'Cavalerie' to Real Economy / Le paradoxe français du Hub : Arrêtons la cavalerie",
+      "call_to_action": "Draft a governance proposal to fund a team to build a real-time revenue vs. dilution dashboard.",
+      "one_line_reason": "The author is proposing a concrete action item (drafting a proposal to fund a dashboard) which implies a need for external expertise in building such a system, even if not explicitly stated as a solicitation.",
+      "updated_at": "2026-06-01T14:26:17.275Z"
+    },
+    "https://discuss.ens.domains/t/temp-check-ens-dao-coordination-layer/22133/20": {
+      "label": "done",
+      "removed": false,
+      "dao": "ENS",
+      "opportunity_type": "advisory_request",
+      "title": "[Temp Check] ENS DAO Coordination Layer",
+      "call_to_action": "Seek counsel from a neutral third party for an unbiased perspective on ENS DAO coordination layer reform.",
+      "one_line_reason": "Author suggests seeking outside counsel for an unbiased perspective on governance reform, indicating a potential need for external expertise.",
+      "updated_at": "2026-06-01T14:26:19.807Z"
     }
   }
 }
