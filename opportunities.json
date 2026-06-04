@@ -193,5 +193,18 @@
     "call_to_action": "Submit proposal for Gitcoin 3.3 community reboot RFP, focusing on Workstream A (Delegation) and governance education.",
     "confidence": 0.9,
     "one_line_reason": "This is a draft RFP response, indicating a formal solicitation for external services related to governance and community reboot."
+  },
+  {
+    "dao": "Compound",
+    "forum_url": "https://www.comp.xyz",
+    "post_url": "https://www.comp.xyz/t/request-for-proposals-rfp-compound-dao-treasury-management-program/7867",
+    "title": "Request for Proposals (RFP): Compound DAO Treasury Management Program",
+    "post_ts": "2026-06-03T23:09:45.009Z",
+    "detected_ts": "2026-06-04T04:52:09Z",
+    "ingest_mode": "live",
+    "opportunity_type": "rfp",
+    "call_to_action": "Submit proposals for Compound DAO Treasury Management Program; manage $20-25M allocation, deadline June 24.",
+    "confidence": 0.95,
+    "one_line_reason": "Formal RFP from a DAO committee seeking professional treasury managers with a clear scope, budget, and deadline."
   }
 ]
