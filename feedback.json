@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated_at": "2026-06-01T14:37:30.940Z",
+  "updated_at": "2026-06-08T14:12:42.348Z",
   "items": {
     "https://forum.arbitrum.foundation/t/dda-3-0-dev-tooling-post-audit-commit-drift-review-harness-on-arbitrum-bold-m1-memo-already-shipped-single-paid-milestone-ask/30820": {
       "label": "not_relevant",
@@ -141,6 +141,16 @@
       "call_to_action": "Seek counsel from a neutral third party for an unbiased perspective on ENS DAO coordination layer reform.",
       "one_line_reason": "Author suggests seeking outside counsel for an unbiased perspective on governance reform, indicating a potential need for external expertise.",
       "updated_at": "2026-06-01T14:26:19.807Z"
+    },
+    "https://gov.gitcoin.co/t/draft-rfp-reboot-the-gitcoin-community-for-the-3-3-era/25256/5": {
+      "label": "not_relevant",
+      "removed": false,
+      "dao": "Gitcoin",
+      "opportunity_type": "rfp",
+      "title": "DRAFT - RFP: Reboot the Gitcoin Community for the 3.3 Era",
+      "call_to_action": "Submit proposal for Gitcoin's Delegate Program Framework RFP, focusing on recruitment, onboarding, and evaluation for the 3.3 Era.",
+      "one_line_reason": "Formal RFP from Gitcoin seeking external teams to design and implement a delegate program framework.",
+      "updated_at": "2026-06-08T14:12:41.592Z"
     }
   }
 }
