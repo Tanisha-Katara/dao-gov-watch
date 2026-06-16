@@ -219,5 +219,31 @@
     "call_to_action": "Submit proposal for Gitcoin's Delegate Program Framework RFP, focusing on recruitment, onboarding, and evaluation for the 3.3 Era.",
     "confidence": 0.95,
     "one_line_reason": "Formal RFP from Gitcoin seeking external teams to design and implement a delegate program framework."
+  },
+  {
+    "dao": "Compound",
+    "forum_url": "https://www.comp.xyz",
+    "post_url": "https://www.comp.xyz/t/temperature-check-independent-qa-and-analytics-for-compound/7876",
+    "title": "[Temperature Check] Independent QA and analytics for Compound",
+    "post_ts": "2026-06-14T16:22:54.230Z",
+    "detected_ts": "2026-06-16T05:18:36Z",
+    "ingest_mode": "live",
+    "opportunity_type": "hire",
+    "call_to_action": "Apply for a $12.5k/month, 6-month pilot to provide independent QA and analytics for Compound.",
+    "confidence": 0.9,
+    "one_line_reason": "This is a clear request for paid external services (QA and analytics) with a defined budget and duration."
+  },
+  {
+    "dao": "Livepeer",
+    "forum_url": "https://forum.livepeer.org",
+    "post_url": "https://forum.livepeer.org/t/rfp-delegator-ux-analysis-self-custody-vs-custodial-staking/3254/8",
+    "title": "RFP — Delegator UX Analysis (Self-Custody vs. Custodial Staking)",
+    "post_ts": "2026-06-15T07:14:01.786Z",
+    "detected_ts": "2026-06-16T05:20:26Z",
+    "ingest_mode": "live",
+    "opportunity_type": "rfp",
+    "call_to_action": "Submit proposal for Delegator UX Analysis (Self-Custody vs. Custodial Staking) to evaluate orchestrator economics and margins.",
+    "confidence": 0.9,
+    "one_line_reason": "Formal RFP seeking analysis of delegator UX and orchestrator economics, with clear scope and implied need for external expertise."
   }
 ]
