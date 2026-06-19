@@ -245,5 +245,18 @@
     "call_to_action": "Submit proposal for Delegator UX Analysis (Self-Custody vs. Custodial Staking) to evaluate orchestrator economics and margins.",
     "confidence": 0.9,
     "one_line_reason": "Formal RFP seeking analysis of delegator UX and orchestrator economics, with clear scope and implied need for external expertise."
+  },
+  {
+    "dao": "Optimism",
+    "forum_url": "https://gov.optimism.io",
+    "post_url": "https://gov.optimism.io/t/season-9-final-report/10685/3",
+    "title": "Season 9 Final Report",
+    "post_ts": "2026-06-16T08:25:30.992Z",
+    "detected_ts": "2026-06-19T05:08:03Z",
+    "ingest_mode": "live",
+    "opportunity_type": "advisory_request",
+    "call_to_action": "Trial mandate to serve as an external operational filter for the Council, including application pre-processing and milestone tracking.",
+    "confidence": 0.75,
+    "one_line_reason": "Author is proposing a trial mandate for external operational filtering and milestone tracking, indicating a need for outside help with a defined scope."
   }
 ]
