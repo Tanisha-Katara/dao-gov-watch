@@ -258,5 +258,18 @@
     "call_to_action": "Trial mandate to serve as an external operational filter for the Council, including application pre-processing and milestone tracking.",
     "confidence": 0.75,
     "one_line_reason": "Author is proposing a trial mandate for external operational filtering and milestone tracking, indicating a need for outside help with a defined scope."
+  },
+  {
+    "dao": "Livepeer",
+    "forum_url": "https://forum.livepeer.org",
+    "post_url": "https://forum.livepeer.org/t/rfp-delegator-ux-analysis-self-custody-vs-custodial-staking/3254/9",
+    "title": "RFP — Delegator UX Analysis (Self-Custody vs. Custodial Staking)",
+    "post_ts": "2026-06-23T15:35:15.691Z",
+    "detected_ts": "2026-06-25T04:18:13Z",
+    "ingest_mode": "live",
+    "opportunity_type": "rfp",
+    "call_to_action": "Submit proposal for Delegator UX Analysis (Self-Custody vs. Custodial Staking) by June 22.",
+    "confidence": 0.95,
+    "one_line_reason": "Formal RFP with clear scope, deliverables, and deadlines for external analysis."
   }
 ]
