@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated_at": "2026-06-20T18:24:01.383Z",
+  "updated_at": "2026-07-01T15:28:17.725Z",
   "items": {
     "https://forum.arbitrum.foundation/t/dda-3-0-dev-tooling-post-audit-commit-drift-review-harness-on-arbitrum-bold-m1-memo-already-shipped-single-paid-milestone-ask/30820": {
       "label": "not_relevant",
@@ -171,6 +171,26 @@
       "call_to_action": "Submit proposal for Delegator UX Analysis (Self-Custody vs. Custodial Staking) to evaluate orchestrator economics and margins.",
       "one_line_reason": "Formal RFP seeking analysis of delegator UX and orchestrator economics, with clear scope and implied need for external expertise.",
       "updated_at": "2026-06-20T18:24:00.733Z"
+    },
+    "https://www.comp.xyz/t/temperature-check-independent-qa-and-analytics-for-compound/7876": {
+      "label": "not_relevant",
+      "removed": false,
+      "dao": "Compound",
+      "opportunity_type": "hire",
+      "title": "[Temperature Check] Independent QA and analytics for Compound",
+      "call_to_action": "Apply for a $12.5k/month, 6-month pilot to provide independent QA and analytics for Compound.",
+      "one_line_reason": "This is a clear request for paid external services (QA and analytics) with a defined budget and duration.",
+      "updated_at": "2026-06-20T18:24:05.415Z"
+    },
+    "https://forum.livepeer.org/t/rfp-delegator-ux-analysis-self-custody-vs-custodial-staking/3254/9": {
+      "label": "done",
+      "removed": false,
+      "dao": "Livepeer",
+      "opportunity_type": "rfp",
+      "title": "RFP — Delegator UX Analysis (Self-Custody vs. Custodial Staking)",
+      "call_to_action": "Submit proposal for Delegator UX Analysis (Self-Custody vs. Custodial Staking) by June 22.",
+      "one_line_reason": "Formal RFP with clear scope, deliverables, and deadlines for external analysis.",
+      "updated_at": "2026-07-01T15:28:16.820Z"
     }
   }
 }
