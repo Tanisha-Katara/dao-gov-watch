@@ -271,5 +271,18 @@
     "call_to_action": "Submit proposal for Delegator UX Analysis (Self-Custody vs. Custodial Staking) by June 22.",
     "confidence": 0.95,
     "one_line_reason": "Formal RFP with clear scope, deliverables, and deadlines for external analysis."
+  },
+  {
+    "dao": "Livepeer",
+    "forum_url": "https://forum.livepeer.org",
+    "post_url": "https://forum.livepeer.org/t/rfp-delegator-ux-analysis-self-custody-vs-custodial-staking/3254/10",
+    "title": "RFP — Delegator UX Analysis (Self-Custody vs. Custodial Staking)",
+    "post_ts": "2026-06-29T00:51:00.601Z",
+    "detected_ts": "2026-07-01T04:45:23Z",
+    "ingest_mode": "live",
+    "opportunity_type": "rfp",
+    "call_to_action": "Review draft deliverables for Delegator UX Analysis RFP (Design Brief, Prioritized Backlog) and provide feedback in forum, Discord, or Water Cooler.",
+    "confidence": 0.95,
+    "one_line_reason": "This is an update on an ongoing RFP, but it explicitly asks for community review and feedback on deliverables, indicating an active solicitation for input."
   }
 ]
