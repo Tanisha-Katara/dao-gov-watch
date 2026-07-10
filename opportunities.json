@@ -284,5 +284,18 @@
     "call_to_action": "Review draft deliverables for Delegator UX Analysis RFP (Design Brief, Prioritized Backlog) and provide feedback in forum, Discord, or Water Cooler.",
     "confidence": 0.95,
     "one_line_reason": "This is an update on an ongoing RFP, but it explicitly asks for community review and feedback on deliverables, indicating an active solicitation for input."
+  },
+  {
+    "dao": "ENS",
+    "forum_url": "https://discuss.ens.domains",
+    "post_url": "https://discuss.ens.domains/t/temp-check-spp3-marketplace-rfp/22263",
+    "title": "[Temp Check] SPP3: Marketplace RFP",
+    "post_ts": "2026-07-09T16:16:49.578Z",
+    "detected_ts": "2026-07-10T04:00:34Z",
+    "ingest_mode": "live",
+    "opportunity_type": "rfp",
+    "call_to_action": "Submit proposal for a live, revenue-generating ENS marketplace RFP, funded from existing SPP3 budget, up to $500k.",
+    "confidence": 0.95,
+    "one_line_reason": "DAO is running a new RFP to fill an unfilled vendor slot from a previous program, with a clear budget and timeline."
   }
 ]
