@@ -297,5 +297,18 @@
     "call_to_action": "Submit proposal for a live, revenue-generating ENS marketplace RFP, funded from existing SPP3 budget, up to $500k.",
     "confidence": 0.95,
     "one_line_reason": "DAO is running a new RFP to fill an unfilled vendor slot from a previous program, with a clear budget and timeline."
+  },
+  {
+    "dao": "Optimism",
+    "forum_url": "https://gov.optimism.io",
+    "post_url": "https://gov.optimism.io/t/season-9-final-report/10685/8",
+    "title": "Season 9 Final Report",
+    "post_ts": "2026-07-11T12:00:17.726Z",
+    "detected_ts": "2026-07-13T03:39:53Z",
+    "ingest_mode": "live",
+    "opportunity_type": "advisory_request",
+    "call_to_action": "Formalize scope of work for a mandate to create a Season 10 Integration Clause and Baseline Criteria Matrix, if delegates are aligned.",
+    "confidence": 0.75,
+    "one_line_reason": "Author is proposing a new governance mechanism and asking for alignment to formalize scope, indicating a potential need for external help in defining/implementing it."
   }
 ]
