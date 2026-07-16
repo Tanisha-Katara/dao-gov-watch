@@ -310,5 +310,31 @@
     "call_to_action": "Formalize scope of work for a mandate to create a Season 10 Integration Clause and Baseline Criteria Matrix, if delegates are aligned.",
     "confidence": 0.75,
     "one_line_reason": "Author is proposing a new governance mechanism and asking for alignment to formalize scope, indicating a potential need for external help in defining/implementing it."
+  },
+  {
+    "dao": "ENS",
+    "forum_url": "https://discuss.ens.domains",
+    "post_url": "https://discuss.ens.domains/t/draft-reform-dao-governance-by-delegating-5m-ens-tokens/22247/26",
+    "title": "[Draft] Reform DAO governance by delegating 5M ENS tokens",
+    "post_ts": "2026-07-14T12:48:46.874Z",
+    "detected_ts": "2026-07-16T03:22:25Z",
+    "ingest_mode": "live",
+    "opportunity_type": "rfp",
+    "call_to_action": "Draft an RFP for delegating 5M ENS tokens, including purpose, scope, deliverables, budget, and evaluation criteria.",
+    "confidence": 0.85,
+    "one_line_reason": "The post suggests creating an RFP for a specific governance action (delegating tokens) and offers to help draft it, indicating a potential future formal request for external expertise."
+  },
+  {
+    "dao": "Gitcoin",
+    "forum_url": "https://gov.gitcoin.co",
+    "post_url": "https://gov.gitcoin.co/t/temp-check-transitionary-stewards-cohort/25342",
+    "title": "[temp check] transitionary stewards cohort",
+    "post_ts": "2026-07-14T21:06:08.989Z",
+    "detected_ts": "2026-07-16T03:22:55Z",
+    "ingest_mode": "live",
+    "opportunity_type": "hire",
+    "call_to_action": "Express interest in a paid cohort of transitionary stewards for Gitcoin's transition (Aug 2026-Mar 2027).",
+    "confidence": 0.85,
+    "one_line_reason": "DAO is explicitly asking for external help (paid cohort) to steward a transition, not self-grading."
   }
 ]
