@@ -336,5 +336,18 @@
     "call_to_action": "Express interest in a paid cohort of transitionary stewards for Gitcoin's transition (Aug 2026-Mar 2027).",
     "confidence": 0.85,
     "one_line_reason": "DAO is explicitly asking for external help (paid cohort) to steward a transition, not self-grading."
+  },
+  {
+    "dao": "Optimism",
+    "forum_url": "https://gov.optimism.io",
+    "post_url": "https://gov.optimism.io/t/optimism-security-council-operating-budget-for-seasons-10-and-11/10749/9",
+    "title": "Optimism Security Council Operating Budget for Seasons 10 and 11",
+    "post_ts": "2026-07-18T10:20:20.559Z",
+    "detected_ts": "2026-07-19T03:34:47Z",
+    "ingest_mode": "live",
+    "opportunity_type": "rfp",
+    "call_to_action": "Sponsor a formal mandate/RFP to build budget baseline framework documentation for the Token House; available on Discord to scope deliverables.",
+    "confidence": 0.9,
+    "one_line_reason": "The author is proposing a formal mandate/RFP for a critical DAO infrastructure project and is available to scope it out, indicating a clear opportunity for external work."
   }
 ]
