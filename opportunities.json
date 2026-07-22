@@ -349,5 +349,31 @@
     "call_to_action": "Sponsor a formal mandate/RFP to build budget baseline framework documentation for the Token House; available on Discord to scope deliverables.",
     "confidence": 0.9,
     "one_line_reason": "The author is proposing a formal mandate/RFP for a critical DAO infrastructure project and is available to scope it out, indicating a clear opportunity for external work."
+  },
+  {
+    "dao": "ENS",
+    "forum_url": "https://discuss.ens.domains",
+    "post_url": "https://discuss.ens.domains/t/marketplace-rfp-submission-timeline-and-artifacts/22309",
+    "title": "Marketplace RFP: Submission Timeline and Artifacts",
+    "post_ts": "2026-07-20T21:48:08.920Z",
+    "detected_ts": "2026-07-22T03:27:20Z",
+    "ingest_mode": "live",
+    "opportunity_type": "rfp",
+    "call_to_action": "Submit proposal for ENS Marketplace RFP by August 5; up to $500k award for ~11 months.",
+    "confidence": 0.95,
+    "one_line_reason": "Formal RFP with clear timeline, budget, and submission deadline for a specific project."
+  },
+  {
+    "dao": "ZK Nation",
+    "forum_url": "https://forum.zknation.io",
+    "post_url": "https://forum.zknation.io/t/tpp-draft-revocation-of-remaining-tpp-18-capped-minters/1057/11",
+    "title": "[TPP Draft] Revocation of Remaining TPP-18 Capped Minters",
+    "post_ts": "2026-07-20T14:47:33.834Z",
+    "detected_ts": "2026-07-22T03:28:06Z",
+    "ingest_mode": "live",
+    "opportunity_type": "advisory_request",
+    "call_to_action": "Provide alternative contact methods (X, Farcaster, LinkedIn) for Delegates to reach out, as the 'zkgov' email is a phishing risk.",
+    "confidence": 0.75,
+    "one_line_reason": "The post is asking for help with a specific governance process issue (contact methods) and has a clear path to respond."
   }
 ]
