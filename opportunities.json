@@ -427,5 +427,18 @@
     "call_to_action": "Provide research on node quality scoring, testing, analysis, metrics, dashboards, and communications for Livepeer 2.0.",
     "confidence": 0.75,
     "one_line_reason": "The author is describing a complex research task that requires external expertise and compensation, implicitly asking for help in defining and executing it."
+  },
+  {
+    "dao": "Celo",
+    "forum_url": "https://forum.celo.org",
+    "post_url": "https://forum.celo.org/t/recruiting-gooddollar-treasury-committee-founding-members/13722",
+    "title": "Recruiting GoodDollar Treasury Committee Founding Members",
+    "post_ts": "2026-08-13T14:33:50.739Z",
+    "detected_ts": "2026-08-16T01:48:28Z",
+    "ingest_mode": "live",
+    "opportunity_type": "hire",
+    "call_to_action": "Apply to be a founding member of the GoodDollar Treasury Committee; job description and application link provided; submissions due August 21.",
+    "confidence": 0.95,
+    "one_line_reason": "The protocol is actively recruiting for paid roles with a defined scope and application process."
   }
 ]
