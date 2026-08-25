@@ -440,5 +440,18 @@
     "call_to_action": "Apply to be a founding member of the GoodDollar Treasury Committee; job description and application link provided; submissions due August 21.",
     "confidence": 0.95,
     "one_line_reason": "The protocol is actively recruiting for paid roles with a defined scope and application process."
+  },
+  {
+    "dao": "ZK Nation",
+    "forum_url": "https://forum.zknation.io",
+    "post_url": "https://forum.zknation.io/t/proposal-review-call-new-date-thursday-august-20th/1085/5",
+    "title": "Proposal Review Call - NEW DATE - THURSDAY August 20th",
+    "post_ts": "2026-08-24T11:51:29.667Z",
+    "detected_ts": "2026-08-25T01:42:03Z",
+    "ingest_mode": "live",
+    "opportunity_type": "advisory_request",
+    "call_to_action": "Share examples of governance designs accommodating institutional participation on the forum.",
+    "confidence": 0.6,
+    "one_line_reason": "DAO team is reviewing governance design and explicitly asking for examples from other ecosystems, indicating a need for external insights."
   }
 ]
