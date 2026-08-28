@@ -453,5 +453,18 @@
     "call_to_action": "Share examples of governance designs accommodating institutional participation on the forum.",
     "confidence": 0.6,
     "one_line_reason": "DAO team is reviewing governance design and explicitly asking for examples from other ecosystems, indicating a need for external insights."
+  },
+  {
+    "dao": "The Graph",
+    "forum_url": "https://forum.thegraph.com",
+    "post_url": "https://forum.thegraph.com/t/introducing-grt-liquid-staking-phase-1/7034",
+    "title": "Introducing GRT Liquid Staking: Phase 1",
+    "post_ts": "2026-08-25T13:39:10.130Z",
+    "detected_ts": "2026-08-28T11:05:40Z",
+    "ingest_mode": "live",
+    "opportunity_type": "advisory_request",
+    "call_to_action": "Email vault@thegraph.foundation to express interest in early access to the GRT Liquid Staking Initiative soft launch.",
+    "confidence": 0.75,
+    "one_line_reason": "The Graph Foundation is seeking interested parties for early access to a new initiative, implying a need for feedback or early adopters, which could be framed as an advisory opportunity."
   }
 ]
