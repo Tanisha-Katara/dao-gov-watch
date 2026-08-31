@@ -466,5 +466,18 @@
     "call_to_action": "Email vault@thegraph.foundation to express interest in early access to the GRT Liquid Staking Initiative soft launch.",
     "confidence": 0.75,
     "one_line_reason": "The Graph Foundation is seeking interested parties for early access to a new initiative, implying a need for feedback or early adopters, which could be framed as an advisory opportunity."
+  },
+  {
+    "dao": "Polkadot",
+    "forum_url": "https://forum.polkadot.network",
+    "post_url": "https://forum.polkadot.network/t/advice-requested-recovery-path-for-dot-backing-stranded-xcdot-after-moonbeam-shutdown/18506",
+    "title": "Advice requested: recovery path for  DOT backing stranded xcDOT after Moonbeam shutdown",
+    "post_ts": "2026-08-30T05:11:14.115Z",
+    "detected_ts": "2026-08-31T05:10:22Z",
+    "ingest_mode": "live",
+    "opportunity_type": "advisory_request",
+    "call_to_action": "Seeking technical and governance advice on recovering stranded xcDOT after Moonbeam shutdown.",
+    "confidence": 0.75,
+    "one_line_reason": "Individual seeking specific technical and governance advice from multiple communities, indicating a need for external expertise."
   }
 ]
