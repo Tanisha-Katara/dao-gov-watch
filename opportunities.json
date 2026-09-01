@@ -479,5 +479,18 @@
     "call_to_action": "Seeking technical and governance advice on recovering stranded xcDOT after Moonbeam shutdown.",
     "confidence": 0.75,
     "one_line_reason": "Individual seeking specific technical and governance advice from multiple communities, indicating a need for external expertise."
+  },
+  {
+    "dao": "Compound",
+    "forum_url": "https://www.comp.xyz",
+    "post_url": "https://www.comp.xyz/t/compound-v3-eth-comets-zero-supply-caps-for-low-demand-lst-lrt-collateral/8029/4",
+    "title": "Compound V3 ETH Comets: Zero Supply Caps for Low-Demand LST/LRT Collateral",
+    "post_ts": "2026-08-31T05:49:26.439Z",
+    "detected_ts": "2026-09-01T04:45:14Z",
+    "ingest_mode": "live",
+    "opportunity_type": "advisory_request",
+    "call_to_action": "Provide thoughts on improving the current methodology for formalizing an offboarding framework for low-demand collateral.",
+    "confidence": 0.6,
+    "one_line_reason": "Exploratory discussion seeking input on improving a process, with a potential path to formalization."
   }
 ]
