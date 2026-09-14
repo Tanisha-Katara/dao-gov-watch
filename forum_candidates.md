@@ -1,15 +1,13 @@
 # Forum Discovery Candidates
 
-- Generated: `2026-09-07T05:44:08Z`
+- Generated: `2026-09-14T05:51:29Z`
 - Reviewed shortlist size: `25`
 - Display threshold: `0.45`
 - Add entries manually to `daos.json` after review.
 
 ## Add Now
 
-| Protocol | Category | TVL | Fees 7d | Forum | Latest Post | Score | Reason |
-|---|---|---:|---:|---|---|---:|---|
-| fx Protocol | Dual-Token Stablecoin | $121.93M | $207.7K | [ok](https://forum.aladdin.club) | 2026-08-30T08:52:23Z | 0.93 | Validated forum with recent activity; blended score 0.93 clears the add-now threshold. |
+_None_
 
 ## Review
 
@@ -19,30 +17,31 @@ _None_
 
 | Protocol | Category | TVL | Fees 7d | Forum | Latest Post | Score | Reason |
 |---|---|---:|---:|---|---|---:|---|
-| Grove Finance | Onchain Capital Allocator | $2.15B | $1.19M | [dns_error](https://gov.grove.finance) | - | 0.80 | Forum hostname did not resolve. |
-| Veda | Onchain Capital Allocator | $1.76B | $907.9K | [dns_error](https://gov.veda.tech) | - | 0.80 | Forum hostname did not resolve. |
-| Convex Finance | Yield | $599.43M | $738.3K | [dns_error](https://gov.convexfinance.com) | - | 0.80 | Forum hostname did not resolve. |
-| Hastra | RWA | $602.31M | $638.8K | [dns_error](https://gov.hastra.io) | - | 0.80 | Forum hostname did not resolve. |
-| Rocket Pool | Liquid Staking | $1.31B | $481.9K | [dns_error](https://gov.rocketpool.net) | - | 0.80 | Forum hostname did not resolve. |
-| Liquid Collective | Liquid Staking | $801.89M | $389.8K | [dns_error](https://gov.liquidcollective.io) | - | 0.80 | Forum hostname did not resolve. |
-| USD AI | RWA Lending | $283.04M | $646.6K | [http_404](https://gov.usd.ai) | - | 0.80 | Forum probe returned HTTP 404. |
-| OnRe | RWA | $299.20M | $591.9K | [dns_error](https://gov.onre.finance) | - | 0.80 | Forum hostname did not resolve. |
-| Upshift | Onchain Capital Allocator | $404.99M | $512.6K | [dns_error](https://gov.upshift.finance) | - | 0.80 | Forum hostname did not resolve. |
-| Huma Finance V2 | RWA | $279.18M | $465.9K | [dns_error](https://gov.huma.finance) | - | 0.80 | Forum hostname did not resolve. |
-| mETH Protocol | Liquid Staking | $590.58M | $283.6K | [dns_error](https://gov.methprotocol.xyz) | - | 0.80 | Forum hostname did not resolve. |
-| Concrete | Onchain Capital Allocator | $1.18B | $199.1K | [dns_error](https://gov.concrete.xyz) | - | 0.80 | Forum hostname did not resolve. |
-| Dolomite | Lending | $322.93M | $270.1K | [dns_error](https://gov.dolomite.io) | - | 0.80 | Forum hostname did not resolve. |
-| Saturn | Stablecoin Wrapper | $140.58M | $556.6K | [dns_error](https://gov.saturn.credit) | - | 0.80 | Forum hostname did not resolve. |
-| K3 Capital | Risk Curators | $530.96M | $197.7K | [dns_error](https://gov.k3.capital) | - | 0.79 | Forum hostname did not resolve. |
-| Midas RWA | RWA | $154.54M | $239.9K | [dns_error](https://gov.midas.app) | - | 0.79 | Forum hostname did not resolve. |
-| USDD | CDP | $1.24B | $114.2K | [dns_error](https://gov.usdd.io) | - | 0.79 | Forum hostname did not resolve. |
-| Tornado Cash | Privacy | $762.78M | $100.7K | unvalidated | - | 0.79 | No candidate forum URLs were available to probe. |
-| cap | Lending | $339.71M | $113.0K | [dns_error](https://gov.cap.app) | - | 0.79 | Forum hostname did not resolve. |
-| RockawayX | Risk Curators | $292.43M | $115.9K | [dns_error](https://gov.rockawayx.com) | - | 0.79 | Forum hostname did not resolve. |
-| Plume Vaults | RWA | $144.71M | $197.6K | [dns_error](https://gov.plume.org) | - | 0.79 | Forum hostname did not resolve. |
-| BounceBit CeDeFi Yield | Basis Trading | $280.35M | $97.6K | [dns_error](https://gov.bouncebit.io) | - | 0.79 | Forum hostname did not resolve. |
-| Falcon Finance | Basis Trading | $1.18B | $62.1K | [dns_error](https://gov.falcon.finance) | - | 0.79 | Forum hostname did not resolve. |
-| Phantom SOL | Liquid Staking | $171.81M | $109.7K | [http_522](https://gov.phantom.com) | - | 0.79 | Forum probe returned HTTP 522. |
+| Grove Finance | Onchain Capital Allocator | $1.97B | $1.01M | [dns_error](https://gov.grove.finance) | - | 0.80 | Forum hostname did not resolve. |
+| Veda | Onchain Capital Allocator | $1.77B | $958.0K | [dns_error](https://gov.veda.tech) | - | 0.80 | Forum hostname did not resolve. |
+| Rocket Pool | Liquid Staking | $1.31B | $892.8K | [dns_error](https://gov.rocketpool.net) | - | 0.80 | Forum hostname did not resolve. |
+| Hastra | RWA | $596.76M | $644.1K | [dns_error](https://gov.hastra.io) | - | 0.80 | Forum hostname did not resolve. |
+| Liquid Collective | Liquid Staking | $805.82M | $396.7K | [dns_error](https://gov.liquidcollective.io) | - | 0.80 | Forum hostname did not resolve. |
+| OnRe | RWA | $299.56M | $651.0K | [dns_error](https://gov.onre.finance) | - | 0.80 | Forum hostname did not resolve. |
+| Convex Finance | Yield | $590.01M | $398.0K | [dns_error](https://gov.convexfinance.com) | - | 0.80 | Forum hostname did not resolve. |
+| Huma Finance V2 | RWA | $315.48M | $533.3K | [dns_error](https://gov.huma.finance) | - | 0.80 | Forum hostname did not resolve. |
+| Upshift | Onchain Capital Allocator | $417.79M | $459.4K | [dns_error](https://gov.upshift.finance) | - | 0.80 | Forum hostname did not resolve. |
+| mETH Protocol | Liquid Staking | $612.08M | $297.6K | [dns_error](https://gov.methprotocol.xyz) | - | 0.80 | Forum hostname did not resolve. |
+| Saturn | Stablecoin Wrapper | $138.46M | $841.0K | [dns_error](https://gov.saturn.credit) | - | 0.80 | Forum hostname did not resolve. |
+| Dolomite | Lending | $322.06M | $270.1K | [dns_error](https://gov.dolomite.io) | - | 0.80 | Forum hostname did not resolve. |
+| K3 Capital | Risk Curators | $501.98M | $203.4K | [dns_error](https://gov.k3.capital) | - | 0.79 | Forum hostname did not resolve. |
+| Midas RWA | RWA | $154.54M | $389.0K | [dns_error](https://gov.midas.app) | - | 0.79 | Forum hostname did not resolve. |
+| RockawayX | Risk Curators | $299.44M | $162.2K | [dns_error](https://gov.rockawayx.com) | - | 0.79 | Forum hostname did not resolve. |
+| cap | Lending | $334.95M | $137.5K | [dns_error](https://gov.cap.app) | - | 0.79 | Forum hostname did not resolve. |
+| Plume Vaults | RWA | $161.41M | $210.1K | [dns_error](https://gov.plume.org) | - | 0.79 | Forum hostname did not resolve. |
+| Concrete | Onchain Capital Allocator | $1.19B | $70.8K | [dns_error](https://gov.concrete.xyz) | - | 0.79 | Forum hostname did not resolve. |
+| Hyperithm | Risk Curators | $258.48M | $90.5K | [dns_error](https://gov.hyperithm.com) | - | 0.79 | Forum hostname did not resolve. |
+| Tornado Cash | Privacy | $740.67M | $62.3K | unvalidated | - | 0.79 | No candidate forum URLs were available to probe. |
+| Falcon Finance | Basis Trading | $1.18B | $59.9K | [dns_error](https://gov.falcon.finance) | - | 0.79 | Forum hostname did not resolve. |
+| THORChain DEX | Dexs | $56.02M | $659.4K | [dns_error](https://gov.thorchain.org) | - | 0.79 | Forum hostname did not resolve. |
+| Clearstar | Risk Curators | $202.03M | $94.6K | [tls_error](https://gov.clearstar.xyz) | - | 0.79 | TLS handshake failed while probing the forum. |
+| JPool | Liquid Staking | $128.49M | $138.2K | [dns_error](https://gov.jpool.one) | - | 0.79 | Forum hostname did not resolve. |
+| Armitage by Wintermute | Risk Curators | $134.48M | $123.9K | [dns_error](https://gov.wintermute.com) | - | 0.79 | Forum hostname did not resolve. |
 
 ## Existing But Broken
 
