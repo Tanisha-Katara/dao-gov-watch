@@ -505,5 +505,57 @@
     "call_to_action": "Reply with experience operating Cosmos chains/testnets to help run independent testnet validators and improve operational decentralization.",
     "confidence": 0.75,
     "one_line_reason": "Seeking experienced node operators for testnet participation, documentation review, and operational improvements, with an openness to long-term technical partnerships."
+  },
+  {
+    "dao": "ZK Nation",
+    "forum_url": "https://forum.zknation.io",
+    "post_url": "https://forum.zknation.io/t/rfp-suggestion-zksync-africa-emerging-markets-onboarding-and-ai-discovery-pilot/1130",
+    "title": "RFP Suggestion: ZKsync Africa & Emerging Markets Onboarding and AI Discovery Pilot",
+    "post_ts": "2026-09-16T13:45:39.390Z",
+    "detected_ts": "2026-09-19T04:18:07Z",
+    "ingest_mode": "live",
+    "opportunity_type": "rfp",
+    "call_to_action": "Submit proposal for an 8-week ZKsync Africa & Emerging Markets Onboarding and AI Discovery Pilot.",
+    "confidence": 0.92,
+    "one_line_reason": "Formal RFP with clear scope, objectives, and target audience for a community activation pilot."
+  },
+  {
+    "dao": "Cosmos Hub",
+    "forum_url": "https://forum.cosmos.network",
+    "post_url": "https://forum.cosmos.network/t/active-ecosystem-growth-delegation-rfps/17329",
+    "title": "Active Ecosystem Growth Delegation RFPs",
+    "post_ts": "2026-09-17T18:04:01.504Z",
+    "detected_ts": "2026-09-19T04:18:57Z",
+    "ingest_mode": "live",
+    "opportunity_type": "rfp",
+    "call_to_action": "Review active RFPs and apply via the Ecosystem Growth Delegation application form to advance key initiatives.",
+    "confidence": 0.95,
+    "one_line_reason": "The ICF is actively soliciting proposals for ecosystem growth initiatives, providing a clear application process and structure."
+  },
+  {
+    "dao": "Cosmos Hub",
+    "forum_url": "https://forum.cosmos.network",
+    "post_url": "https://forum.cosmos.network/t/targeted-rfp-cosmos-hub-pebbledb-snapshot-provider/17330",
+    "title": "Targeted RFP: Cosmos Hub PebbleDB Snapshot Provider",
+    "post_ts": "2026-09-17T18:10:22.460Z",
+    "detected_ts": "2026-09-19T04:19:02Z",
+    "ingest_mode": "live",
+    "opportunity_type": "rfp",
+    "call_to_action": "Submit proposal for providing PebbleDB snapshots for the Cosmos Hub, addressing specific service standards and needs.",
+    "confidence": 0.95,
+    "one_line_reason": "Formal RFP from the ICF Ecosystem Growth Delegations program seeking a specific infrastructure service provider with defined needs and standards."
+  },
+  {
+    "dao": "Cosmos Hub",
+    "forum_url": "https://forum.cosmos.network",
+    "post_url": "https://forum.cosmos.network/t/hub-weekly-update-16-september-17-2026/17331",
+    "title": "Hub Weekly Update #16: September 17, 2026",
+    "post_ts": "2026-09-17T19:58:37.901Z",
+    "detected_ts": "2026-09-19T04:19:07Z",
+    "ingest_mode": "live",
+    "opportunity_type": "rfp",
+    "call_to_action": "Submit news for the weekly update; view the first targeted RFP for a PebbleDB snapshot provider.",
+    "confidence": 0.6,
+    "one_line_reason": "Mentions an RFP for a snapshot provider, but the primary post is a weekly update and the call to action is for news submission."
   }
 ]
