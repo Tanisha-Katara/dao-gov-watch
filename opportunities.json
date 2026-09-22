@@ -557,5 +557,18 @@
     "call_to_action": "Submit news for the weekly update; view the first targeted RFP for a PebbleDB snapshot provider.",
     "confidence": 0.6,
     "one_line_reason": "Mentions an RFP for a snapshot provider, but the primary post is a weekly update and the call to action is for news submission."
+  },
+  {
+    "dao": "Gitcoin",
+    "forum_url": "https://gov.gitcoin.co",
+    "post_url": "https://gov.gitcoin.co/t/draft-rfp-reboot-the-gitcoin-community-for-the-3-3-era/25256/7",
+    "title": "DRAFT - RFP: Reboot the Gitcoin Community for the 3.3 Era",
+    "post_ts": "2026-09-19T11:31:23.521Z",
+    "detected_ts": "2026-09-22T04:30:24Z",
+    "ingest_mode": "live",
+    "opportunity_type": "rfp",
+    "call_to_action": "Recruit 10-30 GTC Delegates for the Gitcoin 3.3 Era.",
+    "confidence": 0.75,
+    "one_line_reason": "The RFP mentions recruiting delegates and asks about an application process, indicating a need for external support in this area."
   }
 ]
