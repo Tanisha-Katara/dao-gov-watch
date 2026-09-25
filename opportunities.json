@@ -570,5 +570,18 @@
     "call_to_action": "Recruit 10-30 GTC Delegates for the Gitcoin 3.3 Era.",
     "confidence": 0.75,
     "one_line_reason": "The RFP mentions recruiting delegates and asks about an application process, indicating a need for external support in this area."
+  },
+  {
+    "dao": "Cosmos Hub",
+    "forum_url": "https://forum.cosmos.network",
+    "post_url": "https://forum.cosmos.network/t/preliminary-security-framework-from-governance-participation-to-governance-security-lessons-from-the-neutron-astroport-drop-attack/17365",
+    "title": "[Preliminary Security Framework] From Governance Participation to Governance Security - Lessons From the Neutron/Astroport/Drop Attack",
+    "post_ts": "2026-09-24T21:41:06.590Z",
+    "detected_ts": "2026-09-25T04:37:49Z",
+    "ingest_mode": "live",
+    "opportunity_type": "advisory_request",
+    "call_to_action": "Submit technical criticism and evaluate feasibility of proposed safeguards for governance security following the Neutron/Astroport/Drop attack.",
+    "confidence": 0.75,
+    "one_line_reason": "The post is a discussion draft requesting technical review and criticism of proposed safeguards, indicating a need for external expertise in evaluating feasibility and potential issues."
   }
 ]
