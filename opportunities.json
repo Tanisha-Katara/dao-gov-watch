@@ -635,5 +635,31 @@
     "call_to_action": "Seeking technical guidance or a team to review a USDC recovery case on Moonriver.",
     "confidence": 0.75,
     "one_line_reason": "The user is asking for technical guidance and a review of a specific case, indicating a need for external expertise, though it's an individual request rather than a formal DAO solicitation."
+  },
+  {
+    "dao": "Gitcoin",
+    "forum_url": "https://gov.gitcoin.co",
+    "post_url": "https://gov.gitcoin.co/t/october-2026-techne-update-techne-gets-a-name-a-pilot-and-a-launch-date/25394/6",
+    "title": "[October 2026] Techne Update - Techne Gets a Name, a Pilot, and a Launch Date",
+    "post_ts": "2026-10-12T15:44:10.910Z",
+    "detected_ts": "2026-10-13T06:32:41Z",
+    "ingest_mode": "live",
+    "opportunity_type": "advisory_request",
+    "call_to_action": "Get in touch if you understand Techne and want to lead a chapter in a local area.",
+    "confidence": 0.6,
+    "one_line_reason": "The author is seeking \"right kind of collaborators\" who \"actively understand what we are doing\" and want to \"lead a chapter in a local area,\" indicating a need for external help with a specific, albeit vaguely defined, role."
+  },
+  {
+    "dao": "Gitcoin",
+    "forum_url": "https://gov.gitcoin.co",
+    "post_url": "https://gov.gitcoin.co/t/october-2026-techne-update-techne-gets-a-name-a-pilot-and-a-launch-date/25394/7",
+    "title": "[October 2026] Techne Update - Techne Gets a Name, a Pilot, and a Launch Date",
+    "post_ts": "2026-10-12T16:00:00.996Z",
+    "detected_ts": "2026-10-13T06:32:46Z",
+    "ingest_mode": "live",
+    "opportunity_type": "hire",
+    "call_to_action": "Reach out if you want to lead a local chapter for Techne.",
+    "confidence": 0.7,
+    "one_line_reason": "The author is seeking individuals to lead local chapters, which could be interpreted as a form of external engagement or hiring, though it's not a formal RFP or advisory role."
   }
 ]
