@@ -661,5 +661,18 @@
     "call_to_action": "Reach out if you want to lead a local chapter for Techne.",
     "confidence": 0.7,
     "one_line_reason": "The author is seeking individuals to lead local chapters, which could be interpreted as a form of external engagement or hiring, though it's not a formal RFP or advisory role."
+  },
+  {
+    "dao": "Cosmos Hub",
+    "forum_url": "https://forum.cosmos.network",
+    "post_url": "https://forum.cosmos.network/t/cosmos-hub-validator-call-recap-oct-14-2026/17458",
+    "title": "Cosmos Hub Validator Call: Recap - Oct 14, 2026",
+    "post_ts": "2026-10-14T15:25:52.714Z",
+    "detected_ts": "2026-10-16T04:13:51Z",
+    "ingest_mode": "live",
+    "opportunity_type": "rfp",
+    "call_to_action": "Review details of an open RFP for Ecosystem Growth delegations.",
+    "confidence": 0.7,
+    "one_line_reason": "The post mentions an open RFP for Ecosystem Growth delegations, indicating an opportunity for external parties to apply for funding/support."
   }
 ]
